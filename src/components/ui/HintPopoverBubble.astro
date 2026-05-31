@@ -1,0 +1,85 @@
+---
+/** Accessible CSS hint bubble — pair with a focusable parent that sets `aria-describedby` to `id`. */
+export type HintPlacement = 'top' | 'bottom' | 'left' | 'right';
+
+interface Props {
+  id: string;
+  hint: string;
+  placement: HintPlacement;
+}
+
+const { id, hint, placement } = Astro.props;
+---
+
+<span
+  id={id}
+  class:list={['hint-popover', `hint-popover--${placement}`]}
+  role="tooltip"
+>
+  {hint}
+</span>
+
+<style>
+  .hint-popover {
+    position: absolute;
+    z-index: 20;
+    width: max-content;
+    max-width: 14rem;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-outline);
+    border-left: 3px solid var(--hint-accent, var(--color-accent));
+    border-radius: var(--radius-md);
+    background: var(--color-surface-elevated);
+    box-shadow: var(--shadow-md);
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+    color: var(--color-fg-muted);
+    text-align: left;
+    white-space: normal;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out),
+      visibility var(--duration-fast) var(--ease-out);
+  }
+
+  .hint-popover--top {
+    bottom: calc(100% + var(--space-2));
+    left: 50%;
+    translate: -50% 0;
+    transform: scale(0.96);
+    transform-origin: bottom center;
+  }
+
+  .hint-popover--bottom {
+    top: calc(100% + var(--space-2));
+    left: 50%;
+    translate: -50% 0;
+    transform: scale(0.96);
+    transform-origin: top center;
+  }
+
+  .hint-popover--left {
+    right: calc(100% + var(--space-2));
+    top: 50%;
+    translate: 0 -50%;
+    transform: scale(0.96);
+    transform-origin: center right;
+  }
+
+  .hint-popover--right {
+    left: calc(100% + var(--space-2));
+    top: 50%;
+    translate: 0 -50%;
+    transform: scale(0.96);
+    transform-origin: center left;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hint-popover {
+      transition: none;
+    }
+  }
+</style>

@@ -1,0 +1,763 @@
+---
+import {
+  ADLC_NODE_CARD_WIDTH_REM,
+  buildAdlcCyclePhases,
+  buildWheelTicks,
+  flowArcPath,
+} from '../../lib/adlc-cycle';
+import HintPopoverBubble from '../ui/HintPopoverBubble.astro';
+
+const center = 50;
+const ringRadius = 44;
+const circumference = 2 * Math.PI * ringRadius;
+const chaseArcLength = circumference * 0.11;
+const chaseGap = circumference - chaseArcLength;
+
+const nodes = buildAdlcCyclePhases(ringRadius, center);
+const ticks = buildWheelTicks(12, ringRadius, center);
+const nodeCardWidth = `${ADLC_NODE_CARD_WIDTH_REM}rem`;
+
+const phaseListLabel = nodes.map((n) => n.label).join(', ');
+---
+
+<section
+  class="adlc-diagram"
+  data-adlc-reveal
+  aria-labelledby="adlc-diagram-title"
+>
+  <h2 id="adlc-diagram-title" class="adlc-diagram__title">The AI Development Lifecycle</h2>
+  <p class="adlc-diagram__lede">
+    Most skills map to one phase of a loop: define the problem, plan, build, test, review, simplify,
+    and ship. Foundations skills sit outside the loop — context, interviews, and working from
+    official docs.
+  </p>
+
+  <figure class="adlc-diagram__figure">
+    <div class="adlc-diagram__desktop" aria-label={`ADLC cycle: ${phaseListLabel}`}>
+      <div class="adlc-diagram__orbit">
+        <div class="adlc-diagram__wheel" aria-hidden="true">
+          <svg
+            class="adlc-diagram__wheel-svg"
+            viewBox="-6 -6 112 112"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <circle class="adlc-diagram__ring-track" cx={center} cy={center} r={ringRadius} />
+            <g class="adlc-diagram__ring-progress-wrap" transform={`rotate(-90 ${center} ${center})`}>
+              <circle
+                class="adlc-diagram__ring-progress"
+                cx={center}
+                cy={center}
+                r={ringRadius}
+                style={`stroke-dasharray: ${circumference}; stroke-dashoffset: ${circumference};`}
+              />
+            </g>
+            {
+              ticks.map((tick) => (
+                <line
+                  class:list={[
+                    'adlc-diagram__tick',
+                    tick.cardinal && 'adlc-diagram__tick--cardinal',
+                  ]}
+                  x1={tick.x1}
+                  y1={tick.y1}
+                  x2={tick.x2}
+                  y2={tick.y2}
+                />
+              ))
+            }
+            <g class="adlc-diagram__flow-arcs">
+              {
+                nodes.map((node, index) => {
+                  const next = nodes[(index + 1) % nodes.length];
+                  const gap = 6;
+                  return (
+                    <path
+                      class="adlc-diagram__flow-arc"
+                      d={flowArcPath(node.angleDeg + gap, next.angleDeg - gap, ringRadius, center)}
+                    />
+                  );
+                })
+              }
+            </g>
+            <g class="adlc-diagram__ring-runner">
+              <circle
+                class="adlc-diagram__ring-runner-arc"
+                cx={center}
+                cy={center}
+                r={ringRadius}
+                style={`stroke-dasharray: ${chaseArcLength} ${chaseGap};`}
+              />
+              <circle class="adlc-diagram__runner-dot" cx={center} cy={center - ringRadius} r="1.35" />
+            </g>
+          </svg>
+          <div class="adlc-diagram__hub">
+            <span class="adlc-diagram__hub-label">ADLC</span>
+            <span class="adlc-diagram__hub-sub">7 phases</span>
+          </div>
+        </div>
+
+        {
+          nodes.map((node) => (
+            <a
+              class:list={[
+                'adlc-diagram__node',
+                `adlc-diagram__node--${node.phase}`,
+                `adlc-diagram__node--align-${node.align}`,
+              ]}
+              href={node.href}
+              aria-describedby={`adlc-hint-${node.phase}`}
+              style={`--node-x: ${node.x}%; --node-y: ${node.y}%; --node-delay: ${node.revealDelayMs}ms; --hint-accent: var(--phase-${node.phase}); --node-card-width: ${nodeCardWidth};`}
+            >
+              <span class="adlc-diagram__node-inner">
+                <span class="adlc-diagram__node-num">
+                  {String(node.index + 1).padStart(2, '0')}
+                </span>
+                <span class="adlc-diagram__node-label">{node.label}</span>
+                <code
+                  class="adlc-diagram__node-command"
+                  title={node.command !== node.displayCommand ? node.command : undefined}
+                >
+                  {node.displayCommand}
+                </code>
+              </span>
+              <HintPopoverBubble
+                id={`adlc-hint-${node.phase}`}
+                hint={node.hint}
+                placement={node.hintPlacement}
+              />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <ol class="adlc-diagram__mobile-list">
+      {
+        nodes.map((node) => (
+          <li>
+            <a
+              class:list={[
+                'adlc-diagram__mobile-item',
+                `adlc-diagram__mobile-item--${node.phase}`,
+              ]}
+              href={node.href}
+            >
+              <span class="adlc-diagram__mobile-num">
+                {String(node.index + 1).padStart(2, '0')}
+              </span>
+              <span class="adlc-diagram__mobile-body">
+                <span class="adlc-diagram__mobile-label">{node.label}</span>
+                <code class="adlc-diagram__mobile-command">{node.command}</code>
+                <span class="adlc-diagram__mobile-hint">{node.hint}</span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+
+    <figcaption class="adlc-diagram__caption">
+      Pick a phase, open a skill, copy its trigger into your agent session when the task matches.
+    </figcaption>
+  </figure>
+</section>
+
+<script>
+  function revealAdlcDiagram(): void {
+    const section = document.querySelector<HTMLElement>('[data-adlc-reveal]');
+    if (!section) {
+      return;
+    }
+
+    const markVisible = (): void => {
+      if (!section.classList.contains('is-visible')) {
+        section.classList.add('is-visible');
+      }
+    };
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      markVisible();
+      return;
+    }
+
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.95 && rect.bottom > 0) {
+      markVisible();
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            markVisible();
+            observer.disconnect();
+          }
+        }
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -5% 0px' },
+    );
+
+    observer.observe(section);
+    window.setTimeout(() => markVisible(), 2500);
+  }
+
+  revealAdlcDiagram();
+  document.addEventListener('astro:page-load', revealAdlcDiagram);
+</script>
+
+<style>
+  .adlc-diagram {
+    margin-top: var(--space-section-margin);
+    max-width: 52rem;
+    margin-inline: auto;
+  }
+
+  .adlc-diagram__title {
+    font-size: var(--text-headline-md-size);
+    font-weight: var(--text-headline-md-weight);
+    line-height: var(--text-headline-md-line-height);
+    letter-spacing: var(--text-headline-md-letter-spacing);
+    text-align: center;
+  }
+
+  .adlc-diagram__lede {
+    margin-top: var(--space-4);
+    font-size: var(--text-body-md-size);
+    line-height: var(--text-body-md-line-height);
+    color: var(--color-fg-muted);
+    text-align: center;
+    max-width: 42rem;
+    margin-inline: auto;
+  }
+
+  .adlc-diagram__figure {
+    margin-top: var(--space-8);
+  }
+
+  .adlc-diagram__desktop {
+    display: none;
+  }
+
+  .adlc-diagram__orbit {
+    position: relative;
+    width: min(100%, 36rem);
+    aspect-ratio: 1;
+    margin-inline: auto;
+  }
+
+  .adlc-diagram__wheel {
+    position: absolute;
+    inset: 14%;
+    pointer-events: none;
+  }
+
+  .adlc-diagram__wheel-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .adlc-diagram__ring-track {
+    fill: none;
+    stroke: var(--color-outline);
+    stroke-width: 0.35;
+    opacity: 0.75;
+  }
+
+  .adlc-diagram__ring-progress {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 0.45;
+    stroke-linecap: round;
+    opacity: 0.35;
+  }
+
+  .adlc-diagram.is-visible .adlc-diagram__ring-progress {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1.4s var(--ease-out);
+  }
+
+  .adlc-diagram__tick {
+    stroke: var(--color-outline-strong);
+    stroke-width: 0.35;
+    opacity: 0.35;
+  }
+
+  .adlc-diagram__tick--cardinal {
+    stroke-width: 0.45;
+    opacity: 0.55;
+  }
+
+  .adlc-diagram__flow-arc {
+    fill: none;
+    stroke: var(--color-outline-strong);
+    stroke-width: 0.2;
+    opacity: 0.35;
+  }
+
+  .adlc-diagram__ring-runner-arc {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 0.55;
+    stroke-linecap: round;
+    opacity: 0.85;
+  }
+
+  .adlc-diagram__runner-dot {
+    fill: var(--color-accent);
+  }
+
+  .adlc-diagram__ring-runner {
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+
+  .adlc-diagram.is-visible .adlc-diagram__ring-runner {
+    animation: adlc-runner-orbit 18s linear infinite;
+  }
+
+  @keyframes adlc-runner-orbit {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .adlc-diagram__hub {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .adlc-diagram.is-visible .adlc-diagram__hub {
+    animation: adlc-hub-glow 3.6s ease-in-out infinite alternate;
+  }
+
+  @keyframes adlc-hub-glow {
+    from {
+      opacity: 0.92;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .adlc-diagram__hub-label {
+    font-family: var(--font-sans);
+    font-size: var(--text-label-sm-size);
+    font-weight: var(--text-label-sm-weight);
+    letter-spacing: var(--text-label-sm-letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-fg-subtle);
+  }
+
+  .adlc-diagram__hub-sub {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-sm-size);
+    font-weight: 600;
+    color: var(--color-fg-default);
+  }
+
+  .adlc-diagram__node {
+    position: absolute;
+    left: var(--node-x);
+    top: var(--node-y);
+    /* Anchor for HintPopoverBubble */
+    display: block;
+    width: var(--node-card-width);
+    box-sizing: border-box;
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-md);
+    background: transparent;
+    box-shadow: none;
+    text-decoration: none;
+    color: var(--color-fg-default);
+    opacity: 0.55;
+    transform: translate(-50%, -50%);
+    transition: opacity var(--duration-base) var(--ease-out);
+    transition-delay: var(--node-delay);
+    z-index: 1;
+  }
+
+  .adlc-diagram.is-visible .adlc-diagram__node {
+    opacity: 1;
+  }
+
+  .adlc-diagram__node-inner {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: var(--space-1);
+    min-height: 5.25rem;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-md);
+    background: transparent;
+    box-shadow: var(--shadow-xs);
+  }
+
+  .adlc-diagram__node-inner::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from 0deg,
+      var(--hint-accent, var(--color-accent)),
+      color-mix(in srgb, var(--hint-accent, var(--color-accent)) 22%, transparent) 18%,
+      transparent 32%,
+      transparent 68%,
+      color-mix(in srgb, var(--hint-accent, var(--color-accent)) 22%, transparent) 82%,
+      var(--hint-accent, var(--color-accent)) 100%
+    );
+    opacity: 0;
+    transform-origin: center;
+    transition: opacity var(--duration-base) var(--ease-out);
+    animation: adlc-node-border-orbit 2.75s linear infinite;
+    animation-play-state: paused;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .adlc-diagram__node-inner::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    border-radius: calc(var(--radius-md) - 1px);
+    background: var(--color-surface);
+    transition: background-color var(--duration-fast) var(--ease-out);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .adlc-diagram__node-inner > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  @keyframes adlc-node-border-orbit {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .adlc-diagram__node--align-start {
+    transform: translate(0, -50%);
+  }
+
+  .adlc-diagram__node--align-start .adlc-diagram__node-inner {
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .adlc-diagram__node--align-end {
+    transform: translate(-100%, -50%);
+  }
+
+  .adlc-diagram__node--align-end .adlc-diagram__node-inner {
+    text-align: right;
+    align-items: flex-end;
+  }
+
+  .adlc-diagram__node--align-center .adlc-diagram__node-inner {
+    text-align: center;
+    align-items: center;
+  }
+
+  .adlc-diagram__node:hover,
+  .adlc-diagram__node:focus-visible {
+    z-index: 5;
+  }
+
+  .adlc-diagram__node:hover .adlc-diagram__node-inner::before,
+  .adlc-diagram__node:focus-visible .adlc-diagram__node-inner::before {
+    opacity: 1;
+    animation-play-state: running;
+  }
+
+  .adlc-diagram__node:hover .adlc-diagram__node-inner::after,
+  .adlc-diagram__node:focus-visible .adlc-diagram__node-inner::after {
+    background: var(--color-surface-elevated);
+  }
+
+  .adlc-diagram__node:hover .adlc-diagram__node-inner,
+  .adlc-diagram__node:focus-visible .adlc-diagram__node-inner {
+    border-color: color-mix(in srgb, var(--hint-accent, var(--color-accent)) 45%, var(--color-outline));
+    box-shadow: var(--shadow-sm), inset 0 3px 0 var(--hint-accent, var(--color-accent));
+  }
+
+  .adlc-diagram__node:focus-visible {
+    outline: none;
+  }
+
+  .adlc-diagram__node:focus-visible .adlc-diagram__node-inner {
+    box-shadow: var(--shadow-sm), var(--shadow-focus);
+  }
+
+  .adlc-diagram__node:hover :global(.hint-popover),
+  .adlc-diagram__node:focus-visible :global(.hint-popover) {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .adlc-diagram__node:hover :global(.hint-popover--top),
+  .adlc-diagram__node:focus-visible :global(.hint-popover--top) {
+    transform: scale(1) translateY(-2px);
+  }
+
+  .adlc-diagram__node:hover :global(.hint-popover--bottom),
+  .adlc-diagram__node:focus-visible :global(.hint-popover--bottom) {
+    transform: scale(1) translateY(2px);
+  }
+
+  .adlc-diagram__node:hover :global(.hint-popover--left),
+  .adlc-diagram__node:focus-visible :global(.hint-popover--left) {
+    transform: scale(1) translateX(-2px);
+  }
+
+  .adlc-diagram__node:hover :global(.hint-popover--right),
+  .adlc-diagram__node:focus-visible :global(.hint-popover--right) {
+    transform: scale(1) translateX(2px);
+  }
+
+  .adlc-diagram__node-num {
+    font-family: var(--font-mono);
+    font-size: var(--text-label-sm-size);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-fg-subtle);
+  }
+
+  .adlc-diagram__node-label {
+    font-size: var(--text-title-md-size);
+    font-weight: var(--text-title-md-weight);
+    line-height: var(--text-title-md-line-height);
+    width: 100%;
+  }
+
+  .adlc-diagram__node-command {
+    display: block;
+    width: 100%;
+    font-family: var(--font-mono);
+    font-size: var(--text-code-sm-size);
+    color: var(--color-fg-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .adlc-diagram__node--define .adlc-diagram__node-inner {
+    box-shadow: var(--shadow-xs), inset 0 3px 0 var(--phase-define);
+  }
+  .adlc-diagram__node--define .adlc-diagram__node-command {
+    color: var(--phase-define);
+  }
+
+  .adlc-diagram__node--plan .adlc-diagram__node-inner {
+    box-shadow: var(--shadow-xs), inset 0 3px 0 var(--phase-plan);
+  }
+  .adlc-diagram__node--plan .adlc-diagram__node-command {
+    color: var(--phase-plan);
+  }
+
+  .adlc-diagram__node--build .adlc-diagram__node-inner {
+    box-shadow: var(--shadow-xs), inset 0 3px 0 var(--phase-build);
+  }
+  .adlc-diagram__node--build .adlc-diagram__node-command {
+    color: var(--phase-build);
+  }
+
+  .adlc-diagram__node--test .adlc-diagram__node-inner {
+    box-shadow: var(--shadow-xs), inset 0 3px 0 var(--phase-test);
+  }
+  .adlc-diagram__node--test .adlc-diagram__node-command {
+    color: var(--phase-test);
+  }
+
+  .adlc-diagram__node--review .adlc-diagram__node-inner {
+    box-shadow: var(--shadow-xs), inset 0 3px 0 var(--phase-review);
+  }
+  .adlc-diagram__node--review .adlc-diagram__node-command {
+    color: var(--phase-review);
+  }
+
+  .adlc-diagram__node--simplify .adlc-diagram__node-inner {
+    box-shadow: var(--shadow-xs), inset 0 3px 0 var(--phase-simplify);
+  }
+  .adlc-diagram__node--simplify .adlc-diagram__node-command {
+    color: var(--phase-simplify);
+  }
+
+  .adlc-diagram__node--ship .adlc-diagram__node-inner {
+    box-shadow: var(--shadow-xs), inset 0 3px 0 var(--phase-ship);
+  }
+  .adlc-diagram__node--ship .adlc-diagram__node-command {
+    color: var(--phase-ship);
+  }
+
+  .adlc-diagram__mobile-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .adlc-diagram__mobile-item {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    text-decoration: none;
+    color: inherit;
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      background-color var(--duration-fast) var(--ease-out);
+  }
+
+  .adlc-diagram__mobile-item:hover,
+  .adlc-diagram__mobile-item:focus-visible {
+    border-color: var(--color-outline-strong);
+    background: var(--color-surface-elevated);
+  }
+
+  .adlc-diagram__mobile-item:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .adlc-diagram__mobile-num {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-label-sm-size);
+    letter-spacing: 0.12em;
+    color: var(--color-fg-subtle);
+  }
+
+  .adlc-diagram__mobile-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 0;
+  }
+
+  .adlc-diagram__mobile-label {
+    font-size: var(--text-title-md-size);
+    font-weight: var(--text-title-md-weight);
+    color: var(--color-fg-default);
+  }
+
+  .adlc-diagram__mobile-command {
+    font-family: var(--font-mono);
+    font-size: var(--text-code-sm-size);
+    color: var(--color-fg-muted);
+  }
+
+  .adlc-diagram__mobile-hint {
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+    color: var(--color-fg-muted);
+  }
+
+  .adlc-diagram__mobile-item--define {
+    border-left: 3px solid var(--phase-define);
+  }
+  .adlc-diagram__mobile-item--plan {
+    border-left: 3px solid var(--phase-plan);
+  }
+  .adlc-diagram__mobile-item--build {
+    border-left: 3px solid var(--phase-build);
+  }
+  .adlc-diagram__mobile-item--test {
+    border-left: 3px solid var(--phase-test);
+  }
+  .adlc-diagram__mobile-item--review {
+    border-left: 3px solid var(--phase-review);
+  }
+  .adlc-diagram__mobile-item--simplify {
+    border-left: 3px solid var(--phase-simplify);
+  }
+  .adlc-diagram__mobile-item--ship {
+    border-left: 3px solid var(--phase-ship);
+  }
+
+  .adlc-diagram__caption {
+    margin-top: var(--space-6);
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+    color: var(--color-fg-subtle);
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .adlc-diagram__desktop {
+      display: block;
+    }
+
+    .adlc-diagram__mobile-list {
+      display: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .adlc-diagram__flow-arcs {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .adlc-diagram__node,
+    .adlc-diagram.is-visible .adlc-diagram__node {
+      opacity: 1;
+      transition: none;
+    }
+
+    .adlc-diagram__node-inner::before {
+      animation: none;
+      transition: none;
+    }
+
+    .adlc-diagram__node:hover .adlc-diagram__node-inner::before,
+    .adlc-diagram__node:focus-visible .adlc-diagram__node-inner::before {
+      opacity: 0;
+    }
+
+    .adlc-diagram__node:hover .adlc-diagram__node-inner,
+    .adlc-diagram__node:focus-visible .adlc-diagram__node-inner {
+      border-color: var(--hint-accent, var(--color-accent));
+    }
+
+    .adlc-diagram.is-visible .adlc-diagram__ring-progress {
+      stroke-dashoffset: 0;
+      transition: none;
+    }
+
+    .adlc-diagram.is-visible .adlc-diagram__ring-runner {
+      animation: none;
+    }
+
+    .adlc-diagram.is-visible .adlc-diagram__hub {
+      animation: none;
+    }
+  }
+</style>
