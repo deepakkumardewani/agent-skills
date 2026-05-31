@@ -1,17 +1,15 @@
 ---
-const maintainerName = 'Maintainer';
-const maintainerUrl = 'https://example.com';
-const sourceRepoUrl = 'https://github.com/addyosmani/agent-skills';
+import { addy, maintainer } from '../../lib/site';
 ---
 
 <footer class="site-footer">
   <p>
     A tribute to
-    <a href={sourceRepoUrl}>Addy Osmani's agent-skills</a>
+    <a href={addy.repoUrl}>Addy Osmani's agent-skills</a>
   </p>
   <p>
     Built by
-    <a href={maintainerUrl}>{maintainerName}</a>
+    <a href={maintainer.url}>{maintainer.name}</a>
   </p>
 </footer>
 

@@ -1,0 +1,67 @@
+---
+import MarketingLayout from '../layouts/MarketingLayout.astro';
+import { addy, site } from '../lib/site';
+---
+
+<MarketingLayout
+  title="Why I created this — addy-osmani-skills"
+  description="Why this tribute site exists and where to report bugs or suggest improvements."
+>
+  <article class="about-page prose">
+    <header class="about-page__header">
+      <h1>Why I created this</h1>
+    </header>
+
+    <section class="about-page__section" aria-labelledby="about-story">
+      <h2 id="about-story">A personal tribute</h2>
+      <p>
+        This is not an official Addy Osmani project. It is a fan-built docs site that makes
+        <a href={addy.repoUrl}>Addy Osmani's agent-skills</a> easier to browse.
+      </p>
+      <p>
+        Addy published dozens of focused skills — spec writing, testing, code review, shipping — as
+        plain Markdown files agents can load on demand. That collection helped me work with AI tools
+        in a more structured way. I wanted a place to read them like documentation: grouped by phase,
+        searchable, and easy to copy the trigger command into a session.
+      </p>
+      <p>
+        On the docs pages, skills are organized by the AI Development Lifecycle (ADLC): Define, Plan,
+        Build, Test, Review, Simplify, Ship — plus Foundations skills for context and discovery.
+      </p>
+      <p>
+        If you use these skills, credit the upstream repo. Star it, open issues there, send PRs
+        there. This site syncs from that source and stays read-only.
+      </p>
+    </section>
+
+    <section class="about-page__section" aria-labelledby="about-help">
+      <h2 id="about-help">How to help</h2>
+      <p>
+        For site bugs or suggestions, open an issue on
+        <a href={site.repoUrl}>this project's GitHub repository</a>.
+      </p>
+    </section>
+  </article>
+</MarketingLayout>
+
+<style>
+  .about-page {
+    max-width: var(--space-prose-max);
+    margin: 0 auto;
+  }
+
+  .about-page__header {
+    margin-bottom: var(--space-8);
+  }
+
+  .about-page__header h1 {
+    font-size: clamp(var(--text-headline-lg-size), 6vw, var(--text-display-lg-size));
+    font-weight: var(--text-display-lg-weight);
+    line-height: var(--text-display-lg-line-height);
+    letter-spacing: var(--text-display-lg-letter-spacing);
+  }
+
+  .about-page__section + .about-page__section {
+    margin-top: var(--space-section-margin);
+  }
+</style>
