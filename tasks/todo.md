@@ -52,20 +52,20 @@
 
 > **Skill:** `/frontend-ui-engineering` (engineering-led; design direction locked in DESIGN.md).
 
-- [ ] **2.1 Install fonts**
+- [x] **2.1 Install fonts**
   - `bun add @fontsource/manrope @fontsource/jetbrains-mono`.
   - Import only the weights used (Manrope: 400, 500, 600, 700; JetBrains Mono: 400) in `src/styles/global.css`.
   - **AC:** dev server loads without 404s on font files.
   - **Verify:** check Network tab — fonts served from local bundle.
 
-- [ ] **2.2 Write `src/styles/tokens.css`**
+- [x] **2.2 Write `src/styles/tokens.css`**
   - All tokens from `DESIGN.md` YAML frontmatter as CSS custom properties under `:root` (light mode).
   - Dark mode overrides under `[data-theme="dark"]` (warm dark palette per DESIGN.md "Colors" prose).
   - Naming: `--color-bg-default`, `--color-fg-default`, `--color-fg-muted`, `--color-accent`, `--phase-define`, etc.
   - **AC:** every token from DESIGN.md is reachable as `var(--token-name)`.
   - **Verify:** grep `var(--color` against DESIGN.md token list — no orphans.
 
-- [ ] **2.3 Write `src/styles/global.css`**
+- [x] **2.3 Write `src/styles/global.css`**
   - Modern CSS reset (e.g., Andy Bell's, hand-pasted).
   - Body: `font-family: var(--font-sans)`, `color: var(--color-fg-default)`, `background: var(--color-bg-default)`.
   - `.prose` class with full markdown styling per DESIGN.md "Components → Prose" (max-width 68ch, h2/h3 spacing, link underline, code-block styling).
@@ -73,7 +73,7 @@
   - **AC:** dev page using a `.prose` block renders correctly styled markdown.
   - **Verify:** drop a placeholder `.astro` page with h1/h2/p/code — visual check.
 
-- [ ] **2.4 Create `BaseLayout.astro`**
+- [x] **2.4 Create `BaseLayout.astro`**
   - HTML shell: `<html lang="en" data-theme="">`, `<head>` with viewport, charset, title slot, meta description slot, OG slot.
   - Inline `<script is:inline>` before `<body>` that reads `localStorage.theme || matchMedia('(prefers-color-scheme: dark)')` and sets `document.documentElement.dataset.theme` — FOUC-free.
   - Imports `tokens.css` and `global.css`.
@@ -81,7 +81,7 @@
   - **AC:** `data-theme` is set before paint; no FOUC on hard refresh in dark mode.
   - **Verify:** browser devtools shows `data-theme="dark"` on first paint when system is dark.
 
-- [ ] **2.5 Placeholder `index.astro` using BaseLayout**
+- [x] **2.5 Placeholder `index.astro` using BaseLayout**
   - Just `<h1>Hello</h1>` + a `<p>` + a `<code>` token-using sample.
   - **AC:** renders in dev with correct fonts, colors, and proper dark mode.
   - **Verify:** toggle OS dark mode → page colors flip without a refresh.
