@@ -1,0 +1,223 @@
+---
+import {
+  formatSkillDisplayName,
+  getPhaseMeta,
+  groupSkillsByPhase,
+  sortSkillsAlphabetically,
+} from '../../lib/skills';
+
+const groups = groupSkillsByPhase();
+const TOP_SKILLS = 3;
+---
+
+<section class="phase-grid" aria-labelledby="phase-grid-title">
+  <h2 id="phase-grid-title" class="phase-grid__title">Browse by phase</h2>
+  <p class="phase-grid__lede">
+    Eight groups — Foundations plus seven ADLC phases. Each card links to the matching section on
+    the docs index.
+  </p>
+
+  <ul class="phase-grid__list">
+    {
+      groups.map((group) => {
+        const meta = getPhaseMeta(group.phase);
+        const topSkills = sortSkillsAlphabetically(group.skills).slice(0, TOP_SKILLS);
+        return (
+          <li>
+            <a
+              class={`phase-grid__card phase-grid__card--${group.phase}`}
+              href={`/docs#phase-${group.phase}`}
+            >
+              <span class="phase-grid__card-accent" aria-hidden="true" />
+              <span class="phase-grid__card-label">{meta.label}</span>
+              {group.command ? (
+                <code class="phase-grid__card-command">{group.command}</code>
+              ) : (
+                <span class="phase-grid__card-command phase-grid__card-command--muted">
+                  Core practices
+                </span>
+              )}
+              <span class="phase-grid__card-count">
+                {group.skills.length} skill{group.skills.length === 1 ? '' : 's'}
+              </span>
+              {topSkills.length > 0 && (
+                <ul class="phase-grid__skills">
+                  {topSkills.map((skill) => (
+                    <li>
+                      <span>{formatSkillDisplayName(skill.name)}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</section>
+
+<style>
+  .phase-grid {
+    margin-top: var(--space-section-margin);
+  }
+
+  .phase-grid__title {
+    font-size: var(--text-headline-md-size);
+    font-weight: var(--text-headline-md-weight);
+    line-height: var(--text-headline-md-line-height);
+    letter-spacing: var(--text-headline-md-letter-spacing);
+    text-align: center;
+  }
+
+  .phase-grid__lede {
+    margin-top: var(--space-4);
+    max-width: 42rem;
+    margin-inline: auto;
+    font-size: var(--text-body-md-size);
+    line-height: var(--text-body-md-line-height);
+    color: var(--color-fg-muted);
+    text-align: center;
+  }
+
+  .phase-grid__list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-card-gap);
+    margin: var(--space-8) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 640px) {
+    .phase-grid__list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .phase-grid__list {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .phase-grid__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-height: 100%;
+    padding: var(--space-6);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-xs);
+    text-decoration: none;
+    color: var(--color-fg-default);
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out);
+  }
+
+  .phase-grid__card:hover {
+    background: var(--color-surface-elevated);
+    border-color: var(--color-outline-strong);
+  }
+
+  .phase-grid__card:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .phase-grid__card-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    background: var(--phase-foundations);
+  }
+
+  .phase-grid__card--foundations .phase-grid__card-accent {
+    background: var(--phase-foundations);
+  }
+
+  .phase-grid__card--define .phase-grid__card-accent {
+    background: var(--phase-define);
+  }
+
+  .phase-grid__card--plan .phase-grid__card-accent {
+    background: var(--phase-plan);
+  }
+
+  .phase-grid__card--build .phase-grid__card-accent {
+    background: var(--phase-build);
+  }
+
+  .phase-grid__card--test .phase-grid__card-accent {
+    background: var(--phase-test);
+  }
+
+  .phase-grid__card--review .phase-grid__card-accent {
+    background: var(--phase-review);
+  }
+
+  .phase-grid__card--simplify .phase-grid__card-accent {
+    background: var(--phase-simplify);
+  }
+
+  .phase-grid__card--ship .phase-grid__card-accent {
+    background: var(--phase-ship);
+  }
+
+  .phase-grid__card-label {
+    font-size: var(--text-title-md-size);
+    font-weight: var(--text-title-md-weight);
+    line-height: var(--text-title-md-line-height);
+    padding-top: var(--space-1);
+  }
+
+  .phase-grid__card-command {
+    font-family: var(--font-mono);
+    font-size: var(--text-code-sm-size);
+    color: var(--color-fg-muted);
+  }
+
+  .phase-grid__card-command--muted {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-sm-size);
+  }
+
+  .phase-grid__card-count {
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+    color: var(--color-fg-subtle);
+  }
+
+  .phase-grid__skills {
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .phase-grid__skills li {
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+    color: var(--color-fg-muted);
+  }
+
+  .phase-grid__skills li::before {
+    content: '· ';
+    color: var(--color-fg-subtle);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .phase-grid__card {
+      transition: none;
+    }
+  }
+</style>

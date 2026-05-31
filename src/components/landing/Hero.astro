@@ -1,0 +1,94 @@
+---
+import { skillsData } from '../../data/skills-data';
+
+const skillCount = skillsData.skills.length;
+---
+
+<section class="landing-hero" aria-labelledby="landing-hero-title">
+  <h1 id="landing-hero-title" class="landing-hero__title">
+    Agent skills for every phase of building with AI
+  </h1>
+  <p class="landing-hero__subhead">
+    A browsable tribute to Addy Osmani's agent-skills — organized by the AI Development Lifecycle
+    so you can find the right instruction set when you need it.
+  </p>
+  <p class="landing-hero__cta-row">
+    <a class="landing-hero__cta" href="/docs">Browse skills →</a>
+  </p>
+  <p class="landing-hero__meta">{skillCount} skills across Foundations and seven ADLC phases</p>
+</section>
+
+<style>
+  .landing-hero {
+    max-width: var(--space-prose-max);
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  .landing-hero__title {
+    font-size: clamp(var(--text-headline-lg-size), 8vw, var(--text-display-lg-size));
+    font-weight: var(--text-display-lg-weight);
+    line-height: var(--text-display-lg-line-height);
+    letter-spacing: var(--text-display-lg-letter-spacing);
+    color: var(--color-fg-default);
+  }
+
+  .landing-hero__subhead {
+    margin-top: var(--space-6);
+    max-width: 42rem;
+    font-size: var(--text-body-lg-size);
+    line-height: var(--text-body-lg-line-height);
+    color: var(--color-fg-muted);
+  }
+
+  .landing-hero__cta-row {
+    margin-top: var(--space-8);
+  }
+
+  .landing-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0 var(--space-5);
+    border-radius: var(--radius-default);
+    background: var(--color-accent);
+    color: var(--color-on-primary);
+    font-size: var(--text-label-md-size);
+    font-weight: var(--text-label-md-weight);
+    line-height: var(--text-label-md-line-height);
+    text-decoration: none;
+    box-shadow: var(--shadow-xs);
+    transition: background-color var(--duration-fast) var(--ease-out);
+  }
+
+  .landing-hero__cta:hover {
+    background: var(--color-primary-hover);
+  }
+
+  .landing-hero__cta:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .landing-hero__cta:active {
+    transform: scale(0.98);
+  }
+
+  .landing-hero__meta {
+    margin-top: var(--space-6);
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+    color: var(--color-fg-subtle);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .landing-hero__cta {
+      transition: none;
+    }
+
+    .landing-hero__cta:active {
+      transform: none;
+    }
+  }
+</style>

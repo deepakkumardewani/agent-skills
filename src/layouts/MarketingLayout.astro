@@ -1,0 +1,33 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+}
+
+const { title, description, ogTitle, ogDescription } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} ogTitle={ogTitle} ogDescription={ogDescription}>
+  <div class="marketing-shell">
+    <slot />
+  </div>
+</BaseLayout>
+
+<style>
+  .marketing-shell {
+    width: min(100%, var(--space-container-max));
+    margin: 0 auto;
+    padding-inline: var(--space-container-padding);
+    padding-block: var(--space-8) var(--space-12);
+  }
+
+  @media (min-width: 960px) {
+    .marketing-shell {
+      padding-inline: var(--space-page-gutter);
+    }
+  }
+</style>

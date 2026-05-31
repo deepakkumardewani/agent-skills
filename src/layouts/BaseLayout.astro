@@ -1,5 +1,6 @@
 ---
 import Footer from '../components/layout/Footer.astro';
+import Header from '../components/layout/Header.astro';
 import '../styles/tokens.css';
 import '../styles/global.css';
 
@@ -63,16 +64,16 @@ const resolvedOgDescription = ogDescription ?? description;
     })();
   </script>
   <body>
-    <main>
+    <Header />
+    <div class="site-body">
       <slot />
-    </main>
+    </div>
     <Footer />
   </body>
 </html>
 
 <style>
-  main {
-    min-height: calc(100vh - 120px);
-    padding: var(--space-container-padding);
+  .site-body {
+    min-height: calc(100vh - 160px);
   }
 </style>
