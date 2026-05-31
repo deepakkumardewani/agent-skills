@@ -90,19 +90,19 @@
 
 > **Skill:** `agent-skills:test-driven-development` for the unit tests; plain `/build` for the script itself.
 
-- [ ] **3.1 Write `src/data/skills-data.ts` schema (types only)**
+- [x] **3.1 Write `src/data/skills-data.ts` schema (types only)**
   - Export TS interfaces: `Phase`, `Skill`, `SkillGroup`, `SkillsData`.
   - `Phase` is a union of the 8 lifecycle phases (Foundations + 7 ADLC phases).
   - `Skill` has: `slug`, `name`, `description`, `phase`, `triggers` (string[]), `related` (string[]).
   - **AC:** types compile; importing them in another file gives autocomplete.
   - **Verify:** `astro check` passes.
 
-- [ ] **3.2 Write `src/content/config.ts`**
+- [x] **3.2 Write `src/content/config.ts`**
   - Define `skills` content collection with Zod schema matching the SkillsData skill shape.
   - **AC:** `astro check` validates the collection schema.
   - **Verify:** with one fake `.md` file in `src/content/skills/`, `getCollection('skills')` returns it typed.
 
-- [ ] **3.3 Write `scripts/sync-skills.ts`**
+- [x] **3.3 Write `scripts/sync-skills.ts`**
   - Read `../agent-skills/skills-data.js` (or equivalent path — check actual file structure first).
   - Parse it into typed `SkillsData`.
   - For each skill: locate its `SKILL.md`, extract frontmatter + body, write to `src/content/skills/<slug>.md` with normalized frontmatter matching the content collection schema.
@@ -111,12 +111,12 @@
   - **AC:** `bun run sync-skills` runs without errors and produces N markdown files + a populated `skills-data.ts`.
   - **Verify:** running it twice produces no diff in `git status`.
 
-- [ ] **3.4 Vitest tests for `sync-skills`**
+- [x] **3.4 Vitest tests for `sync-skills`**
   - `tests/unit/sync-skills.test.ts`: test slug normalization, frontmatter extraction, phase classification, related-skills resolution. Use fixture files under `tests/unit/fixtures/`.
   - **AC:** ≥4 test cases pass; coverage ≥80% on `scripts/sync-skills.ts`.
   - **Verify:** `bun run test` exits 0 and reports coverage.
 
-- [ ] **3.5 Run initial sync**
+- [x] **3.5 Run initial sync**
   - Execute `bun run sync-skills`.
   - Commit the synced output (`src/content/skills/*.md`, `src/data/skills-data.ts`) — these are tracked artifacts.
   - **AC:** all skills from `../agent-skills/` are present in `src/content/skills/`.
