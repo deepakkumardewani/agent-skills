@@ -35,6 +35,14 @@ const skillCount = groups.reduce((total, group) => total + group.skills.length, 
       </p>
     </section>
 
+    <section id="phase-foundations" class="docs-index__section docs-index__phase-anchor">
+      <h2>Foundations</h2>
+      <p>
+        Skills for context setup, requirements interviews, source-driven work, and discovering
+        which skill to use. Browse them under <strong>Foundations</strong> in the sidebar.
+      </p>
+    </section>
+
     <section class="docs-index__section">
       <h2>The ADLC framework</h2>
       <p>
@@ -45,7 +53,7 @@ const skillCount = groups.reduce((total, group) => total + group.skills.length, 
       <ol class="docs-index__phases">
         {
           adlcPhases.map((group) => (
-            <li>
+            <li id={`phase-${group.phase}`} class="docs-index__phase-anchor">
               <strong>{group.label}</strong>
               {group.command ? (
                 <>
