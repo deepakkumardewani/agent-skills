@@ -178,7 +178,7 @@
 
 > **Skill:** `/frontend-ui-engineering`. Sidebar is a structural/IA piece — engineering, not design generation.
 
-- [ ] **5.1 `src/components/layout/Sidebar.astro`**
+- [x] **5.1 `src/components/layout/Sidebar.astro`**
   - Reads from `src/lib/skills.ts → groupSkillsByPhase()`.
   - Renders: Foundations + 7 phase groups, each with a `caps-xs` label including the slash command in code-sm.
   - Skills alphabetical within each group.
@@ -186,12 +186,12 @@
   - **AC:** all 50+ skills appear under their correct phases; active state highlights correct item.
   - **Verify:** navigate from one skill page to another — active state moves; sidebar order matches SPEC §3.
 
-- [ ] **5.2 Update `DocsLayout.astro` to include Sidebar**
+- [x] **5.2 Update `DocsLayout.astro` to include Sidebar**
   - 264px sidebar + content area side-by-side at ≥960px.
   - **AC:** sidebar visible on all `/docs/**` routes.
   - **Verify:** check `/docs` and `/docs/skills/[slug]`.
 
-- [ ] **5.3 `src/pages/docs/index.astro`**
+- [x] **5.3 `src/pages/docs/index.astro`**
   - Getting started + ADLC framework overview (short, ≤4 sections per DESIGN.md).
   - Single column inside DocsLayout.
   - **AC:** content reads well; banned-phrases check passes.

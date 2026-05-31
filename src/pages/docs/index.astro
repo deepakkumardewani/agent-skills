@@ -1,0 +1,128 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import { groupSkillsByPhase } from '../../lib/skills';
+
+const groups = groupSkillsByPhase();
+const adlcPhases = groups.filter((group) => group.phase !== 'foundations');
+const skillCount = groups.reduce((total, group) => total + group.skills.length, 0);
+---
+
+<DocsLayout
+  title="Getting started — addy-osmani-skills"
+  description="How to browse and use Addy Osmani's agent-skills, organized by the AI Development Lifecycle."
+>
+  <article class="docs-index prose">
+    <header class="docs-index__header">
+      <h1>Getting started</h1>
+      <p class="docs-index__lede">
+        This site collects {skillCount} agent skills from
+        <a href="https://github.com/addyosmani/agent-skills">Addy Osmani's agent-skills</a>
+        repo. Each skill is a focused instruction set you can invoke in Claude Code, Cursor, Codex,
+        or any tool that supports skills.
+      </p>
+    </header>
+
+    <section class="docs-index__section">
+      <h2>How skills work</h2>
+      <p>
+        A skill tells the agent what to do in a specific situation — writing a spec, running tests,
+        reviewing a PR, shipping to production. Pick a skill from the sidebar, copy its trigger
+        command, and paste it into your session when the task matches.
+      </p>
+      <p>
+        Skills are plain Markdown with frontmatter. The site syncs from the upstream repo, so what
+        you read here is what the agent loads.
+      </p>
+    </section>
+
+    <section class="docs-index__section">
+      <h2>The ADLC framework</h2>
+      <p>
+        Most skills map to one phase of the AI Development Lifecycle — a loop from defining the
+        problem through shipping and simplifying what you built. Foundations skills sit outside the
+        loop; they help you set up context, interview for requirements, and work from official docs.
+      </p>
+      <ol class="docs-index__phases">
+        {
+          adlcPhases.map((group) => (
+            <li>
+              <strong>{group.label}</strong>
+              {group.command ? (
+                <>
+                  {' '}
+                  (<code>{group.command}</code>)
+                </>
+              ) : null}
+              {' — '}
+              {group.skills.length} skill{group.skills.length === 1 ? '' : 's'}
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="docs-index__section">
+      <h2>Find a skill</h2>
+      <p>
+        Use the sidebar to browse by phase, or open search with <kbd>⌘</kbd><kbd>K</kbd> once it is
+        wired up. Every skill page shows its trigger command, full instructions, and related skills
+        when the upstream metadata lists them.
+      </p>
+      <p class="docs-index__browse">
+        <a href="/docs/skills/using-agent-skills">Start with Using Agent Skills →</a>
+      </p>
+    </section>
+  </article>
+</DocsLayout>
+
+<style>
+  .docs-index {
+    max-width: var(--space-prose-max);
+    padding-block: var(--space-8);
+  }
+
+  .docs-index__header {
+    margin-bottom: var(--space-8);
+  }
+
+  .docs-index__lede {
+    margin-top: var(--space-4);
+    font-size: var(--text-body-lg-size);
+    line-height: var(--text-body-lg-line-height);
+    color: var(--color-fg-muted);
+  }
+
+  .docs-index__section + .docs-index__section {
+    margin-top: var(--space-8);
+  }
+
+  .docs-index__phases {
+    margin-top: var(--space-4);
+    padding-left: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .docs-index__phases code {
+    font-size: var(--text-code-sm-size);
+  }
+
+  .docs-index__browse {
+    margin-top: var(--space-4);
+  }
+
+  .docs-index__browse a {
+    font-weight: var(--text-label-md-weight);
+  }
+
+  .docs-index kbd {
+    display: inline-block;
+    padding: 0 var(--space-1);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: var(--text-code-sm-size);
+    background: var(--color-code-bg);
+  }
+</style>

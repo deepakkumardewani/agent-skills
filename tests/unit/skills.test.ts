@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vitest';
+import { skillsData } from '../../src/data/skills-data';
 import {
   formatSkillDisplayName,
   getPhaseMeta,
   getRelatedSkills,
   groupSkillsByPhase,
   PHASE_ORDER,
+  sortSkillsAlphabetically,
 } from '../../src/lib/skills';
 
 describe('skills lib', () => {
@@ -58,5 +60,24 @@ describe('skills lib', () => {
   it('formats kebab-case skill names for display', () => {
     expect(formatSkillDisplayName('spec-driven-development')).toBe('Spec Driven Development');
     expect(formatSkillDisplayName('ci-cd-and-automation')).toBe('Ci Cd And Automation');
+  });
+
+  it('sorts skills alphabetically by formatted display name within a group', () => {
+    const groups = groupSkillsByPhase();
+    const foundations = groups[0];
+    expect(foundations?.phase).toBe('foundations');
+
+    const sorted = sortSkillsAlphabetically(foundations?.skills ?? []);
+    const displayNames = sorted.map((skill) => formatSkillDisplayName(skill.name));
+    expect(displayNames).toEqual([...displayNames].sort((a, b) => a.localeCompare(b)));
+    expect(sorted.length).toBeGreaterThanOrEqual(5);
+  });
+
+  it('includes every synced skill in exactly one sidebar group', () => {
+    const groups = groupSkillsByPhase();
+    const sidebarSlugs = groups.flatMap((group) => group.skills.map((skill) => skill.slug));
+    expect(sidebarSlugs.length).toBe(skillsData.skills.length);
+    expect(new Set(sidebarSlugs).size).toBe(sidebarSlugs.length);
+    expect(skillsData.skills.every((skill) => sidebarSlugs.includes(skill.slug))).toBe(true);
   });
 });

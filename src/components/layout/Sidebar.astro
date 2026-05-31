@@ -1,0 +1,140 @@
+---
+import {
+  formatSkillDisplayName,
+  getPhaseMeta,
+  groupSkillsByPhase,
+  sortSkillsAlphabetically,
+} from '../../lib/skills';
+
+const groups = groupSkillsByPhase();
+const currentPath = Astro.url.pathname;
+
+function skillHref(slug: string): string {
+  return `/docs/skills/${slug}`;
+}
+
+function isSkillActive(slug: string): boolean {
+  return currentPath === skillHref(slug);
+}
+---
+
+<nav class="sidebar" aria-label="Skills by lifecycle phase">
+  {
+    groups.map((group, groupIndex) => {
+      const meta = getPhaseMeta(group.phase);
+      const skills = sortSkillsAlphabetically(group.skills);
+
+      return (
+        <section class="sidebar__section" aria-labelledby={`sidebar-group-${group.phase}`}>
+          <h2
+            id={`sidebar-group-${group.phase}`}
+            class:list={['sidebar__label', groupIndex === 0 && 'sidebar__label--first']}
+          >
+            {meta.label}
+            {meta.command ? <code class="sidebar__command">{meta.command}</code> : null}
+          </h2>
+          <ul class="sidebar__list" role="list">
+            {skills.map((skill) => {
+              const active = isSkillActive(skill.slug);
+              return (
+                <li>
+                  <a
+                    href={skillHref(skill.slug)}
+                    class:list={['sidebar__item', active && 'sidebar__item--active']}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    {formatSkillDisplayName(skill.name)}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      );
+    })
+  }
+</nav>
+
+<style>
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar__section + .sidebar__section {
+    margin-top: 0;
+  }
+
+  .sidebar__label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-2);
+    padding-inline: var(--space-3);
+    font-size: var(--text-caps-xs-size);
+    font-weight: var(--text-caps-xs-weight);
+    line-height: var(--text-caps-xs-line-height);
+    letter-spacing: var(--text-caps-xs-letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-fg-subtle);
+  }
+
+  .sidebar__label--first {
+    margin-top: 0;
+  }
+
+  .sidebar__command {
+    font-family: var(--font-mono);
+    font-size: var(--text-code-sm-size);
+    font-weight: var(--text-code-sm-weight);
+    line-height: var(--text-code-sm-line-height);
+    letter-spacing: var(--text-code-sm-letter-spacing);
+    text-transform: none;
+    color: inherit;
+  }
+
+  .sidebar__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar__item {
+    display: block;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-default);
+    font-size: var(--text-body-sm-size);
+    font-weight: var(--text-body-sm-weight);
+    line-height: var(--text-body-sm-line-height);
+    color: var(--color-fg-muted);
+    text-decoration: none;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+  }
+
+  .sidebar__item:hover {
+    background: var(--color-surface-elevated);
+    color: var(--color-fg-default);
+  }
+
+  .sidebar__item:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .sidebar__item--active {
+    background: var(--color-primary-subtle);
+    color: var(--color-on-primary-subtle);
+  }
+
+  .sidebar__item--active:hover {
+    background: var(--color-primary-subtle);
+    color: var(--color-on-primary-subtle);
+  }
+</style>

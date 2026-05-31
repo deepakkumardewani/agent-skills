@@ -1,4 +1,5 @@
 ---
+import Sidebar from '../components/layout/Sidebar.astro';
 import BaseLayout from './BaseLayout.astro';
 
 interface Props {
@@ -11,14 +12,57 @@ const { title, description } = Astro.props;
 
 <BaseLayout title={title} description={description}>
   <div class="docs-shell">
-    <slot />
+    <aside class="docs-shell__sidebar">
+      <Sidebar />
+    </aside>
+    <main class="docs-shell__main" id="main-content">
+      <slot />
+    </main>
   </div>
 </BaseLayout>
 
 <style>
   .docs-shell {
+    display: flex;
+    flex-direction: column;
     width: min(100%, var(--space-container-max));
+    min-height: calc(100vh - var(--space-16));
     margin: 0 auto;
-    padding-inline: var(--space-page-gutter);
+    padding-inline: var(--space-container-padding);
+  }
+
+  .docs-shell__sidebar {
+    display: none;
+  }
+
+  .docs-shell__main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  @media (min-width: 960px) {
+    .docs-shell {
+      flex-direction: row;
+      gap: var(--space-8);
+      padding-inline: var(--space-page-gutter);
+    }
+
+    .docs-shell__sidebar {
+      display: block;
+      flex: 0 0 var(--space-sidebar-width);
+      width: var(--space-sidebar-width);
+      position: sticky;
+      top: var(--space-6);
+      align-self: flex-start;
+      max-height: calc(100vh - var(--space-12));
+      overflow-y: auto;
+      padding-block: var(--space-8);
+      border-right: 1px solid var(--color-outline);
+      padding-right: var(--space-4);
+    }
+
+    .docs-shell__main {
+      padding-block: 0;
+    }
   }
 </style>

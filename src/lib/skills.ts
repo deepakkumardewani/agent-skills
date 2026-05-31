@@ -55,6 +55,15 @@ export function formatSkillDisplayName(name: string): string {
     .join(' ');
 }
 
+/** Sidebar display order — alphabetical by formatted skill name. */
+export function sortSkillsAlphabetically(skills: readonly Skill[]): Skill[] {
+  return [...skills].sort((a, b) =>
+    formatSkillDisplayName(a.name).localeCompare(formatSkillDisplayName(b.name), undefined, {
+      sensitivity: 'base',
+    }),
+  );
+}
+
 export function getRelatedSkills(slug: string): Skill[] {
   const skill = getSkillBySlug(slug);
   if (!skill || skill.related.length === 0) {
