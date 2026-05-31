@@ -201,44 +201,44 @@
 
 > **Skill:** **`/frontend-design`** for Hero (6.4), ADLCDiagram (6.5), PhaseGrid (6.6) — these are the highest-leverage creative surfaces. `/frontend-ui-engineering` for Header (6.2), Footer (6.3), MarketingLayout (6.1), index.astro composition (6.7). Run `/impeccable craft` if the hero needs another iteration.
 
-- [ ] **6.1 `MarketingLayout.astro`**
+- [x] **6.1 `MarketingLayout.astro`**
   - Extends Base. Centered shell, no sidebar.
   - Used by `/`, `/about`, `/404`.
   - **AC:** renders.
   - **Verify:** drop placeholder, view.
 
-- [ ] **6.2 `src/components/layout/Header.astro`**
+- [x] **6.2 `src/components/layout/Header.astro`**
   - Logo/title left, nav links right (Docs, About, GitHub).
   - Search button (placeholder until slice 9).
   - Used in both layouts.
   - **AC:** sticky, ≤5 nav items, mobile-friendly.
   - **Verify:** visual.
 
-- [ ] **6.3 `src/components/layout/Footer.astro`**
+- [x] **6.3 `src/components/layout/Footer.astro`**
   - Two lines per DESIGN.md "Components → Footer".
   - `body-sm` `on-surface-subtle`. Links amber.
   - **AC:** appears on every page.
   - **Verify:** /, /about, /docs, /docs/skills/[slug] all show it.
 
-- [ ] **6.4 `src/components/landing/Hero.astro`**
+- [x] **6.4 `src/components/landing/Hero.astro`**
   - `display-lg` headline, short subhead, ONE primary CTA (`Browse skills →`).
   - No secondary CTA, no social proof bar.
   - **AC:** matches DESIGN.md §1 "one feeling" + §2 "one action".
   - **Verify:** DESIGN.md §9 first-impression checklist passes.
 
-- [ ] **6.5 `src/components/landing/ADLCDiagram.astro`**
+- [x] **6.5 `src/components/landing/ADLCDiagram.astro`**
   - Static SVG. 7-phase circular flow with phase-colored nodes.
   - Caption explaining the lifecycle in ≤3 sentences.
   - 200ms fade-in once via IntersectionObserver — gated behind `prefers-reduced-motion`.
   - **AC:** legible at all viewport widths; reduced motion = instant.
   - **Verify:** visual + reduced-motion toggle.
 
-- [ ] **6.6 `src/components/landing/PhaseGrid.astro`**
+- [x] **6.6 `src/components/landing/PhaseGrid.astro`**
   - 8 cards (Foundations + 7 phases), each links to `/docs#<phase>` or shows top skills.
   - **AC:** grid is scannable; each card uses the phase color.
   - **Verify:** DESIGN.md §9 grouping checklist passes.
 
-- [ ] **6.7 `src/pages/index.astro`**
+- [x] **6.7 `src/pages/index.astro`**
   - Sections: Hero, ADLC, PhaseGrid, Footer. Four blocks. Not five.
   - **AC:** DESIGN.md §9 cognitive-load checklist passes.
   - **Verify:** count sections; if >4, cut one.
