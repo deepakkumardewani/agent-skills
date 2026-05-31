@@ -11,4 +11,12 @@ export default defineConfig({
   site: 'https://addy-osmani-skills.vercel.app',
   trailingSlash: 'never',
   integrations: [react()],
+  markdown: {
+    shikiConfig: {
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
+      },
+    },
+  },
 });
