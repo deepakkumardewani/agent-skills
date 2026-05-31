@@ -1,5 +1,182 @@
-@import '@fontsource/manrope/400.css';
-@import '@fontsource/manrope/500.css';
-@import '@fontsource/manrope/600.css';
-@import '@fontsource/manrope/700.css';
-@import '@fontsource/jetbrains-mono/400.css';
+@import "@fontsource/manrope/400.css";
+@import "@fontsource/manrope/500.css";
+@import "@fontsource/manrope/600.css";
+@import "@fontsource/manrope/700.css";
+@import "@fontsource/jetbrains-mono/400.css";
+
+/* Andy Bell's Modern CSS Reset — https://piccalil.li/blog/a-modern-css-reset/ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  hanging-punctuation: first last;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+#root,
+#__next {
+  isolation: isolate;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-md-size);
+  font-weight: var(--text-body-md-weight);
+  line-height: var(--text-body-md-line-height);
+  color: var(--color-fg-default);
+  background: var(--color-bg-default);
+}
+
+::selection {
+  background: var(--color-selection);
+}
+
+.prose {
+  max-width: var(--space-prose-max);
+  font-size: var(--text-body-lg-size);
+  font-weight: var(--text-body-lg-weight);
+  line-height: var(--text-body-lg-line-height);
+  color: var(--color-fg-default);
+}
+
+.prose > * + * {
+  margin-top: var(--space-4);
+}
+
+.prose h1 {
+  font-size: var(--text-headline-lg-size);
+  font-weight: var(--text-headline-lg-weight);
+  line-height: var(--text-headline-lg-line-height);
+  letter-spacing: var(--text-headline-lg-letter-spacing);
+}
+
+.prose h2 {
+  margin-top: var(--space-8);
+  font-size: var(--text-headline-sm-size);
+  font-weight: var(--text-headline-sm-weight);
+  line-height: var(--text-headline-sm-line-height);
+  letter-spacing: var(--text-headline-sm-letter-spacing);
+}
+
+.prose h3 {
+  margin-top: var(--space-6);
+  font-size: var(--text-title-md-size);
+  font-weight: var(--text-title-md-weight);
+  line-height: var(--text-title-md-line-height);
+  letter-spacing: var(--text-title-md-letter-spacing);
+}
+
+.prose a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+.prose a:hover {
+  text-decoration: underline;
+  color: var(--color-link-hover);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: var(--space-6);
+}
+
+.prose li + li {
+  margin-top: var(--space-2);
+}
+
+.prose blockquote {
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--color-outline-strong);
+  color: var(--color-fg-muted);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: var(--text-code-md-size);
+  line-height: var(--text-code-md-line-height);
+  padding: 2px var(--space-1);
+  border-radius: var(--radius-sm);
+  background: var(--color-code-bg);
+  color: var(--color-code-fg);
+}
+
+.prose pre {
+  padding: var(--space-4);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: var(--text-code-md-size);
+  line-height: var(--text-code-md-line-height);
+  color: var(--color-code-fg);
+  background: var(--color-code-bg);
+  border: 1px solid var(--color-outline);
+  border-radius: var(--radius-lg);
+}
+
+.prose pre code {
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
