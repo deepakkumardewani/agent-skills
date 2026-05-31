@@ -247,21 +247,22 @@
 
 > **Skill:** `/frontend-ui-engineering`. About copy matters more than visuals here — keep it modest, no design flourishes.
 
-- [ ] **7.1 Get maintainer info from user**
+- [x] **7.1 Get maintainer info from user**
   - Ask: display name + link for `/about` and footer.
   - **AC:** name + link captured.
+  - Captured from SPEC §8: Deepak Kumar Dewani — https://github.com/deepakkumardewani
 
-- [ ] **7.2 `src/pages/about.astro`**
+- [x] **7.2 `src/pages/about.astro`**
   - Tribute story (short, ≤300 words), link to Addy's site + agent-skills repo, maintainer credit.
   - **AC:** banned-phrase check passes; tribute framing per CLAUDE.md.
   - **Verify:** read aloud — sounds human, modest.
 
-- [ ] **7.3 `src/pages/404.astro`**
+- [x] **7.3 `src/pages/404.astro`**
   - Headline, one-sentence "this page doesn't exist", CTA back to `/docs`.
   - **AC:** matches MarketingLayout.
   - **Verify:** visit `/nonexistent`.
 
-- [ ] **7.4 ✅ CHECKPOINT 2**
+- [x] **7.4 ✅ CHECKPOINT 2**
   - Walk every page in light + dark (manually set `data-theme`).
   - Run DESIGN.md §9 5-minute review on landing + a skill page.
   - Confirm with user.
