@@ -1,0 +1,78 @@
+---
+import Footer from '../components/layout/Footer.astro';
+import '../styles/tokens.css';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+}
+
+const {
+  title = 'addy-osmani-skills',
+  description = "A browsable tribute to Addy Osmani's agent-skills collection.",
+  ogTitle,
+  ogDescription,
+} = Astro.props;
+
+const resolvedOgTitle = ogTitle ?? title;
+const resolvedOgDescription = ogDescription ?? description;
+---
+
+<!doctype html>
+<html lang="en" data-theme="">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={resolvedOgTitle} />
+    <meta property="og:description" content={resolvedOgDescription} />
+    <meta property="og:type" content="website" />
+    <slot name="head" />
+  </head>
+  <script is:inline>
+    (() => {
+      const applySystemTheme = () => {
+        document.documentElement.dataset.theme = window.matchMedia('(prefers-color-scheme: dark)')
+          .matches
+          ? 'dark'
+          : 'light';
+      };
+
+      const stored = localStorage.getItem('theme');
+      if (stored === 'light' || stored === 'dark') {
+        document.documentElement.dataset.theme = stored;
+      } else {
+        applySystemTheme();
+      }
+
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .addEventListener('change', () => {
+          if (localStorage.getItem('theme')) {
+            return;
+          }
+
+          applySystemTheme();
+        });
+    })();
+  </script>
+  <body>
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  main {
+    min-height: calc(100vh - 120px);
+    padding: var(--space-container-padding);
+  }
+</style>

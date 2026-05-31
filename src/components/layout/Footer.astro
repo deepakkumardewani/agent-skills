@@ -1,0 +1,40 @@
+---
+const maintainerName = 'Maintainer';
+const maintainerUrl = 'https://example.com';
+const sourceRepoUrl = 'https://github.com/addyosmani/agent-skills';
+---
+
+<footer class="site-footer">
+  <p>
+    A tribute to
+    <a href={sourceRepoUrl}>Addy Osmani's agent-skills</a>
+  </p>
+  <p>
+    Built by
+    <a href={maintainerUrl}>{maintainerName}</a>
+  </p>
+</footer>
+
+<style>
+  .site-footer {
+    padding: var(--space-8) var(--space-container-padding);
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+    color: var(--color-fg-subtle);
+    text-align: center;
+  }
+
+  .site-footer p + p {
+    margin-top: var(--space-2);
+  }
+
+  .site-footer a {
+    color: var(--color-link);
+    text-decoration: none;
+  }
+
+  .site-footer a:hover {
+    text-decoration: underline;
+    color: var(--color-link-hover);
+  }
+</style>
