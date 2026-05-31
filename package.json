@@ -23,6 +23,8 @@
   },
   "dependencies": {
     "@astrojs/vercel": "^10.0.8",
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "@fontsource/manrope": "^5.2.8",
     "astro": "^6.4.2"
   },
   "devDependencies": {
