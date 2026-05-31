@@ -126,50 +126,50 @@
 
 > **Skill:** `/frontend-ui-engineering` for all components. Reach for `/impeccable polish` only at Checkpoint 1 if the header card feels rough.
 
-- [ ] **4.1 Write `src/lib/skills.ts`**
+- [x] **4.1 Write `src/lib/skills.ts`**
   - Functions: `groupSkillsByPhase()`, `getRelatedSkills(slug)`, `getPhaseMeta(phase)` (returns name, slug command, color tokens).
   - Pure functions only; no Astro/fs.
   - **AC:** unit tests cover grouping ordering (Foundations first, 7 phases per SPEC), related resolution.
   - **Verify:** `bun run test` passes with new tests.
 
-- [ ] **4.2 `src/components/docs/PhaseChip.astro`**
+- [x] **4.2 `src/components/docs/PhaseChip.astro`**
   - Props: `phase: Phase`, optional `size?: 'sm' | 'md'`.
   - Renders pill with `phase-*-subtle` bg + `phase-*` fg + caps-xs label.
   - **AC:** renders correctly for all 8 phases.
   - **Verify:** drop on a test page, visually confirm all colors map.
 
-- [ ] **4.3 `src/components/docs/CopyableCommand.tsx` (Preact/React island)**
+- [x] **4.3 `src/components/docs/CopyableCommand.tsx` (Preact/React island)**
   - Props: `command: string`.
   - Renders code pill + copy icon button. On click → `navigator.clipboard.writeText(command)`, icon swaps to checkmark for 1.2s, SR-only "Copied" announces.
   - Hydration: `client:visible`.
   - **AC:** clicking copies the command; checkmark animates; honors `prefers-reduced-motion`.
   - **Verify:** manual test in browser.
 
-- [ ] **4.4 `src/components/docs/SkillHeaderCard.astro`**
+- [x] **4.4 `src/components/docs/SkillHeaderCard.astro`**
   - Props: skill object.
   - Renders: PhaseChip + breadcrumb on top row, h1 skill name (`headline-lg`), one-line description (`body-lg` muted), copyable command pills row.
   - **AC:** matches DESIGN.md "Components → skill-header-card" exactly.
   - **Verify:** visual review against DESIGN.md §9 hierarchy checklist.
 
-- [ ] **4.5 `src/components/docs/RelatedSkills.astro`**
+- [x] **4.5 `src/components/docs/RelatedSkills.astro`**
   - Props: array of related skill slugs.
   - Renders a horizontal list of phase-chipped skill links. If empty, render nothing (no empty heading per CLAUDE.md per-skill contract).
   - **AC:** with 0 related → no markup output; with N → N links visible.
   - **Verify:** test both states.
 
-- [ ] **4.6 `DocsLayout.astro` (minimal — sidebar comes in slice 5)**
+- [x] **4.6 `DocsLayout.astro` (minimal — sidebar comes in slice 5)**
   - Extends Base, centered content area, max-width container.
   - **AC:** renders a slot inside a structured shell.
   - **Verify:** drop placeholder in `/docs` page, view.
 
-- [ ] **4.7 `src/pages/docs/skills/[slug].astro`**
+- [x] **4.7 `src/pages/docs/skills/[slug].astro`**
   - `getStaticPaths()` from content collection.
   - Render: SkillHeaderCard, prose body via `await render(entry)`, RelatedSkills.
   - Use DocsLayout.
   - **AC:** every skill slug produces a working URL; content collection body renders with `.prose` styling.
   - **Verify:** navigate to 3 random slugs; check structure matches SPEC §3 contract.
 
-- [ ] **4.8 ✅ CHECKPOINT 1**
+- [x] **4.8 ✅ CHECKPOINT 1**
   - Visual review: pick one skill page. Walk DESIGN.md §9 first-impression + hierarchy + system discipline checklists.
   - Run `/impeccable polish` if any rough edges.
   - Confirm with user before generalizing further pages.

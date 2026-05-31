@@ -1,0 +1,80 @@
+---
+import { formatSkillDisplayName, getRelatedSkills } from '../../lib/skills';
+import PhaseChip from './PhaseChip.astro';
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+const related = getRelatedSkills(slug);
+---
+
+{
+  related.length > 0 && (
+    <section class="related-skills">
+      <h2 class="related-skills__title">Related skills</h2>
+      <ul class="related-skills__list">
+        {related.map((skill) => (
+          <li>
+            <a class="related-skills__link" href={`/docs/skills/${skill.slug}`}>
+              <PhaseChip phase={skill.phase} size="sm" />
+              <span class="related-skills__name">{formatSkillDisplayName(skill.name)}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .related-skills {
+    margin-top: var(--space-10);
+  }
+
+  .related-skills__title {
+    margin-bottom: var(--space-4);
+    font-size: var(--text-headline-sm-size);
+    font-weight: var(--text-headline-sm-weight);
+    line-height: var(--text-headline-sm-line-height);
+    letter-spacing: var(--text-headline-sm-letter-spacing);
+    color: var(--color-fg-default);
+  }
+
+  .related-skills__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    padding: 0;
+    list-style: none;
+  }
+
+  .related-skills__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-default);
+    background: var(--color-surface);
+    color: var(--color-fg-default);
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+    text-decoration: none;
+  }
+
+  .related-skills__link:hover {
+    border-color: var(--color-outline-strong);
+    background: var(--color-surface-elevated);
+  }
+
+  .related-skills__link:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .related-skills__name {
+    font-weight: var(--text-body-sm-weight);
+  }
+</style>

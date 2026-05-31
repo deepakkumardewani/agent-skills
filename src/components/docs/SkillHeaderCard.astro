@@ -1,0 +1,98 @@
+---
+import type { Skill } from '../../data/skills-data';
+import { formatSkillDisplayName, getPhaseMeta } from '../../lib/skills';
+import CopyableCommand from './CopyableCommand';
+import PhaseChip from './PhaseChip.astro';
+
+interface Props {
+  skill: Skill;
+}
+
+const { skill } = Astro.props;
+const phaseMeta = getPhaseMeta(skill.phase);
+const displayName = formatSkillDisplayName(skill.name);
+const commands =
+  skill.triggers.length > 0 ? skill.triggers : phaseMeta.command ? [phaseMeta.command] : [];
+---
+
+<header class="skill-header-card">
+  <div class="skill-header-card__meta">
+    <PhaseChip phase={skill.phase} />
+    <nav class="skill-header-card__breadcrumb" aria-label="Breadcrumb">
+      <a href="/docs">Docs</a>
+      <span aria-hidden="true">/</span>
+      <span>{phaseMeta.label}</span>
+    </nav>
+  </div>
+  <h1 class="skill-header-card__title">{displayName}</h1>
+  <p class="skill-header-card__description">{skill.description}</p>
+  {
+    commands.length > 0 && (
+      <div class="skill-header-card__commands">
+        {commands.map((command) => (
+          <CopyableCommand client:visible command={command} />
+        ))}
+      </div>
+    )
+  }
+</header>
+
+<style>
+  .skill-header-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-8);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-xl);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-md);
+  }
+
+  .skill-header-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .skill-header-card__breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+    color: var(--color-fg-muted);
+  }
+
+  .skill-header-card__breadcrumb a {
+    color: var(--color-link);
+    text-decoration: none;
+  }
+
+  .skill-header-card__breadcrumb a:hover {
+    text-decoration: underline;
+    color: var(--color-link-hover);
+  }
+
+  .skill-header-card__title {
+    font-size: var(--text-headline-lg-size);
+    font-weight: var(--text-headline-lg-weight);
+    line-height: var(--text-headline-lg-line-height);
+    letter-spacing: var(--text-headline-lg-letter-spacing);
+    color: var(--color-fg-default);
+  }
+
+  .skill-header-card__description {
+    font-size: var(--text-body-lg-size);
+    font-weight: var(--text-body-lg-weight);
+    line-height: var(--text-body-lg-line-height);
+    color: var(--color-fg-muted);
+  }
+
+  .skill-header-card__commands {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+</style>

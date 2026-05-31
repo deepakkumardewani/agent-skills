@@ -1,0 +1,66 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import RelatedSkills from '../../../components/docs/RelatedSkills.astro';
+import SkillHeaderCard from '../../../components/docs/SkillHeaderCard.astro';
+import type { Skill } from '../../../data/skills-data';
+import DocsLayout from '../../../layouts/DocsLayout.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('skills');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+  }));
+}
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  throw new Error('Skill slug is required');
+}
+
+const entry = await getEntry('skills', slug);
+
+if (!entry) {
+  return Astro.redirect('/404');
+}
+
+const skill: Skill = {
+  slug: entry.data.slug,
+  name: entry.data.name,
+  description: entry.data.description,
+  phase: entry.data.phase,
+  triggers: entry.data.triggers,
+  related: entry.data.related,
+};
+
+const { Content } = await render(entry);
+const pageTitle = `${skill.name} — addy-osmani-skills`;
+---
+
+<DocsLayout title={pageTitle} description={skill.description}>
+  <article class="skill-page">
+    <SkillHeaderCard skill={skill} />
+    <div class="skill-page__body prose">
+      <Content />
+    </div>
+    <RelatedSkills slug={skill.slug} />
+  </article>
+</DocsLayout>
+
+<style>
+  .skill-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-block: var(--space-8);
+  }
+
+  .skill-page__body {
+    margin-top: var(--space-2);
+  }
+
+  /* Header card is the page h1; SKILL.md also opens with a duplicate # title. */
+  .skill-page__body.prose :global(> h1:first-child) {
+    display: none;
+  }
+</style>

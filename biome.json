@@ -40,6 +40,6 @@
     }
   ],
   "files": {
-    "includes": ["**", "!dist", "!.astro", "!src/content/skills"]
+    "includes": ["**", "!dist", "!.astro", "!src/content/skills", "!src/data/skills-data.ts"]
   }
 }

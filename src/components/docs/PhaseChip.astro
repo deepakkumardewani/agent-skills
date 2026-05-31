@@ -1,0 +1,41 @@
+---
+import type { Phase } from '../../data/skills-data';
+import { getPhaseMeta } from '../../lib/skills';
+
+interface Props {
+  phase: Phase;
+  size?: 'sm' | 'md';
+}
+
+const { phase, size = 'md' } = Astro.props;
+const meta = getPhaseMeta(phase);
+---
+
+<span
+  class:list={['phase-chip', size === 'sm' && 'phase-chip--sm']}
+  style={`color: var(${meta.fgVar}); background: var(${meta.subtleVar});`}
+>
+  {meta.label}
+</span>
+
+<style>
+  .phase-chip {
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    padding: 0 10px;
+    border-radius: var(--radius-full);
+    font-size: var(--text-caps-xs-size);
+    font-weight: var(--text-caps-xs-weight);
+    line-height: var(--text-caps-xs-line-height);
+    letter-spacing: var(--text-caps-xs-letter-spacing);
+    text-transform: uppercase;
+  }
+
+  .phase-chip--sm {
+    height: 20px;
+    padding: 0 8px;
+    font-size: 10px;
+    line-height: 12px;
+  }
+</style>
