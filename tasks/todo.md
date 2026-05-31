@@ -271,14 +271,14 @@
 
 > **Skill:** `/frontend-ui-engineering`. Tokens already swap; only the island + persistence remain.
 
-- [ ] **8.1 `src/components/layout/ThemeToggle.tsx` (island)**
+- [x] **8.1 `src/components/layout/ThemeToggle.tsx` (island)**
   - Sun/moon icon swap. Reads + writes `localStorage.theme`. Updates `document.documentElement.dataset.theme`.
   - Hydration: `client:load` (needs to be interactive immediately).
   - SR-only label "Switch to dark/light mode".
   - **AC:** click flips theme without page refresh; preference persists across nav.
   - **Verify:** test in browser.
 
-- [ ] **8.2 Wire ThemeToggle into Header**
+- [x] **8.2 Wire ThemeToggle into Header**
   - **AC:** visible on every page; works in both layouts.
   - **Verify:** all pages.
 

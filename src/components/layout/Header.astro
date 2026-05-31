@@ -1,4 +1,6 @@
 ---
+import ThemeToggle from './ThemeToggle';
+
 const navItems = [
   { href: '/docs', label: 'Docs', external: false },
   { href: '/about', label: 'About', external: false },
@@ -42,6 +44,7 @@ const currentPath = Astro.url.pathname;
     </nav>
 
     <div class="site-header__actions">
+      <ThemeToggle client:load />
       <button
         type="button"
         class="site-header__search"
@@ -146,7 +149,10 @@ const currentPath = Astro.url.pathname;
   }
 
   .site-header__actions {
+    display: flex;
     flex-shrink: 0;
+    align-items: center;
+    gap: var(--space-2);
   }
 
   .site-header__search {
