@@ -1,0 +1,262 @@
+:root {
+  /* Colors — neutral spine */
+  --color-bg-default: #fafaf9;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #f5f5f4;
+  --color-surface-sunken: #f5f5f4;
+
+  /* Colors — accent */
+  --color-accent: #d97706;
+  --color-primary: #d97706;
+  --color-on-primary: #ffffff;
+  --color-primary-hover: #b45309;
+  --color-primary-subtle: #fef3c7;
+  --color-on-primary-subtle: #92400e;
+
+  /* Colors — secondary */
+  --color-secondary: #1c1917;
+  --color-on-secondary: #fafaf9;
+
+  /* Colors — foreground */
+  --color-fg-default: #1c1917;
+  --color-fg-muted: #57534e;
+  --color-fg-subtle: #78716c;
+  --color-fg-inverse: #fafaf9;
+
+  /* Colors — structure */
+  --color-outline: #e7e5e4;
+  --color-outline-strong: #d6d3d1;
+  --color-divider: #f5f5f4;
+  --color-focus-ring: #f59e0b;
+
+  /* Colors — links & selection */
+  --color-link: #b45309;
+  --color-link-hover: #92400e;
+  --color-selection: #fde68a;
+
+  /* Colors — status */
+  --color-success: #15803d;
+  --color-warning: #b45309;
+  --color-error: #b91c1c;
+  --color-info: #0369a1;
+
+  /* Colors — code syntax */
+  --color-code-bg: #f5f5f4;
+  --color-code-fg: #1c1917;
+  --color-code-comment: #78716c;
+  --color-code-keyword: #b45309;
+  --color-code-string: #15803d;
+  --color-code-fn: #0369a1;
+
+  /* Phase chips */
+  --phase-foundations: #57534e;
+  --phase-define: #d97706;
+  --phase-plan: #ea580c;
+  --phase-build: #e11d48;
+  --phase-test: #059669;
+  --phase-review: #7c3aed;
+  --phase-simplify: #0284c7;
+  --phase-ship: #65a30d;
+  --phase-foundations-subtle: #f5f5f4;
+  --phase-define-subtle: #fef3c7;
+  --phase-plan-subtle: #ffedd5;
+  --phase-build-subtle: #ffe4e6;
+  --phase-test-subtle: #d1fae5;
+  --phase-review-subtle: #ede9fe;
+  --phase-simplify-subtle: #e0f2fe;
+  --phase-ship-subtle: #ecfccb;
+
+  /* Typography — families */
+  --font-sans: "Manrope", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Typography — display */
+  --text-display-lg-size: 72px;
+  --text-display-lg-weight: 700;
+  --text-display-lg-line-height: 76px;
+  --text-display-lg-letter-spacing: -0.035em;
+  --text-display-md-size: 56px;
+  --text-display-md-weight: 700;
+  --text-display-md-line-height: 60px;
+  --text-display-md-letter-spacing: -0.03em;
+
+  /* Typography — headlines */
+  --text-headline-lg-size: 36px;
+  --text-headline-lg-weight: 700;
+  --text-headline-lg-line-height: 42px;
+  --text-headline-lg-letter-spacing: -0.02em;
+  --text-headline-md-size: 28px;
+  --text-headline-md-weight: 600;
+  --text-headline-md-line-height: 34px;
+  --text-headline-md-letter-spacing: -0.015em;
+  --text-headline-sm-size: 22px;
+  --text-headline-sm-weight: 600;
+  --text-headline-sm-line-height: 28px;
+  --text-headline-sm-letter-spacing: -0.01em;
+
+  /* Typography — titles & body */
+  --text-title-md-size: 18px;
+  --text-title-md-weight: 600;
+  --text-title-md-line-height: 24px;
+  --text-title-md-letter-spacing: -0.005em;
+  --text-body-lg-size: 18px;
+  --text-body-lg-weight: 400;
+  --text-body-lg-line-height: 30px;
+  --text-body-lg-letter-spacing: 0em;
+  --text-body-md-size: 16px;
+  --text-body-md-weight: 400;
+  --text-body-md-line-height: 26px;
+  --text-body-md-letter-spacing: 0em;
+  --text-body-sm-size: 14px;
+  --text-body-sm-weight: 400;
+  --text-body-sm-line-height: 22px;
+  --text-body-sm-letter-spacing: 0em;
+
+  /* Typography — labels & caps */
+  --text-label-md-size: 14px;
+  --text-label-md-weight: 500;
+  --text-label-md-line-height: 18px;
+  --text-label-md-letter-spacing: 0.005em;
+  --text-label-sm-size: 12px;
+  --text-label-sm-weight: 500;
+  --text-label-sm-line-height: 16px;
+  --text-label-sm-letter-spacing: 0.02em;
+  --text-caps-xs-size: 11px;
+  --text-caps-xs-weight: 600;
+  --text-caps-xs-line-height: 14px;
+  --text-caps-xs-letter-spacing: 0.08em;
+
+  /* Typography — code */
+  --text-code-md-size: 14px;
+  --text-code-md-weight: 400;
+  --text-code-md-line-height: 22px;
+  --text-code-md-letter-spacing: 0em;
+  --text-code-sm-size: 12.5px;
+  --text-code-sm-weight: 400;
+  --text-code-sm-line-height: 20px;
+  --text-code-sm-letter-spacing: 0em;
+
+  /* Spacing */
+  --space-unit: 8px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-container-padding: 24px;
+  --space-container-max: 1280px;
+  --space-prose-max: 68ch;
+  --space-sidebar-width: 264px;
+  --space-card-gap: 16px;
+  --space-section-margin: 96px;
+  --space-page-gutter: 32px;
+
+  /* Border radius */
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-default: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 1px rgba(28, 25, 23, 0.04);
+  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.06), 0 1px 1px rgba(28, 25, 23, 0.04);
+  --shadow-md: 0 4px 8px rgba(28, 25, 23, 0.06), 0 2px 4px rgba(28, 25, 23, 0.04);
+  --shadow-lg: 0 12px 24px rgba(28, 25, 23, 0.08), 0 4px 8px rgba(28, 25, 23, 0.04);
+  --shadow-focus: 0 0 0 3px rgba(245, 158, 11, 0.35);
+
+  /* Motion */
+  --duration-instant: 80ms;
+  --duration-fast: 140ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+[data-theme="dark"] {
+  /* Neutral spine — warm dark */
+  --color-bg-default: #0c0a09;
+  --color-surface: #1c1917;
+  --color-surface-elevated: #292524;
+  --color-surface-sunken: #0c0a09;
+
+  /* Accent — lighter amber for contrast */
+  --color-accent: #f59e0b;
+  --color-primary: #f59e0b;
+  --color-on-primary: #1c1917;
+  --color-primary-hover: #fbbf24;
+  --color-primary-subtle: rgba(245, 158, 11, 0.2);
+  --color-on-primary-subtle: #fde68a;
+
+  /* Secondary */
+  --color-secondary: #f5f5f4;
+  --color-on-secondary: #1c1917;
+
+  /* Foreground */
+  --color-fg-default: #f5f5f4;
+  --color-fg-muted: #a8a29e;
+  --color-fg-subtle: #78716c;
+  --color-fg-inverse: #1c1917;
+
+  /* Structure */
+  --color-outline: #44403c;
+  --color-outline-strong: #57534e;
+  --color-divider: #292524;
+  --color-focus-ring: #f59e0b;
+
+  /* Links & selection */
+  --color-link: #fbbf24;
+  --color-link-hover: #fde68a;
+  --color-selection: rgba(245, 158, 11, 0.35);
+
+  /* Status */
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+  --color-info: #38bdf8;
+
+  /* Code syntax */
+  --color-code-bg: #292524;
+  --color-code-fg: #f5f5f4;
+  --color-code-comment: #78716c;
+  --color-code-keyword: #fbbf24;
+  --color-code-string: #4ade80;
+  --color-code-fn: #38bdf8;
+
+  /* Phase chips — 800-level with 20% opacity overlays */
+  --phase-foundations: #a8a29e;
+  --phase-define: #f59e0b;
+  --phase-plan: #fb923c;
+  --phase-build: #fb7185;
+  --phase-test: #34d399;
+  --phase-review: #a78bfa;
+  --phase-simplify: #38bdf8;
+  --phase-ship: #a3e635;
+  --phase-foundations-subtle: rgba(41, 37, 36, 0.2);
+  --phase-define-subtle: rgba(217, 119, 6, 0.2);
+  --phase-plan-subtle: rgba(234, 88, 12, 0.2);
+  --phase-build-subtle: rgba(225, 29, 72, 0.2);
+  --phase-test-subtle: rgba(5, 150, 105, 0.2);
+  --phase-review-subtle: rgba(124, 58, 237, 0.2);
+  --phase-simplify-subtle: rgba(2, 132, 199, 0.2);
+  --phase-ship-subtle: rgba(101, 163, 13, 0.2);
+
+  /* Shadows — slightly stronger on dark surfaces */
+  --shadow-xs: 0 1px 1px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px 1px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.35), 0 4px 8px rgba(0, 0, 0, 0.2);
+  --shadow-focus: 0 0 0 3px rgba(245, 158, 11, 0.45);
+}
