@@ -1,0 +1,107 @@
+---
+description: Project rules for addy-osmani-skills Astro site
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# addy-osmani-skills — Cursor Rules
+
+Personal tribute site publishing Addy Osmani's agent-skills as a browsable docs site. Not official, not Anthropic-affiliated.
+
+## Stack (locked)
+
+- **Bun** (runtime + package manager)
+- **Astro** (static output, Vercel adapter) + **TypeScript strict**
+- **Biome** — only lint/format tool (no ESLint, no Prettier)
+- **Vitest** (unit) + **Playwright** (e2e)
+- **Plain CSS** with design tokens — no Tailwind, no CSS-in-JS, no UI kits
+
+## Astro patterns
+
+- `.astro` components for all static surfaces
+- Client islands only for interactive UI (`client:idle` > `client:visible` > `client:load`)
+- Always `getCollection('skills')` / `getEntry` — never `fs` for markdown
+- Layouts: `BaseLayout` → `DocsLayout` (docs) or `MarketingLayout` (marketing pages)
+
+## CSS
+
+- Design tokens in `src/styles/tokens.css` as CSS custom properties
+- Naming: `--{category}-{role}-{modifier?}` (e.g. `--color-fg-default`, `--space-4`)
+- Never raw hex/px in components — add a token first
+- Component styles in `<style>` blocks (Astro-scoped)
+- Dark mode via `data-theme` attribute set before paint (no FOUC)
+- Always honor `prefers-reduced-motion`
+
+## Skills data
+
+- `../agent-skills/` is **read-only** — never write to it
+- Sync via `bun run sync-skills` (idempotent)
+- `src/content/skills/*.md` and `src/data/skills-data.ts` are generated — never hand-edit
+
+## Routing (locked)
+
+Sidebar order: Foundations → Define → Plan → Build → Test → Review → Simplify → Ship
+
+Pages: `/`, `/about`, `/docs`, `/docs/skills/[slug]`, `/404`
+
+Don't add routes or reorder groups without updating SPEC.md.
+
+## Per-skill page contract
+
+1. `<SkillHeaderCard />` — name, description, phase chip, copyable trigger command
+2. Rendered SKILL.md body (`.prose` class only)
+3. `<RelatedSkills />` — omit if empty
+
+## Dev commands
+
+```bash
+bun run check       # lint + typecheck + tests — must pass before done
+bun run sync-skills # sync from ../agent-skills/
+bun run dev         # http://localhost:4321
+bun run test:e2e    # playwright
+bun run build       # production
+```
+
+## Testing
+
+- Unit tests for all logic in `src/lib/**` and `scripts/sync-skills.ts`
+- Playwright for all user-visible flows (SPEC §5)
+- TDD for bugs: failing test → fix → green
+- `bun run check` must be green — no exceptions
+
+## Prose rules
+
+Voice: warm, plainspoken, developer-honest.
+
+Banned: `seamless`, `robust`, `delve`, `elevate`, `empower`, `leverage`, `unlock`, `supercharge`, `game-changing`, "Let's dive in.", "In today's…", hollow confidence words ("simply", "just"), em-dash overuse.
+
+SKILL.md content is exempt (Addy's words).
+
+## Ask before doing
+
+- New runtime dependency > 5 KB gzipped
+- Changing sidebar groups or order
+- New top-level route
+- Analytics or third-party requests
+- Deploying to non-Vercel target
+- Push to `main`
+- Breaking `skills-data.ts` schema change
+
+## Never do
+
+- Add Tailwind, shadcn, or any UI framework
+- Add backend, database, or server-side search
+- `git push --force` or skip hooks (`--no-verify`)
+- Commit secrets or `.env` files
+- Hand-edit synced skill content
+- Frame site as official or Anthropic-affiliated
+- Replicate impeccable's visual identity (cream / serif / marbled gold)
+
+## Skill invocations
+
+| Situation              | Skill                                                             |
+| ---------------------- | ----------------------------------------------------------------- |
+| Visual work            | `/impeccable craft` (`polish`, `typeset`, `colorize`, `layout`)   |
+| UI review before merge | `/web-design-guidelines` + `/code-review`                         |
+| Verify UI works        | `/run` then `/verify`                                             |
+| Astro patterns         | `.agents/skills/astro/` or `.agents/skills/astro-best-practices/` |
