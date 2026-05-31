@@ -31,522 +31,566 @@ export interface SkillsData {
 }
 
 export const skillsData = {
-  groups: [
+  "groups": [
     {
-      phase: 'foundations',
-      label: 'Foundations',
-      command: '',
-      skills: [
+      "phase": "foundations",
+      "label": "Foundations",
+      "command": "",
+      "skills": [
         {
-          slug: 'context-engineering',
-          name: 'context-engineering',
-          description:
-            'Optimizes agent context setup. Use when starting a new session, when agent output quality degrades, when switching between tasks, or when you need to configure rules files and context for a project.',
-          phase: 'foundations',
-          triggers: [],
-          related: [],
+          "slug": "context-engineering",
+          "name": "context-engineering",
+          "description": "Optimizes agent context setup. Use when starting a new session, when agent output quality degrades, when switching between tasks, or when you need to configure rules files and context for a project.",
+          "phase": "foundations",
+          "triggers": [],
+          "related": []
         },
         {
-          slug: 'doubt-driven-development',
-          name: 'doubt-driven-development',
-          description:
-            'Subjects every non-trivial decision to a fresh-context adversarial review before it stands. Use when correctness matters more than speed, when working in unfamiliar code, when stakes are high (production, security-sensitive logic, irreversible operations), or any time a confident output would be cheaper to verify now than to debug later.',
-          phase: 'foundations',
-          triggers: [],
-          related: [],
+          "slug": "doubt-driven-development",
+          "name": "doubt-driven-development",
+          "description": "Subjects every non-trivial decision to a fresh-context adversarial review before it stands. Use when correctness matters more than speed, when working in unfamiliar code, when stakes are high (production, security-sensitive logic, irreversible operations), or any time a confident output would be cheaper to verify now than to debug later.",
+          "phase": "foundations",
+          "triggers": [],
+          "related": []
         },
         {
-          slug: 'interview-me',
-          name: 'interview-me',
-          description:
-            'Extracts what the user actually wants instead of what they think they should want. Achieves this through one-question-at-a-time interview until ~95% confidence about the underlying intent. Use when an ask is underspecified ("build me X" without "for whom" or "why now"), when the user explicitly invokes ("interview me", "grill me", "are we sure?", "stress-test my thinking"), or when you catch yourself silently filling in ambiguous requirements before any plan, spec, or code exists.',
-          phase: 'foundations',
-          triggers: [],
-          related: [],
+          "slug": "interview-me",
+          "name": "interview-me",
+          "description": "Extracts what the user actually wants instead of what they think they should want. Achieves this through one-question-at-a-time interview until ~95% confidence about the underlying intent. Use when an ask is underspecified (\"build me X\" without \"for whom\" or \"why now\"), when the user explicitly invokes (\"interview me\", \"grill me\", \"are we sure?\", \"stress-test my thinking\"), or when you catch yourself silently filling in ambiguous requirements before any plan, spec, or code exists.",
+          "phase": "foundations",
+          "triggers": [],
+          "related": []
         },
         {
-          slug: 'source-driven-development',
-          name: 'source-driven-development',
-          description:
-            'Grounds every implementation decision in official documentation. Use when you want authoritative, source-cited code free from outdated patterns. Use when building with any framework or library where correctness matters.',
-          phase: 'foundations',
-          triggers: [],
-          related: [],
+          "slug": "source-driven-development",
+          "name": "source-driven-development",
+          "description": "Grounds every implementation decision in official documentation. Use when you want authoritative, source-cited code free from outdated patterns. Use when building with any framework or library where correctness matters.",
+          "phase": "foundations",
+          "triggers": [],
+          "related": []
         },
         {
-          slug: 'using-agent-skills',
-          name: 'using-agent-skills',
-          description:
-            'Discovers and invokes agent skills. Use when starting a session or when you need to discover which skill applies to the current task. This is the meta-skill that governs how all other skills are discovered and invoked.',
-          phase: 'foundations',
-          triggers: [],
-          related: [
-            'api-and-interface-design',
-            'browser-testing-with-devtools',
-            'ci-cd-and-automation',
-            'code-review-and-quality',
-            'code-simplification',
-            'context-engineering',
-            'debugging-and-error-recovery',
-            'deprecation-and-migration',
-            'documentation-and-adrs',
-            'doubt-driven-development',
-            'frontend-ui-engineering',
-            'git-workflow-and-versioning',
-            'incremental-implementation',
-            'interview-me',
-            'performance-optimization',
-            'planning-and-task-breakdown',
-            'security-and-hardening',
-            'shipping-and-launch',
-            'source-driven-development',
-            'spec-driven-development',
-            'test-driven-development',
+          "slug": "using-agent-skills",
+          "name": "using-agent-skills",
+          "description": "Discovers and invokes agent skills. Use when starting a session or when you need to discover which skill applies to the current task. This is the meta-skill that governs how all other skills are discovered and invoked.",
+          "phase": "foundations",
+          "triggers": [],
+          "related": [
+            "api-and-interface-design",
+            "browser-testing-with-devtools",
+            "ci-cd-and-automation",
+            "code-review-and-quality",
+            "code-simplification",
+            "context-engineering",
+            "debugging-and-error-recovery",
+            "deprecation-and-migration",
+            "documentation-and-adrs",
+            "doubt-driven-development",
+            "frontend-ui-engineering",
+            "git-workflow-and-versioning",
+            "incremental-implementation",
+            "interview-me",
+            "performance-optimization",
+            "planning-and-task-breakdown",
+            "security-and-hardening",
+            "shipping-and-launch",
+            "source-driven-development",
+            "spec-driven-development",
+            "test-driven-development"
+          ]
+        }
+      ]
+    },
+    {
+      "phase": "define",
+      "label": "Define",
+      "command": "/spec",
+      "skills": [
+        {
+          "slug": "idea-refine",
+          "name": "idea-refine",
+          "description": "Refines raw ideas into sharp, actionable concepts through structured divergent and convergent thinking. Use when an idea is still vague, when you need to stress-test assumptions before committing to a plan, or when you want to expand options before converging on one. Triggers on \"ideate\", \"refine this idea\", or \"stress-test my plan\".",
+          "phase": "define",
+          "triggers": [
+            "/spec"
           ],
+          "related": []
         },
-      ],
+        {
+          "slug": "spec-driven-development",
+          "name": "spec-driven-development",
+          "description": "Creates specs before coding. Use when starting a new project, feature, or significant change and no specification exists yet. Use when requirements are unclear, ambiguous, or only exist as a vague idea.",
+          "phase": "define",
+          "triggers": [
+            "/spec"
+          ],
+          "related": []
+        }
+      ]
     },
     {
-      phase: 'define',
-      label: 'Define',
-      command: '/spec',
-      skills: [
+      "phase": "plan",
+      "label": "Plan",
+      "command": "/plan",
+      "skills": [
         {
-          slug: 'idea-refine',
-          name: 'idea-refine',
-          description:
-            'Refines raw ideas into sharp, actionable concepts through structured divergent and convergent thinking. Use when an idea is still vague, when you need to stress-test assumptions before committing to a plan, or when you want to expand options before converging on one. Triggers on "ideate", "refine this idea", or "stress-test my plan".',
-          phase: 'define',
-          triggers: ['/spec'],
-          related: [],
-        },
-        {
-          slug: 'spec-driven-development',
-          name: 'spec-driven-development',
-          description:
-            'Creates specs before coding. Use when starting a new project, feature, or significant change and no specification exists yet. Use when requirements are unclear, ambiguous, or only exist as a vague idea.',
-          phase: 'define',
-          triggers: ['/spec'],
-          related: [],
-        },
-      ],
+          "slug": "planning-and-task-breakdown",
+          "name": "planning-and-task-breakdown",
+          "description": "Breaks work into ordered tasks. Use when you have a spec or clear requirements and need to break work into implementable tasks. Use when a task feels too large to start, when you need to estimate scope, or when parallel work is possible.",
+          "phase": "plan",
+          "triggers": [
+            "/plan"
+          ],
+          "related": []
+        }
+      ]
     },
     {
-      phase: 'plan',
-      label: 'Plan',
-      command: '/plan',
-      skills: [
+      "phase": "build",
+      "label": "Build",
+      "command": "/build",
+      "skills": [
         {
-          slug: 'planning-and-task-breakdown',
-          name: 'planning-and-task-breakdown',
-          description:
-            'Breaks work into ordered tasks. Use when you have a spec or clear requirements and need to break work into implementable tasks. Use when a task feels too large to start, when you need to estimate scope, or when parallel work is possible.',
-          phase: 'plan',
-          triggers: ['/plan'],
-          related: [],
+          "slug": "api-and-interface-design",
+          "name": "api-and-interface-design",
+          "description": "Guides stable API and interface design. Use when designing APIs, module boundaries, or any public interface. Use when creating REST or GraphQL endpoints, defining type contracts between modules, or establishing boundaries between frontend and backend.",
+          "phase": "build",
+          "triggers": [
+            "/build"
+          ],
+          "related": [
+            "deprecation-and-migration"
+          ]
         },
-      ],
+        {
+          "slug": "frontend-ui-engineering",
+          "name": "frontend-ui-engineering",
+          "description": "Builds production-quality UIs. Use when building or modifying user-facing interfaces. Use when creating components, implementing layouts, managing state, or when the output needs to look and feel production-quality rather than AI-generated.",
+          "phase": "build",
+          "triggers": [
+            "/build"
+          ],
+          "related": []
+        },
+        {
+          "slug": "incremental-implementation",
+          "name": "incremental-implementation",
+          "description": "Delivers changes incrementally. Use when implementing any feature or change that touches more than one file. Use when you're about to write a large amount of code at once, or when a task feels too big to land in one step.",
+          "phase": "build",
+          "triggers": [
+            "/build"
+          ],
+          "related": [
+            "git-workflow-and-versioning"
+          ]
+        },
+        {
+          "slug": "test-driven-development",
+          "name": "test-driven-development",
+          "description": "Drives development with tests. Use when implementing any logic, fixing any bug, or changing any behavior. Use when you need to prove that code works, when a bug report arrives, or when you're about to modify existing functionality.",
+          "phase": "build",
+          "triggers": [
+            "/build"
+          ],
+          "related": [
+            "browser-testing-with-devtools"
+          ]
+        }
+      ]
     },
     {
-      phase: 'build',
-      label: 'Build',
-      command: '/build',
-      skills: [
+      "phase": "test",
+      "label": "Test",
+      "command": "/test",
+      "skills": [
         {
-          slug: 'api-and-interface-design',
-          name: 'api-and-interface-design',
-          description:
-            'Guides stable API and interface design. Use when designing APIs, module boundaries, or any public interface. Use when creating REST or GraphQL endpoints, defining type contracts between modules, or establishing boundaries between frontend and backend.',
-          phase: 'build',
-          triggers: ['/build'],
-          related: ['deprecation-and-migration'],
+          "slug": "browser-testing-with-devtools",
+          "name": "browser-testing-with-devtools",
+          "description": "Tests in real browsers via Chrome DevTools MCP. Use when building or debugging anything that runs in a browser. Use when you need to inspect the DOM, capture console errors, analyze network requests, profile performance, or verify visual output with real runtime data. Requires the chrome-devtools MCP server to be configured.",
+          "phase": "test",
+          "triggers": [
+            "/test"
+          ],
+          "related": []
         },
         {
-          slug: 'frontend-ui-engineering',
-          name: 'frontend-ui-engineering',
-          description:
-            'Builds production-quality UIs. Use when building or modifying user-facing interfaces. Use when creating components, implementing layouts, managing state, or when the output needs to look and feel production-quality rather than AI-generated.',
-          phase: 'build',
-          triggers: ['/build'],
-          related: [],
-        },
-        {
-          slug: 'incremental-implementation',
-          name: 'incremental-implementation',
-          description:
-            "Delivers changes incrementally. Use when implementing any feature or change that touches more than one file. Use when you're about to write a large amount of code at once, or when a task feels too big to land in one step.",
-          phase: 'build',
-          triggers: ['/build'],
-          related: ['git-workflow-and-versioning'],
-        },
-        {
-          slug: 'test-driven-development',
-          name: 'test-driven-development',
-          description:
-            "Drives development with tests. Use when implementing any logic, fixing any bug, or changing any behavior. Use when you need to prove that code works, when a bug report arrives, or when you're about to modify existing functionality.",
-          phase: 'build',
-          triggers: ['/build'],
-          related: ['browser-testing-with-devtools'],
-        },
-      ],
+          "slug": "debugging-and-error-recovery",
+          "name": "debugging-and-error-recovery",
+          "description": "Guides systematic root-cause debugging. Use when tests fail, builds break, behavior doesn't match expectations, or you encounter any unexpected error. Use when you need a systematic approach to finding and fixing the root cause rather than guessing.",
+          "phase": "test",
+          "triggers": [
+            "/test"
+          ],
+          "related": []
+        }
+      ]
     },
     {
-      phase: 'test',
-      label: 'Test',
-      command: '/test',
-      skills: [
+      "phase": "review",
+      "label": "Review",
+      "command": "/review",
+      "skills": [
         {
-          slug: 'browser-testing-with-devtools',
-          name: 'browser-testing-with-devtools',
-          description:
-            'Tests in real browsers via Chrome DevTools MCP. Use when building or debugging anything that runs in a browser. Use when you need to inspect the DOM, capture console errors, analyze network requests, profile performance, or verify visual output with real runtime data. Requires the chrome-devtools MCP server to be configured.',
-          phase: 'test',
-          triggers: ['/test'],
-          related: [],
+          "slug": "code-review-and-quality",
+          "name": "code-review-and-quality",
+          "description": "Conducts multi-axis code review. Use before merging any change. Use when reviewing code written by yourself, another agent, or a human. Use when you need to assess code quality across multiple dimensions before it enters the main branch.",
+          "phase": "review",
+          "triggers": [
+            "/review"
+          ],
+          "related": [
+            "performance-optimization",
+            "security-and-hardening"
+          ]
         },
         {
-          slug: 'debugging-and-error-recovery',
-          name: 'debugging-and-error-recovery',
-          description:
-            "Guides systematic root-cause debugging. Use when tests fail, builds break, behavior doesn't match expectations, or you encounter any unexpected error. Use when you need a systematic approach to finding and fixing the root cause rather than guessing.",
-          phase: 'test',
-          triggers: ['/test'],
-          related: [],
+          "slug": "performance-optimization",
+          "name": "performance-optimization",
+          "description": "Optimizes application performance. Use when performance requirements exist, when you suspect performance regressions, or when Core Web Vitals or load times need improvement. Use when profiling reveals bottlenecks that need fixing.",
+          "phase": "review",
+          "triggers": [
+            "/review"
+          ],
+          "related": []
         },
-      ],
+        {
+          "slug": "security-and-hardening",
+          "name": "security-and-hardening",
+          "description": "Hardens code against vulnerabilities. Use when handling user input, authentication, data storage, or external integrations. Use when building any feature that accepts untrusted data, manages user sessions, or interacts with third-party services.",
+          "phase": "review",
+          "triggers": [
+            "/review"
+          ],
+          "related": []
+        }
+      ]
     },
     {
-      phase: 'review',
-      label: 'Review',
-      command: '/review',
-      skills: [
+      "phase": "simplify",
+      "label": "Simplify",
+      "command": "/code-simplify",
+      "skills": [
         {
-          slug: 'code-review-and-quality',
-          name: 'code-review-and-quality',
-          description:
-            'Conducts multi-axis code review. Use before merging any change. Use when reviewing code written by yourself, another agent, or a human. Use when you need to assess code quality across multiple dimensions before it enters the main branch.',
-          phase: 'review',
-          triggers: ['/review'],
-          related: ['performance-optimization', 'security-and-hardening'],
-        },
-        {
-          slug: 'performance-optimization',
-          name: 'performance-optimization',
-          description:
-            'Optimizes application performance. Use when performance requirements exist, when you suspect performance regressions, or when Core Web Vitals or load times need improvement. Use when profiling reveals bottlenecks that need fixing.',
-          phase: 'review',
-          triggers: ['/review'],
-          related: [],
-        },
-        {
-          slug: 'security-and-hardening',
-          name: 'security-and-hardening',
-          description:
-            'Hardens code against vulnerabilities. Use when handling user input, authentication, data storage, or external integrations. Use when building any feature that accepts untrusted data, manages user sessions, or interacts with third-party services.',
-          phase: 'review',
-          triggers: ['/review'],
-          related: [],
-        },
-      ],
+          "slug": "code-simplification",
+          "name": "code-simplification",
+          "description": "Simplifies code for clarity. Use when refactoring code for clarity without changing behavior. Use when code works but is harder to read, maintain, or extend than it should be. Use when reviewing code that has accumulated unnecessary complexity.",
+          "phase": "simplify",
+          "triggers": [
+            "/code-simplify"
+          ],
+          "related": []
+        }
+      ]
     },
     {
-      phase: 'simplify',
-      label: 'Simplify',
-      command: '/code-simplify',
-      skills: [
+      "phase": "ship",
+      "label": "Ship",
+      "command": "/ship",
+      "skills": [
         {
-          slug: 'code-simplification',
-          name: 'code-simplification',
-          description:
-            'Simplifies code for clarity. Use when refactoring code for clarity without changing behavior. Use when code works but is harder to read, maintain, or extend than it should be. Use when reviewing code that has accumulated unnecessary complexity.',
-          phase: 'simplify',
-          triggers: ['/code-simplify'],
-          related: [],
-        },
-      ],
-    },
-    {
-      phase: 'ship',
-      label: 'Ship',
-      command: '/ship',
-      skills: [
-        {
-          slug: 'ci-cd-and-automation',
-          name: 'ci-cd-and-automation',
-          description:
-            'Automates CI/CD pipeline setup. Use when setting up or modifying build and deployment pipelines. Use when you need to automate quality gates, configure test runners in CI, or establish deployment strategies.',
-          phase: 'ship',
-          triggers: ['/ship'],
-          related: [],
+          "slug": "ci-cd-and-automation",
+          "name": "ci-cd-and-automation",
+          "description": "Automates CI/CD pipeline setup. Use when setting up or modifying build and deployment pipelines. Use when you need to automate quality gates, configure test runners in CI, or establish deployment strategies.",
+          "phase": "ship",
+          "triggers": [
+            "/ship"
+          ],
+          "related": []
         },
         {
-          slug: 'deprecation-and-migration',
-          name: 'deprecation-and-migration',
-          description:
-            'Manages deprecation and migration. Use when removing old systems, APIs, or features. Use when migrating users from one implementation to another. Use when deciding whether to maintain or sunset existing code.',
-          phase: 'ship',
-          triggers: ['/ship'],
-          related: [],
+          "slug": "deprecation-and-migration",
+          "name": "deprecation-and-migration",
+          "description": "Manages deprecation and migration. Use when removing old systems, APIs, or features. Use when migrating users from one implementation to another. Use when deciding whether to maintain or sunset existing code.",
+          "phase": "ship",
+          "triggers": [
+            "/ship"
+          ],
+          "related": []
         },
         {
-          slug: 'documentation-and-adrs',
-          name: 'documentation-and-adrs',
-          description:
-            'Records decisions and documentation. Use when making architectural decisions, changing public APIs, shipping features, or when you need to record context that future engineers and agents will need to understand the codebase.',
-          phase: 'ship',
-          triggers: ['/ship'],
-          related: [],
+          "slug": "documentation-and-adrs",
+          "name": "documentation-and-adrs",
+          "description": "Records decisions and documentation. Use when making architectural decisions, changing public APIs, shipping features, or when you need to record context that future engineers and agents will need to understand the codebase.",
+          "phase": "ship",
+          "triggers": [
+            "/ship"
+          ],
+          "related": []
         },
         {
-          slug: 'git-workflow-and-versioning',
-          name: 'git-workflow-and-versioning',
-          description:
-            'Structures git workflow practices. Use when making any code change. Use when committing, branching, resolving conflicts, or when you need to organize work across multiple parallel streams.',
-          phase: 'ship',
-          triggers: ['/ship'],
-          related: [],
+          "slug": "git-workflow-and-versioning",
+          "name": "git-workflow-and-versioning",
+          "description": "Structures git workflow practices. Use when making any code change. Use when committing, branching, resolving conflicts, or when you need to organize work across multiple parallel streams.",
+          "phase": "ship",
+          "triggers": [
+            "/ship"
+          ],
+          "related": []
         },
         {
-          slug: 'shipping-and-launch',
-          name: 'shipping-and-launch',
-          description:
-            'Prepares production launches. Use when preparing to deploy to production. Use when you need a pre-launch checklist, when setting up monitoring, when planning a staged rollout, or when you need a rollback strategy.',
-          phase: 'ship',
-          triggers: ['/ship'],
-          related: [],
-        },
-      ],
-    },
+          "slug": "shipping-and-launch",
+          "name": "shipping-and-launch",
+          "description": "Prepares production launches. Use when preparing to deploy to production. Use when you need a pre-launch checklist, when setting up monitoring, when planning a staged rollout, or when you need a rollback strategy.",
+          "phase": "ship",
+          "triggers": [
+            "/ship"
+          ],
+          "related": []
+        }
+      ]
+    }
   ],
-  skills: [
+  "skills": [
     {
-      slug: 'api-and-interface-design',
-      name: 'api-and-interface-design',
-      description:
-        'Guides stable API and interface design. Use when designing APIs, module boundaries, or any public interface. Use when creating REST or GraphQL endpoints, defining type contracts between modules, or establishing boundaries between frontend and backend.',
-      phase: 'build',
-      triggers: ['/build'],
-      related: ['deprecation-and-migration'],
-    },
-    {
-      slug: 'browser-testing-with-devtools',
-      name: 'browser-testing-with-devtools',
-      description:
-        'Tests in real browsers via Chrome DevTools MCP. Use when building or debugging anything that runs in a browser. Use when you need to inspect the DOM, capture console errors, analyze network requests, profile performance, or verify visual output with real runtime data. Requires the chrome-devtools MCP server to be configured.',
-      phase: 'test',
-      triggers: ['/test'],
-      related: [],
-    },
-    {
-      slug: 'ci-cd-and-automation',
-      name: 'ci-cd-and-automation',
-      description:
-        'Automates CI/CD pipeline setup. Use when setting up or modifying build and deployment pipelines. Use when you need to automate quality gates, configure test runners in CI, or establish deployment strategies.',
-      phase: 'ship',
-      triggers: ['/ship'],
-      related: [],
-    },
-    {
-      slug: 'code-review-and-quality',
-      name: 'code-review-and-quality',
-      description:
-        'Conducts multi-axis code review. Use before merging any change. Use when reviewing code written by yourself, another agent, or a human. Use when you need to assess code quality across multiple dimensions before it enters the main branch.',
-      phase: 'review',
-      triggers: ['/review'],
-      related: ['performance-optimization', 'security-and-hardening'],
-    },
-    {
-      slug: 'code-simplification',
-      name: 'code-simplification',
-      description:
-        'Simplifies code for clarity. Use when refactoring code for clarity without changing behavior. Use when code works but is harder to read, maintain, or extend than it should be. Use when reviewing code that has accumulated unnecessary complexity.',
-      phase: 'simplify',
-      triggers: ['/code-simplify'],
-      related: [],
-    },
-    {
-      slug: 'context-engineering',
-      name: 'context-engineering',
-      description:
-        'Optimizes agent context setup. Use when starting a new session, when agent output quality degrades, when switching between tasks, or when you need to configure rules files and context for a project.',
-      phase: 'foundations',
-      triggers: [],
-      related: [],
-    },
-    {
-      slug: 'debugging-and-error-recovery',
-      name: 'debugging-and-error-recovery',
-      description:
-        "Guides systematic root-cause debugging. Use when tests fail, builds break, behavior doesn't match expectations, or you encounter any unexpected error. Use when you need a systematic approach to finding and fixing the root cause rather than guessing.",
-      phase: 'test',
-      triggers: ['/test'],
-      related: [],
-    },
-    {
-      slug: 'deprecation-and-migration',
-      name: 'deprecation-and-migration',
-      description:
-        'Manages deprecation and migration. Use when removing old systems, APIs, or features. Use when migrating users from one implementation to another. Use when deciding whether to maintain or sunset existing code.',
-      phase: 'ship',
-      triggers: ['/ship'],
-      related: [],
-    },
-    {
-      slug: 'documentation-and-adrs',
-      name: 'documentation-and-adrs',
-      description:
-        'Records decisions and documentation. Use when making architectural decisions, changing public APIs, shipping features, or when you need to record context that future engineers and agents will need to understand the codebase.',
-      phase: 'ship',
-      triggers: ['/ship'],
-      related: [],
-    },
-    {
-      slug: 'doubt-driven-development',
-      name: 'doubt-driven-development',
-      description:
-        'Subjects every non-trivial decision to a fresh-context adversarial review before it stands. Use when correctness matters more than speed, when working in unfamiliar code, when stakes are high (production, security-sensitive logic, irreversible operations), or any time a confident output would be cheaper to verify now than to debug later.',
-      phase: 'foundations',
-      triggers: [],
-      related: [],
-    },
-    {
-      slug: 'frontend-ui-engineering',
-      name: 'frontend-ui-engineering',
-      description:
-        'Builds production-quality UIs. Use when building or modifying user-facing interfaces. Use when creating components, implementing layouts, managing state, or when the output needs to look and feel production-quality rather than AI-generated.',
-      phase: 'build',
-      triggers: ['/build'],
-      related: [],
-    },
-    {
-      slug: 'git-workflow-and-versioning',
-      name: 'git-workflow-and-versioning',
-      description:
-        'Structures git workflow practices. Use when making any code change. Use when committing, branching, resolving conflicts, or when you need to organize work across multiple parallel streams.',
-      phase: 'ship',
-      triggers: ['/ship'],
-      related: [],
-    },
-    {
-      slug: 'idea-refine',
-      name: 'idea-refine',
-      description:
-        'Refines raw ideas into sharp, actionable concepts through structured divergent and convergent thinking. Use when an idea is still vague, when you need to stress-test assumptions before committing to a plan, or when you want to expand options before converging on one. Triggers on "ideate", "refine this idea", or "stress-test my plan".',
-      phase: 'define',
-      triggers: ['/spec'],
-      related: [],
-    },
-    {
-      slug: 'incremental-implementation',
-      name: 'incremental-implementation',
-      description:
-        "Delivers changes incrementally. Use when implementing any feature or change that touches more than one file. Use when you're about to write a large amount of code at once, or when a task feels too big to land in one step.",
-      phase: 'build',
-      triggers: ['/build'],
-      related: ['git-workflow-and-versioning'],
-    },
-    {
-      slug: 'interview-me',
-      name: 'interview-me',
-      description:
-        'Extracts what the user actually wants instead of what they think they should want. Achieves this through one-question-at-a-time interview until ~95% confidence about the underlying intent. Use when an ask is underspecified ("build me X" without "for whom" or "why now"), when the user explicitly invokes ("interview me", "grill me", "are we sure?", "stress-test my thinking"), or when you catch yourself silently filling in ambiguous requirements before any plan, spec, or code exists.',
-      phase: 'foundations',
-      triggers: [],
-      related: [],
-    },
-    {
-      slug: 'performance-optimization',
-      name: 'performance-optimization',
-      description:
-        'Optimizes application performance. Use when performance requirements exist, when you suspect performance regressions, or when Core Web Vitals or load times need improvement. Use when profiling reveals bottlenecks that need fixing.',
-      phase: 'review',
-      triggers: ['/review'],
-      related: [],
-    },
-    {
-      slug: 'planning-and-task-breakdown',
-      name: 'planning-and-task-breakdown',
-      description:
-        'Breaks work into ordered tasks. Use when you have a spec or clear requirements and need to break work into implementable tasks. Use when a task feels too large to start, when you need to estimate scope, or when parallel work is possible.',
-      phase: 'plan',
-      triggers: ['/plan'],
-      related: [],
-    },
-    {
-      slug: 'security-and-hardening',
-      name: 'security-and-hardening',
-      description:
-        'Hardens code against vulnerabilities. Use when handling user input, authentication, data storage, or external integrations. Use when building any feature that accepts untrusted data, manages user sessions, or interacts with third-party services.',
-      phase: 'review',
-      triggers: ['/review'],
-      related: [],
-    },
-    {
-      slug: 'shipping-and-launch',
-      name: 'shipping-and-launch',
-      description:
-        'Prepares production launches. Use when preparing to deploy to production. Use when you need a pre-launch checklist, when setting up monitoring, when planning a staged rollout, or when you need a rollback strategy.',
-      phase: 'ship',
-      triggers: ['/ship'],
-      related: [],
-    },
-    {
-      slug: 'source-driven-development',
-      name: 'source-driven-development',
-      description:
-        'Grounds every implementation decision in official documentation. Use when you want authoritative, source-cited code free from outdated patterns. Use when building with any framework or library where correctness matters.',
-      phase: 'foundations',
-      triggers: [],
-      related: [],
-    },
-    {
-      slug: 'spec-driven-development',
-      name: 'spec-driven-development',
-      description:
-        'Creates specs before coding. Use when starting a new project, feature, or significant change and no specification exists yet. Use when requirements are unclear, ambiguous, or only exist as a vague idea.',
-      phase: 'define',
-      triggers: ['/spec'],
-      related: [],
-    },
-    {
-      slug: 'test-driven-development',
-      name: 'test-driven-development',
-      description:
-        "Drives development with tests. Use when implementing any logic, fixing any bug, or changing any behavior. Use when you need to prove that code works, when a bug report arrives, or when you're about to modify existing functionality.",
-      phase: 'build',
-      triggers: ['/build'],
-      related: ['browser-testing-with-devtools'],
-    },
-    {
-      slug: 'using-agent-skills',
-      name: 'using-agent-skills',
-      description:
-        'Discovers and invokes agent skills. Use when starting a session or when you need to discover which skill applies to the current task. This is the meta-skill that governs how all other skills are discovered and invoked.',
-      phase: 'foundations',
-      triggers: [],
-      related: [
-        'api-and-interface-design',
-        'browser-testing-with-devtools',
-        'ci-cd-and-automation',
-        'code-review-and-quality',
-        'code-simplification',
-        'context-engineering',
-        'debugging-and-error-recovery',
-        'deprecation-and-migration',
-        'documentation-and-adrs',
-        'doubt-driven-development',
-        'frontend-ui-engineering',
-        'git-workflow-and-versioning',
-        'incremental-implementation',
-        'interview-me',
-        'performance-optimization',
-        'planning-and-task-breakdown',
-        'security-and-hardening',
-        'shipping-and-launch',
-        'source-driven-development',
-        'spec-driven-development',
-        'test-driven-development',
+      "slug": "api-and-interface-design",
+      "name": "api-and-interface-design",
+      "description": "Guides stable API and interface design. Use when designing APIs, module boundaries, or any public interface. Use when creating REST or GraphQL endpoints, defining type contracts between modules, or establishing boundaries between frontend and backend.",
+      "phase": "build",
+      "triggers": [
+        "/build"
       ],
+      "related": [
+        "deprecation-and-migration"
+      ]
     },
-  ],
+    {
+      "slug": "browser-testing-with-devtools",
+      "name": "browser-testing-with-devtools",
+      "description": "Tests in real browsers via Chrome DevTools MCP. Use when building or debugging anything that runs in a browser. Use when you need to inspect the DOM, capture console errors, analyze network requests, profile performance, or verify visual output with real runtime data. Requires the chrome-devtools MCP server to be configured.",
+      "phase": "test",
+      "triggers": [
+        "/test"
+      ],
+      "related": []
+    },
+    {
+      "slug": "ci-cd-and-automation",
+      "name": "ci-cd-and-automation",
+      "description": "Automates CI/CD pipeline setup. Use when setting up or modifying build and deployment pipelines. Use when you need to automate quality gates, configure test runners in CI, or establish deployment strategies.",
+      "phase": "ship",
+      "triggers": [
+        "/ship"
+      ],
+      "related": []
+    },
+    {
+      "slug": "code-review-and-quality",
+      "name": "code-review-and-quality",
+      "description": "Conducts multi-axis code review. Use before merging any change. Use when reviewing code written by yourself, another agent, or a human. Use when you need to assess code quality across multiple dimensions before it enters the main branch.",
+      "phase": "review",
+      "triggers": [
+        "/review"
+      ],
+      "related": [
+        "performance-optimization",
+        "security-and-hardening"
+      ]
+    },
+    {
+      "slug": "code-simplification",
+      "name": "code-simplification",
+      "description": "Simplifies code for clarity. Use when refactoring code for clarity without changing behavior. Use when code works but is harder to read, maintain, or extend than it should be. Use when reviewing code that has accumulated unnecessary complexity.",
+      "phase": "simplify",
+      "triggers": [
+        "/code-simplify"
+      ],
+      "related": []
+    },
+    {
+      "slug": "context-engineering",
+      "name": "context-engineering",
+      "description": "Optimizes agent context setup. Use when starting a new session, when agent output quality degrades, when switching between tasks, or when you need to configure rules files and context for a project.",
+      "phase": "foundations",
+      "triggers": [],
+      "related": []
+    },
+    {
+      "slug": "debugging-and-error-recovery",
+      "name": "debugging-and-error-recovery",
+      "description": "Guides systematic root-cause debugging. Use when tests fail, builds break, behavior doesn't match expectations, or you encounter any unexpected error. Use when you need a systematic approach to finding and fixing the root cause rather than guessing.",
+      "phase": "test",
+      "triggers": [
+        "/test"
+      ],
+      "related": []
+    },
+    {
+      "slug": "deprecation-and-migration",
+      "name": "deprecation-and-migration",
+      "description": "Manages deprecation and migration. Use when removing old systems, APIs, or features. Use when migrating users from one implementation to another. Use when deciding whether to maintain or sunset existing code.",
+      "phase": "ship",
+      "triggers": [
+        "/ship"
+      ],
+      "related": []
+    },
+    {
+      "slug": "documentation-and-adrs",
+      "name": "documentation-and-adrs",
+      "description": "Records decisions and documentation. Use when making architectural decisions, changing public APIs, shipping features, or when you need to record context that future engineers and agents will need to understand the codebase.",
+      "phase": "ship",
+      "triggers": [
+        "/ship"
+      ],
+      "related": []
+    },
+    {
+      "slug": "doubt-driven-development",
+      "name": "doubt-driven-development",
+      "description": "Subjects every non-trivial decision to a fresh-context adversarial review before it stands. Use when correctness matters more than speed, when working in unfamiliar code, when stakes are high (production, security-sensitive logic, irreversible operations), or any time a confident output would be cheaper to verify now than to debug later.",
+      "phase": "foundations",
+      "triggers": [],
+      "related": []
+    },
+    {
+      "slug": "frontend-ui-engineering",
+      "name": "frontend-ui-engineering",
+      "description": "Builds production-quality UIs. Use when building or modifying user-facing interfaces. Use when creating components, implementing layouts, managing state, or when the output needs to look and feel production-quality rather than AI-generated.",
+      "phase": "build",
+      "triggers": [
+        "/build"
+      ],
+      "related": []
+    },
+    {
+      "slug": "git-workflow-and-versioning",
+      "name": "git-workflow-and-versioning",
+      "description": "Structures git workflow practices. Use when making any code change. Use when committing, branching, resolving conflicts, or when you need to organize work across multiple parallel streams.",
+      "phase": "ship",
+      "triggers": [
+        "/ship"
+      ],
+      "related": []
+    },
+    {
+      "slug": "idea-refine",
+      "name": "idea-refine",
+      "description": "Refines raw ideas into sharp, actionable concepts through structured divergent and convergent thinking. Use when an idea is still vague, when you need to stress-test assumptions before committing to a plan, or when you want to expand options before converging on one. Triggers on \"ideate\", \"refine this idea\", or \"stress-test my plan\".",
+      "phase": "define",
+      "triggers": [
+        "/spec"
+      ],
+      "related": []
+    },
+    {
+      "slug": "incremental-implementation",
+      "name": "incremental-implementation",
+      "description": "Delivers changes incrementally. Use when implementing any feature or change that touches more than one file. Use when you're about to write a large amount of code at once, or when a task feels too big to land in one step.",
+      "phase": "build",
+      "triggers": [
+        "/build"
+      ],
+      "related": [
+        "git-workflow-and-versioning"
+      ]
+    },
+    {
+      "slug": "interview-me",
+      "name": "interview-me",
+      "description": "Extracts what the user actually wants instead of what they think they should want. Achieves this through one-question-at-a-time interview until ~95% confidence about the underlying intent. Use when an ask is underspecified (\"build me X\" without \"for whom\" or \"why now\"), when the user explicitly invokes (\"interview me\", \"grill me\", \"are we sure?\", \"stress-test my thinking\"), or when you catch yourself silently filling in ambiguous requirements before any plan, spec, or code exists.",
+      "phase": "foundations",
+      "triggers": [],
+      "related": []
+    },
+    {
+      "slug": "performance-optimization",
+      "name": "performance-optimization",
+      "description": "Optimizes application performance. Use when performance requirements exist, when you suspect performance regressions, or when Core Web Vitals or load times need improvement. Use when profiling reveals bottlenecks that need fixing.",
+      "phase": "review",
+      "triggers": [
+        "/review"
+      ],
+      "related": []
+    },
+    {
+      "slug": "planning-and-task-breakdown",
+      "name": "planning-and-task-breakdown",
+      "description": "Breaks work into ordered tasks. Use when you have a spec or clear requirements and need to break work into implementable tasks. Use when a task feels too large to start, when you need to estimate scope, or when parallel work is possible.",
+      "phase": "plan",
+      "triggers": [
+        "/plan"
+      ],
+      "related": []
+    },
+    {
+      "slug": "security-and-hardening",
+      "name": "security-and-hardening",
+      "description": "Hardens code against vulnerabilities. Use when handling user input, authentication, data storage, or external integrations. Use when building any feature that accepts untrusted data, manages user sessions, or interacts with third-party services.",
+      "phase": "review",
+      "triggers": [
+        "/review"
+      ],
+      "related": []
+    },
+    {
+      "slug": "shipping-and-launch",
+      "name": "shipping-and-launch",
+      "description": "Prepares production launches. Use when preparing to deploy to production. Use when you need a pre-launch checklist, when setting up monitoring, when planning a staged rollout, or when you need a rollback strategy.",
+      "phase": "ship",
+      "triggers": [
+        "/ship"
+      ],
+      "related": []
+    },
+    {
+      "slug": "source-driven-development",
+      "name": "source-driven-development",
+      "description": "Grounds every implementation decision in official documentation. Use when you want authoritative, source-cited code free from outdated patterns. Use when building with any framework or library where correctness matters.",
+      "phase": "foundations",
+      "triggers": [],
+      "related": []
+    },
+    {
+      "slug": "spec-driven-development",
+      "name": "spec-driven-development",
+      "description": "Creates specs before coding. Use when starting a new project, feature, or significant change and no specification exists yet. Use when requirements are unclear, ambiguous, or only exist as a vague idea.",
+      "phase": "define",
+      "triggers": [
+        "/spec"
+      ],
+      "related": []
+    },
+    {
+      "slug": "test-driven-development",
+      "name": "test-driven-development",
+      "description": "Drives development with tests. Use when implementing any logic, fixing any bug, or changing any behavior. Use when you need to prove that code works, when a bug report arrives, or when you're about to modify existing functionality.",
+      "phase": "build",
+      "triggers": [
+        "/build"
+      ],
+      "related": [
+        "browser-testing-with-devtools"
+      ]
+    },
+    {
+      "slug": "using-agent-skills",
+      "name": "using-agent-skills",
+      "description": "Discovers and invokes agent skills. Use when starting a session or when you need to discover which skill applies to the current task. This is the meta-skill that governs how all other skills are discovered and invoked.",
+      "phase": "foundations",
+      "triggers": [],
+      "related": [
+        "api-and-interface-design",
+        "browser-testing-with-devtools",
+        "ci-cd-and-automation",
+        "code-review-and-quality",
+        "code-simplification",
+        "context-engineering",
+        "debugging-and-error-recovery",
+        "deprecation-and-migration",
+        "documentation-and-adrs",
+        "doubt-driven-development",
+        "frontend-ui-engineering",
+        "git-workflow-and-versioning",
+        "incremental-implementation",
+        "interview-me",
+        "performance-optimization",
+        "planning-and-task-breakdown",
+        "security-and-hardening",
+        "shipping-and-launch",
+        "source-driven-development",
+        "spec-driven-development",
+        "test-driven-development"
+      ]
+    }
+  ]
 } as const satisfies SkillsData;
