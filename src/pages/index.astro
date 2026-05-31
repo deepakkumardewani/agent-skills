@@ -1,17 +1,63 @@
 ---
-import '../styles/global.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Hello">
+  <section class="hero">
+    <h1>Hello</h1>
+    <p>A warm, token-driven placeholder while the landing page is under construction.</p>
+    <p>
+      Sample accent token:
+      <code>var(--color-accent)</code>
+    </p>
+  </section>
+
+  <article class="prose">
+    <h1>Prose preview</h1>
+    <p>
+      This block verifies markdown styling with
+      <a href="/docs">design tokens</a>
+      and readable line length.
+    </p>
+    <h2>Section heading</h2>
+    <p>Body copy uses Manrope at the large reading size.</p>
+    <h3>Subsection</h3>
+    <p>Inline <code>bun run check</code> uses the mono stack.</p>
+    <blockquote>A considered blockquote with a subtle left border.</blockquote>
+    <pre><code>const theme = 'warm-amber';</code></pre>
+  </article>
+</BaseLayout>
+
+<style>
+  .hero {
+    max-width: var(--space-prose-max);
+    margin: 0 auto var(--space-12);
+  }
+
+  .hero h1 {
+    font-size: var(--text-headline-lg-size);
+    font-weight: var(--text-headline-lg-weight);
+    line-height: var(--text-headline-lg-line-height);
+    letter-spacing: var(--text-headline-lg-letter-spacing);
+  }
+
+  .hero p {
+    margin-top: var(--space-4);
+    font-size: var(--text-body-lg-size);
+    line-height: var(--text-body-lg-line-height);
+    color: var(--color-fg-muted);
+  }
+
+  .hero code {
+    font-family: var(--font-mono);
+    font-size: var(--text-code-md-size);
+    padding: 2px var(--space-1);
+    border-radius: var(--radius-sm);
+    background: var(--color-code-bg);
+    color: var(--color-accent);
+  }
+
+  .prose {
+    margin: 0 auto;
+  }
+</style>
