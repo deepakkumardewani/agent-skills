@@ -209,9 +209,15 @@ const phaseListLabel = nodes.map((n) => n.label).join(', ');
 
 <style>
   .adlc-diagram {
-    margin-top: var(--space-section-margin);
+    margin-top: var(--space-12);
     max-width: 52rem;
     margin-inline: auto;
+  }
+
+  @media (min-width: 960px) {
+    .adlc-diagram {
+      margin-top: var(--space-section-margin);
+    }
   }
 
   .adlc-diagram__title {

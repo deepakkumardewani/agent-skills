@@ -58,35 +58,6 @@ export default function ThemeToggle() {
       </span>
       <span className="sr-only">{label}</span>
       <style>{`
-        .theme-toggle {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          min-width: 40px;
-          min-height: 40px;
-          padding: 0 var(--space-2);
-          border: 1px solid var(--color-outline);
-          border-radius: var(--radius-default);
-          background: var(--color-surface);
-          color: var(--color-fg-muted);
-          cursor: pointer;
-          transition:
-            background var(--duration-fast) var(--ease-out),
-            border-color var(--duration-fast) var(--ease-out),
-            color var(--duration-fast) var(--ease-out);
-        }
-
-        .theme-toggle:hover {
-          border-color: var(--color-outline-strong);
-          background: var(--color-surface-elevated);
-          color: var(--color-fg-default);
-        }
-
-        .theme-toggle:focus-visible {
-          outline: none;
-          box-shadow: var(--shadow-focus);
-        }
-
         .theme-toggle__icon {
           display: inline-flex;
         }
@@ -101,12 +72,6 @@ export default function ThemeToggle() {
           clip: rect(0, 0, 0, 0);
           white-space: nowrap;
           border: 0;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .theme-toggle {
-            transition: none;
-          }
         }
       `}</style>
     </button>

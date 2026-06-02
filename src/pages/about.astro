@@ -62,6 +62,12 @@ import { addy, site } from '../lib/site';
   }
 
   .about-page__section + .about-page__section {
-    margin-top: var(--space-section-margin);
+    margin-top: var(--space-12);
+  }
+
+  @media (min-width: 960px) {
+    .about-page__section + .about-page__section {
+      margin-top: var(--space-section-margin);
+    }
   }
 </style>
