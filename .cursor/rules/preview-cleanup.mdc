@@ -1,0 +1,13 @@
+---
+description: Stop Astro preview after browser verification so background shells do not block agent completion
+alwaysApply: true
+---
+
+# Preview server cleanup
+
+When you start `bun run preview` (or any background preview) for agent-browser or manual UI verification:
+
+1. **Stop it when verification finishes** — kill the preview process or end the background shell before ending your turn.
+2. **Do not leave preview running in the background** — long-lived preview shells keep Cursor tasks open and block the completion sound.
+3. **Prefer the existing dev server** (`bun run dev` on port 4321) when it is already running; only start preview if dev is unavailable.
+4. If you started preview in the background, run cleanup explicitly (e.g. `kill` the node listener on 4321/4322, or stop shell task) as the last step of browser verification.
