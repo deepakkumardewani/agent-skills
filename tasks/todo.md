@@ -379,29 +379,29 @@
 
 > **Skill:** `optimize` + `vercel:performance-optimizer` agent.
 
-- [ ] **12.1 Image optimization**
+- [x] **12.1 Image optimization**
   - Any landing or about-page images use Astro `<Image>` with proper sizing + `loading="lazy"` below the fold.
   - No image > 100KB unoptimized.
 
-- [ ] **12.2 Font subsetting + preload**
+- [x] **12.2 Font subsetting + preload**
   - Preload Manrope 400 + 700 in `<head>` (subset to Latin).
   - JetBrains Mono 400 only.
   - **AC:** no FOUT on landing.
 
-- [ ] **12.3 JS budget check**
+- [x] **12.3 JS budget check**
   - Landing page total JS ≤ 30KB gzipped (theme bootstrap + ThemeToggle + nothing else).
   - Skill page total JS ≤ 50KB gzipped (adds SearchDialog idle-hydrated + CopyableCommand visible-hydrated).
   - **AC:** measure with `astro build` output + a network panel check on `bun run preview`.
 
-- [ ] **12.4 Run Lighthouse**
-  - `bunx lighthouse http://localhost:4321 --only-categories=performance,accessibility,best-practices,seo` against landing + a skill page (use `bun run preview`).
+- [x] **12.4 Run Lighthouse**
+  - `bunx lighthouse http://localhost:4321 --only-categories=performance,accessibility,best-practices,seo` against landing + a skill page (use `bun run preview`). use the `lighthouse-cli` skill.
   - **AC:** all four categories ≥95 on both URLs.
   - **Verify:** save reports to `tasks/lighthouse-baseline/`.
 
-- [ ] **12.5 Fix any flagged items**
+- [x] **12.5 Fix any flagged items**
   - Iterate until ≥95 is solid.
 
-- [ ] **12.6 ✅ Final acceptance walkthrough**
+- [x] **12.6 ✅ Final acceptance walkthrough**
   - Walk SPEC §1 acceptance criteria one by one against the running preview build.
   - Confirm with user.
 
