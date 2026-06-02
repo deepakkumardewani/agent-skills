@@ -116,9 +116,19 @@ These were deferred from SPEC §8 / DESIGN.md tail. Each gets a concrete slice t
 
 | Item | Picked in slice |
 | --- | --- |
-| Search lib (Pagefind vs minisearch vs Fuse.js) | Slice 9 — evaluate Pagefind first |
+| Search lib (Pagefind vs minisearch vs Fuse.js) | Slice 9 — **minisearch** (see below) |
 | Maintainer name + link | Slice 7 — ask user during /about build |
 | ADLC diagram treatment | Slice 6 — default static SVG; option to add `/impeccable craft` polish during Checkpoint 2 |
+
+### Search library (Slice 9.1)
+
+**Evaluated:** [Pagefind](https://pagefind.app/) / `astro-pagefind` vs **minisearch**.
+
+**Decision:** **minisearch** (`bun add minisearch`).
+
+**Why not Pagefind:** Pagefind indexes built HTML at deploy time — strong for full-page full-text search, but this site only needs fuzzy lookup across skill metadata (name, description, phase). Pagefind adds a build plugin, static index assets under `dist/`, and no straightforward way to unit-test relevance ranking (task 9.5). Integration friction is low, but the feature fit is wrong.
+
+**Why minisearch:** ~6 KB gzipped, pure-TS index built from `skills-data.ts` at module init, fully testable relevance logic in `src/lib/search.ts`, no Astro config changes, works identically in dev and static output.
 
 ## Out of scope for v1 (locked from SPEC §6 + DESIGN.md §10)
 

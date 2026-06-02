@@ -286,33 +286,33 @@
 
 > **Skill:** `/frontend-ui-engineering` for dialog + keyboard handling. `/frontend-design` for the empty + no-results state visuals (these are micro-moments where AI-template feel sneaks in).
 
-- [ ] **9.1 Evaluate Pagefind**
+- [x] **9.1 Evaluate Pagefind**
   - Try `astro-pagefind` integration with the docs collection.
   - If it works: use Pagefind. If friction is significant: fall back to `minisearch` with hand-built index.
   - Document the decision in `tasks/plan.md` under "Open items resolved".
   - **AC:** decision made + dependency installed.
 
-- [ ] **9.2 Build search index**
+- [x] **9.2 Build search index**
   - Pagefind: configure to index `src/content/skills/**`.
   - Minisearch: write `src/lib/search.ts` that builds a JSON index from `skills-data.ts` (name + description + phase) at build time.
   - **AC:** index includes all skills.
   - **Verify:** programmatic search for known skill returns it.
 
-- [ ] **9.3 `src/components/search/SearchDialog.tsx` (island)**
+- [x] **9.3 `src/components/search/SearchDialog.tsx` (island)**
   - Renders dialog per DESIGN.md "Components → search-dialog".
   - Keyboard: `Cmd/Ctrl+K` opens, `Esc` closes, ↑/↓ navigate results, `Enter` navigates to skill.
   - Highlights active result with `primary-subtle` bg.
-  - Empty state: "Type to search 50+ skills"; no-results state: "Nothing matches `<query>`".
+  - Empty state: "Type to search {N} skills" (N = synced skill count); no-results state: "Nothing matches `<query>`".
   - Hydration: `client:idle`.
   - **AC:** all keyboard interactions work; focus trap inside dialog when open.
   - **Verify:** manual test, including keyboard-only navigation.
 
-- [ ] **9.4 Wire SearchDialog into Header**
+- [x] **9.4 Wire SearchDialog into Header**
   - Header search button + global `Cmd/Ctrl+K` listener both open it.
   - **AC:** opens from anywhere on the site.
   - **Verify:** test from /, /about, /docs, /docs/skills/[slug].
 
-- [ ] **9.5 Vitest tests for search relevance**
+- [x] **9.5 Vitest tests for search relevance**
   - `tests/unit/search.test.ts` (only if using minisearch — Pagefind self-tests).
   - Cover: exact match wins, partial-word matches, phase-name queries.
   - **AC:** ≥4 cases pass.
