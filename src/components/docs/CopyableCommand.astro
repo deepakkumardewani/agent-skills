@@ -1,0 +1,168 @@
+---
+interface Props {
+  command: string;
+}
+
+const { command } = Astro.props;
+const buttonId = `copy-cmd-${command.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`;
+---
+
+<button
+  type="button"
+  id={buttonId}
+  class="copyable-command"
+  data-copy-command={command}
+  aria-label={`Copy command ${command}`}
+>
+  <code class="copyable-command__text">{command}</code>
+  <span class="copyable-command__icon copyable-command__icon--copy" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <rect x="5" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"></rect>
+      <path
+        d="M4 11H3.5C2.67 11 2 10.33 2 9.5V3.5C2 2.67 2.67 2 3.5 2H9.5C10.33 2 11 2.67 11 3.5V4"
+        stroke="currentColor"
+        stroke-width="1.5"></path>
+    </svg>
+  </span>
+  <span class="copyable-command__icon copyable-command__icon--check" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path
+        d="M3.5 8.5L6.5 11.5L12.5 4.5"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"></path>
+    </svg>
+  </span>
+  <span class="copyable-command__status" aria-live="polite"></span>
+</button>
+
+<script>
+  const COPY_RESET_MS = 1200;
+
+  function prefersReducedMotion(): boolean {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  function setCopiedState(button: HTMLButtonElement, copied: boolean) {
+    button.dataset.copied = copied ? 'true' : 'false';
+    const status = button.querySelector('.copyable-command__status');
+    if (status) {
+      status.textContent = copied ? 'Copied' : '';
+    }
+  }
+
+  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-copy-command]')) {
+    let resetTimeout: ReturnType<typeof setTimeout> | null = null;
+
+    button.addEventListener('click', async () => {
+      const command = button.dataset.copyCommand;
+      if (!command) {
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(command);
+        setCopiedState(button, true);
+
+        if (resetTimeout) {
+          clearTimeout(resetTimeout);
+        }
+
+        resetTimeout = setTimeout(() => {
+          setCopiedState(button, false);
+        }, COPY_RESET_MS);
+      } catch {
+        setCopiedState(button, false);
+      }
+    });
+
+    if (prefersReducedMotion()) {
+      button.style.setProperty('--copyable-command-active-scale', '1');
+    }
+  }
+</script>
+
+<style>
+  .copyable-command {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-default);
+    background: var(--color-code-bg);
+    color: var(--color-code-fg);
+    font-family: var(--font-mono);
+    font-size: var(--text-code-md-size);
+    line-height: var(--text-code-md-line-height);
+    cursor: pointer;
+    transition:
+      background var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+  }
+
+  .copyable-command:hover {
+    border-color: var(--color-outline-strong);
+    background: var(--color-surface-elevated);
+  }
+
+  .copyable-command:active {
+    transform: scale(var(--copyable-command-active-scale, 0.98));
+  }
+
+  .copyable-command:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .copyable-command__text {
+    font: inherit;
+  }
+
+  .copyable-command__icon {
+    display: inline-flex;
+    color: var(--color-fg-muted);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .copyable-command__icon--check {
+    display: none;
+    color: var(--color-success);
+  }
+
+  .copyable-command[data-copied='true'] .copyable-command__icon--copy {
+    display: none;
+  }
+
+  .copyable-command[data-copied='true'] .copyable-command__icon--check {
+    display: inline-flex;
+  }
+
+  .copyable-command__status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .copyable-command {
+      transition: none;
+    }
+
+    .copyable-command:active {
+      transform: none;
+    }
+
+    .copyable-command__icon {
+      transition: none;
+    }
+  }
+</style>

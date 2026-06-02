@@ -1,7 +1,7 @@
 ---
 import type { Skill } from '../../data/skills-data';
 import { formatSkillDisplayName, getPhaseMeta } from '../../lib/skills';
-import CopyableCommand from './CopyableCommand';
+import CopyableCommand from './CopyableCommand.astro';
 import PhaseChip from './PhaseChip.astro';
 
 interface Props {
@@ -30,7 +30,7 @@ const commands =
     commands.length > 0 && (
       <div class="skill-header-card__commands">
         {commands.map((command) => (
-          <CopyableCommand client:visible command={command} />
+          <CopyableCommand command={command} />
         ))}
       </div>
     )

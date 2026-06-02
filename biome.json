@@ -40,6 +40,13 @@
     }
   ],
   "files": {
-    "includes": ["**", "!dist", "!.astro", "!src/content/skills", "!src/data/skills-data.ts"]
+    "includes": [
+      "**",
+      "!dist",
+      "!.astro",
+      "!src/content/skills",
+      "!src/data/skills-data.ts",
+      "!tasks/lighthouse-baseline"
+    ]
   }
 }

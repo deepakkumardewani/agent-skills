@@ -1,7 +1,9 @@
 ---
-import SearchDialog from '../search/SearchDialog';
+import { MOBILE_NAV_MEDIA_QUERY } from '../../lib/mobile-nav';
 import MobileNav from './MobileNav';
-import ThemeToggle from './ThemeToggle';
+import ThemeToggle from './ThemeToggle.astro';
+
+const showMobileNav = Astro.url.pathname === '/docs' || Astro.url.pathname.startsWith('/docs/');
 
 const navItems = [
   { href: '/docs', label: 'Docs', external: false },
@@ -19,7 +21,7 @@ const currentPath = Astro.url.pathname;
 <header class="site-header">
   <div class="site-header__inner">
     <div class="site-header__start">
-      <MobileNav client:idle />
+      {showMobileNav && <MobileNav client:media={MOBILE_NAV_MEDIA_QUERY} />}
       <a class="site-header__brand" href="/">
         <span class="site-header__title">addy-osmani-skills</span>
       </a>
@@ -65,11 +67,16 @@ const currentPath = Astro.url.pathname;
         <span class="site-header__search-label">Search</span>
         <kbd class="site-header__search-kbd" aria-hidden="true">⌘K</kbd>
       </button>
-      <ThemeToggle client:load />
+      <ThemeToggle />
     </div>
   </div>
-  <SearchDialog client:idle />
+  <div id="search-dialog-root"></div>
 </header>
+
+<script>
+  import { setupSearchLauncher } from '../../lib/search-boot';
+  setupSearchLauncher();
+</script>
 
 <style>
   .site-header {

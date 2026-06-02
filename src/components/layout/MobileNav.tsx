@@ -1,10 +1,5 @@
-import {
-  type KeyboardEvent as ReactKeyboardEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import type { JSX } from 'preact';
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 import {
   isSkillActive,
   MOBILE_NAV_MEDIA_QUERY,
@@ -129,7 +124,7 @@ export default function MobileNav() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [close, isOpen]);
 
-  function trapFocus(event: ReactKeyboardEvent<HTMLDivElement>) {
+  function trapFocus(event: JSX.TargetedKeyboardEvent<HTMLDivElement>) {
     if (event.key !== 'Tab' || !drawerRef.current) {
       return;
     }

@@ -1,0 +1,115 @@
+---
+import { getToggleLabel } from '../../lib/theme';
+---
+
+<button type="button" class="theme-toggle" data-theme-toggle aria-label={getToggleLabel('light')}>
+  <span class="theme-toggle__icon theme-toggle__icon--light" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"></circle>
+      <path
+        d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"></path>
+    </svg>
+  </span>
+  <span class="theme-toggle__icon theme-toggle__icon--dark" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M21 14.5A8.5 8.5 0 1 1 9.5 3 6.5 6.5 0 0 0 21 14.5Z"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linejoin="round"></path>
+    </svg>
+  </span>
+  <span class="theme-toggle__sr-only" data-theme-toggle-label>{getToggleLabel('light')}</span>
+</button>
+
+<script>
+  import {
+    applyTheme,
+    getDocumentTheme,
+    getToggleLabel,
+    toggleTheme,
+  } from '../../lib/theme';
+
+  function syncToggleUi(button: HTMLButtonElement) {
+    const theme = getDocumentTheme();
+    button.dataset.activeTheme = theme;
+    button.setAttribute('aria-label', getToggleLabel(theme));
+    const label = button.querySelector('[data-theme-toggle-label]');
+    if (label) {
+      label.textContent = getToggleLabel(theme);
+    }
+  }
+
+  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]')) {
+    syncToggleUi(button);
+    button.addEventListener('click', () => {
+      const nextTheme = toggleTheme(getDocumentTheme());
+      applyTheme(nextTheme);
+      syncToggleUi(button);
+    });
+  }
+</script>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-default);
+    background: transparent;
+    color: var(--color-fg-muted);
+    font-family: inherit;
+    cursor: pointer;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .theme-toggle:hover {
+    color: var(--color-fg-default);
+  }
+
+  .theme-toggle:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .theme-toggle__icon {
+    display: inline-flex;
+  }
+
+  .theme-toggle__icon--dark {
+    display: none;
+  }
+
+  .theme-toggle[data-active-theme='dark'] .theme-toggle__icon--light {
+    display: none;
+  }
+
+  .theme-toggle[data-active-theme='dark'] .theme-toggle__icon--dark {
+    display: inline-flex;
+  }
+
+  .theme-toggle__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme-toggle {
+      transition: none;
+    }
+  }
+</style>

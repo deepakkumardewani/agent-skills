@@ -1,11 +1,5 @@
-import {
-  type KeyboardEvent as ReactKeyboardEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import type { JSX } from 'preact';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { Phase } from '../../data/skills-data';
 import {
   createSearchIndex,
@@ -88,9 +82,13 @@ function PhaseChip({ phase, label }: { phase: Phase; label: string }) {
   );
 }
 
-export default function SearchDialog() {
+interface SearchDialogProps {
+  initialOpen?: boolean;
+}
+
+export default function SearchDialog({ initialOpen = false }: SearchDialogProps) {
   const searchIndex = useMemo(() => createSearchIndex(), []);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(initialOpen);
   const [query, setQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
   const [liveMessage, setLiveMessage] = useState('');
@@ -121,6 +119,21 @@ export default function SearchDialog() {
     setQuery('');
     setActiveIndex(0);
   }, []);
+
+  useEffect(() => {
+    if (initialOpen) {
+      open();
+    }
+  }, [initialOpen, open]);
+
+  useEffect(() => {
+    function handleOpenRequest() {
+      open();
+    }
+
+    window.addEventListener('site-search:open', handleOpenRequest);
+    return () => window.removeEventListener('site-search:open', handleOpenRequest);
+  }, [open]);
 
   const navigateToResult = useCallback(
     (result: SearchResult) => {
@@ -238,7 +251,7 @@ export default function SearchDialog() {
     return () => window.clearTimeout(timer);
   }, [displayResults.length, isOpen, isQueryEmpty, searchIndex.skillCount, showNoResults]);
 
-  function trapFocus(event: ReactKeyboardEvent<HTMLDivElement>) {
+  function trapFocus(event: JSX.TargetedKeyboardEvent<HTMLDivElement>) {
     if (event.key !== 'Tab' || !dialogRef.current) {
       return;
     }
@@ -267,7 +280,7 @@ export default function SearchDialog() {
     }
   }
 
-  function handleDialogKeyDown(event: ReactKeyboardEvent<HTMLDivElement>) {
+  function handleDialogKeyDown(event: JSX.TargetedKeyboardEvent<HTMLDivElement>) {
     if (event.key === 'Escape') {
       event.preventDefault();
       close();
@@ -335,13 +348,13 @@ export default function SearchDialog() {
             aria-label={`Search within ${searchIndex.skillCount} ${searchIndex.skillCount === 1 ? 'skill' : 'skills'}`}
             placeholder={`Search within ${searchIndex.skillCount} ${searchIndex.skillCount === 1 ? 'skill' : 'skills'}`}
             value={query}
-            onChange={(event) => {
-              setQuery(event.target.value);
+            onInput={(event) => {
+              setQuery(event.currentTarget.value);
               setActiveIndex(0);
             }}
             autoComplete="off"
             autoCorrect="off"
-            spellCheck={false}
+            spellcheck={false}
             aria-controls="site-search-results"
             aria-activedescendant={
               displayResults.length > 0 ? `site-search-result-${activeIndex}` : undefined

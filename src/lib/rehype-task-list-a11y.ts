@@ -9,8 +9,12 @@ export function rehypeTaskListA11y() {
         return;
       }
 
-      node.properties['aria-hidden'] = 'true';
+      const checked = node.properties.checked !== undefined;
+      node.properties.disabled = true;
       node.properties.tabIndex = -1;
+      node.properties['aria-label'] = checked
+        ? 'Completed checklist item (display only)'
+        : 'Incomplete checklist item (display only)';
     });
   };
 }
