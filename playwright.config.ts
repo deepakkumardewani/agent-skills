@@ -1,9 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const previewPort = 4322;
+const previewUrl = `http://localhost:${previewPort}`;
+
 export default defineConfig({
   testDir: 'tests/e2e',
   use: {
-    baseURL: 'http://localhost:4321',
+    baseURL: previewUrl,
   },
   projects: [
     {
@@ -20,8 +23,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'bun run preview',
-    url: 'http://localhost:4321',
-    reuseExistingServer: true,
+    command: `bun run preview -- --port ${previewPort}`,
+    url: previewUrl,
+    reuseExistingServer: !process.env.CI,
   },
 });

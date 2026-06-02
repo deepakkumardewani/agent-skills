@@ -345,33 +345,33 @@
 
 > **Skill:** `playwright-best-practices` + `agent-skills:test-engineer` agent for spec authoring.
 
-- [ ] **11.1 `tests/e2e/landing.spec.ts`**
+- [x] **11.1 `tests/e2e/landing.spec.ts`**
   - Landing renders, ADLC section visible, "Browse skills →" CTA navigates to `/docs`.
   - **AC:** passes Chromium + WebKit.
 
-- [ ] **11.2 `tests/e2e/sidebar-nav.spec.ts`**
+- [x] **11.2 `tests/e2e/sidebar-nav.spec.ts`**
   - All 8 groups render; clicking a skill loads its page; active state updates.
 
-- [ ] **11.3 `tests/e2e/skill-page.spec.ts`**
+- [x] **11.3 `tests/e2e/skill-page.spec.ts`**
   - Header card shows name + phase chip + trigger; copy-command button copies (intercept clipboard); SKILL.md body renders; related skills appear when present.
 
-- [ ] **11.4 `tests/e2e/search.spec.ts`**
+- [x] **11.4 `tests/e2e/search.spec.ts`**
   - `Cmd+K` opens dialog; type → results filter; ↑/↓ + Enter navigate.
 
-- [ ] **11.5 `tests/e2e/theme.spec.ts`**
+- [x] **11.5 `tests/e2e/theme.spec.ts`**
   - Toggle flips `data-theme`; preference persists across nav and reload.
 
-- [ ] **11.6 `tests/e2e/about.spec.ts`**
+- [x] **11.6 `tests/e2e/about.spec.ts`**
   - Tribute copy present, maintainer link works, Addy link works.
 
-- [ ] **11.7 `tests/e2e/a11y.spec.ts`**
+- [x] **11.7 `tests/e2e/a11y.spec.ts`**
   - `@axe-core/playwright` on /, /docs, /docs/skills/[representative-slug], /about.
   - 0 critical violations.
 
-- [ ] **11.8 Mobile viewport specs**
+- [x] **11.8 Mobile viewport specs**
   - Run sidebar-nav + search + theme specs against mobile-chromium project.
 
-- [ ] **11.9 All e2e green**
+- [x] **11.9 All e2e green**
   - `bun run test:e2e` exits 0 across all projects.
   - **Verify:** CI-equivalent local run.
 
