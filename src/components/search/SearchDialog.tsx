@@ -332,6 +332,7 @@ export default function SearchDialog() {
             id="site-search-input"
             type="search"
             className="search-dialog__input"
+            aria-label={`Search within ${searchIndex.skillCount} ${searchIndex.skillCount === 1 ? 'skill' : 'skills'}`}
             placeholder={`Search within ${searchIndex.skillCount} ${searchIndex.skillCount === 1 ? 'skill' : 'skills'}`}
             value={query}
             onChange={(event) => {
