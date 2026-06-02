@@ -33,6 +33,12 @@
   --color-link: #b45309;
   --color-link-hover: #92400e;
   --color-selection: #fde68a;
+  --color-search-match-bg: color-mix(in srgb, var(--color-accent) 32%, var(--color-selection));
+  --color-search-match-bg-active: color-mix(
+    in srgb,
+    var(--color-accent) 42%,
+    var(--color-primary-subtle)
+  );
 
   /* Colors — status */
   --color-success: #15803d;
@@ -220,6 +226,12 @@
   --color-link: #fbbf24;
   --color-link-hover: #fde68a;
   --color-selection: rgba(245, 158, 11, 0.35);
+  --color-search-match-bg: color-mix(
+    in srgb,
+    var(--color-accent) 38%,
+    var(--color-surface-elevated)
+  );
+  --color-search-match-bg-active: color-mix(in srgb, var(--color-accent) 55%, var(--color-surface));
 
   /* Status */
   --color-success: #4ade80;
