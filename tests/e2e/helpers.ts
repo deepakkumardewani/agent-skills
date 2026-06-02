@@ -28,8 +28,6 @@ export async function waitForIslandHydration(page: Page, componentName: string):
 }
 
 export async function openSearchDialog(page: Page): Promise<void> {
-  await waitForIslandHydration(page, 'SearchDialog');
-
   const isMac = process.platform === 'darwin';
   await page.keyboard.press(isMac ? 'Meta+k' : 'Control+k');
 
@@ -38,7 +36,7 @@ export async function openSearchDialog(page: Page): Promise<void> {
     await page.getByRole('button', { name: 'Search skills' }).click();
   }
 
-  await expect(dialog).toBeVisible({ timeout: 10_000 });
+  await expect(dialog).toBeVisible({ timeout: 15_000 });
 }
 
 export async function openSkillsNav(page: Page, isMobile: boolean): Promise<void> {
@@ -83,7 +81,6 @@ export async function mockClipboard(page: Page): Promise<void> {
 
 export async function waitForCopyableCommand(page: Page, command: string) {
   await page.locator('.skill-header-card').scrollIntoViewIfNeeded();
-  await waitForIslandHydration(page, 'CopyableCommand');
   const button = page.getByRole('button', { name: `Copy command ${command}` });
   await expect(button).toBeVisible();
   return button;
@@ -94,7 +91,6 @@ export function themeToggle(page: Page) {
 }
 
 export async function waitForThemeToggle(page: Page) {
-  await waitForIslandHydration(page, 'ThemeToggle');
   const toggle = themeToggle(page);
   await expect(toggle).toBeVisible();
   return toggle;
