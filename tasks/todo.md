@@ -321,14 +321,14 @@
 
 > **Skill:** `/frontend-ui-engineering`. Pure interaction engineering.
 
-- [ ] **10.1 `src/components/layout/MobileNav.tsx` (island)**
+- [x] **10.1 `src/components/layout/MobileNav.tsx` (island)**
   - At <960px: hamburger button in Header opens sliding sidebar overlay.
   - Backdrop click + `Esc` close.
   - Focus trap when open.
   - **AC:** sidebar accessible on mobile; doesn't break desktop.
   - **Verify:** test at 360px, 768px, 1024px.
 
-- [ ] **10.2 Responsive pass on all pages**
+- [x] **10.2 Responsive pass on all pages**
   - Check `/`, `/about`, `/docs`, `/docs/skills/[slug]` at 360px, 768px, 1024px, 1440px.
   - Spacing compresses per DESIGN.md §"Layout & Spacing" mobile rules.
   - **AC:** no horizontal scroll; nothing clipped; type stays readable.
