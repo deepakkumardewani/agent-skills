@@ -19,7 +19,7 @@ Addy's work currently lives only as a GitHub repo. It deserves a dedicated, beau
 
 - [ ] A first-time visitor understands the ADLC framework within 60 seconds of landing.
 - [ ] A visitor can find a relevant skill for a stated task in ≤3 clicks via the lifecycle-phase sidebar.
-- [ ] Each skill page renders a structured header (name, one-line description, phase chip, trigger commands as copyable code) followed by the full `SKILL.md` content and a related-skills section.
+- [ ] Each skill page renders a structured header (name, one-line description, phase chip) followed by the full `SKILL.md` content and a related-skills section.
 - [ ] Client-side fuzzy search returns relevant skills for partial-keyword queries across name + description.
 - [ ] Dark mode toggle works, defaults to system preference.
 - [ ] Site is mobile-responsive down to 360px width.
@@ -71,7 +71,7 @@ addy-osmani-skills/
 │   │   └── skills-data.ts        # Synced + typed skill metadata (groups, phases, slugs)
 │   ├── components/
 │   │   ├── layout/               # Header, Footer, Sidebar, ThemeToggle, MobileNav
-│   │   ├── docs/                 # SkillHeaderCard, RelatedSkills, CopyableCommand, PhaseChip
+│   │   ├── docs/                 # SkillHeaderCard, RelatedSkills, PhaseChip
 │   │   ├── landing/              # Hero, ADLCDiagram, PhaseGrid, CTASection
 │   │   ├── search/               # SearchDialog, SearchResults (client-island)
 │   │   └── ui/                   # Button, Chip, Card primitives
@@ -190,7 +190,7 @@ Mandatory specs:
 
 - [ ] **landing.spec.ts** — landing renders, ADLC framework section visible, CTA navigates to `/docs`.
 - [ ] **sidebar-nav.spec.ts** — all 8 sidebar groups render; clicking a skill loads the right page.
-- [ ] **skill-page.spec.ts** — header card shows name + phase chip + trigger command; copy-command button copies to clipboard; SKILL.md body renders; related-skills section appears.
+- [ ] **skill-page.spec.ts** — header card shows name + phase chip + description; no copy-command UI; SKILL.md body renders; related-skills section appears.
 - [ ] **search.spec.ts** — opening search via shortcut (e.g., `Cmd+K`), typing a partial query, navigating with arrow keys, pressing Enter goes to the right skill.
 - [ ] **theme.spec.ts** — theme toggle flips `data-theme`; preference persists across navigation.
 - [ ] **about.spec.ts** — `/about` shows tribute copy + maintainer credit + Addy link.

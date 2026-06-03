@@ -64,28 +64,6 @@ export function searchInput(page: Page) {
   return page.locator('#site-search-input');
 }
 
-export async function mockClipboard(page: Page): Promise<void> {
-  await page.addInitScript(() => {
-    let stored = '';
-    Object.defineProperty(navigator, 'clipboard', {
-      configurable: true,
-      value: {
-        writeText: async (text: string) => {
-          stored = text;
-        },
-        readText: async () => stored,
-      },
-    });
-  });
-}
-
-export async function waitForCopyableCommand(page: Page, command: string) {
-  await page.locator('.skill-header-card').scrollIntoViewIfNeeded();
-  const button = page.getByRole('button', { name: `Copy command ${command}` });
-  await expect(button).toBeVisible();
-  return button;
-}
-
 export function themeToggle(page: Page) {
   return page.locator('button.theme-toggle');
 }

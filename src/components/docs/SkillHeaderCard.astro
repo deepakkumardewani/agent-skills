@@ -1,7 +1,6 @@
 ---
 import type { Skill } from '../../data/skills-data';
 import { formatSkillDisplayName, getPhaseMeta } from '../../lib/skills';
-import CopyableCommand from './CopyableCommand.astro';
 import PhaseChip from './PhaseChip.astro';
 
 interface Props {
@@ -11,7 +10,6 @@ interface Props {
 const { skill } = Astro.props;
 const phaseMeta = getPhaseMeta(skill.phase);
 const displayName = formatSkillDisplayName(skill.name);
-const primaryCommand = skill.triggers[0];
 ---
 
 <header class="skill-header-card">
@@ -25,15 +23,6 @@ const primaryCommand = skill.triggers[0];
   </div>
   <h1 class="skill-header-card__title">{displayName}</h1>
   <p class="skill-header-card__description">{skill.description}</p>
-  {
-    primaryCommand ? (
-      <div class="skill-header-card__commands">
-        <CopyableCommand command={primaryCommand} />
-      </div>
-    ) : (
-      <p class="skill-header-card__activation">Activates automatically</p>
-    )
-  }
 </header>
 
 <style>
@@ -93,18 +82,5 @@ const primaryCommand = skill.triggers[0];
     font-weight: var(--text-body-lg-weight);
     line-height: var(--text-body-lg-line-height);
     color: var(--color-fg-muted);
-  }
-
-  .skill-header-card__commands {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-  }
-
-  .skill-header-card__activation {
-    font-size: var(--text-body-sm-size);
-    line-height: var(--text-body-sm-line-height);
-    color: var(--color-fg-subtle);
-    font-style: italic;
   }
 </style>

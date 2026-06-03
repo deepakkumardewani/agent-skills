@@ -384,10 +384,9 @@ export function createSearchIndex(): SearchIndex {
       const hits = miniSearch.search(searchQuery);
       const ranked = rankSearchHits(documents, hits, trimmed);
 
-      const results =
-        trimmed.startsWith('/')
-          ? ranked.filter((entry) => triggerMatchesQuery(entry.doc, trimmed))
-          : ranked;
+      const results = trimmed.startsWith('/')
+        ? ranked.filter((entry) => triggerMatchesQuery(entry.doc, trimmed))
+        : ranked;
 
       const slice = results.length > 0 ? results : ranked;
       return slice.slice(0, limit).map((entry) => toSearchResult(entry.doc));

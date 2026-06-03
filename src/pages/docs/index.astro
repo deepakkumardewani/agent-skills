@@ -26,8 +26,8 @@ const skillCount = groups.reduce((total, group) => total + group.skills.length, 
       <h2>How skills work</h2>
       <p>
         A skill tells the agent what to do in a specific situation — writing a spec, running tests,
-        reviewing a PR, shipping to production. Pick a skill from the sidebar, copy its trigger
-        command, and paste it into your session when the task matches.
+        reviewing a PR, shipping to production. Pick a skill from the sidebar and read its
+        instructions when the task matches.
       </p>
       <p>
         Skills are plain Markdown with frontmatter. The site syncs from the upstream repo, so what
@@ -71,7 +71,7 @@ const skillCount = groups.reduce((total, group) => total + group.skills.length, 
     <section class="docs-index__section">
       <h2>Find a skill</h2>
       <p>
-        Use the sidebar to browse by phase, or open search with <kbd>⌘</kbd><kbd>K</kbd>. Every skill page shows its trigger command, full instructions, and related skills
+        Use the sidebar to browse by phase, or open search with <kbd>⌘</kbd><kbd>K</kbd>. Every skill page shows full instructions and related skills
         when the upstream metadata lists them.
       </p>
       <p class="docs-index__browse">
