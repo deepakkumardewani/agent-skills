@@ -1,18 +1,15 @@
 ---
 import { MOBILE_NAV_MEDIA_QUERY } from '../../lib/mobile-nav';
+import { addy } from '../../lib/site';
+import SearchTrigger from '../search/SearchTrigger.astro';
 import MobileNav from './MobileNav';
 import ThemeToggle from './ThemeToggle.astro';
 
 const showMobileNav = Astro.url.pathname === '/docs' || Astro.url.pathname.startsWith('/docs/');
 
 const navItems = [
-  { href: '/docs', label: 'Docs', external: false },
-  { href: '/about', label: 'About', external: false },
-  {
-    href: 'https://github.com/addyosmani/agent-skills',
-    label: 'GitHub',
-    external: true,
-  },
+  { href: '/docs', label: 'Docs' },
+  { href: '/about', label: 'About' },
 ] as const;
 
 const currentPath = Astro.url.pathname;
@@ -23,7 +20,12 @@ const currentPath = Astro.url.pathname;
     <div class="site-header__start">
       {showMobileNav && <MobileNav client:media={MOBILE_NAV_MEDIA_QUERY} />}
       <a class="site-header__brand" href="/">
-        <span class="site-header__title">addy-osmani-skills</span>
+        <span class="site-header__mark" aria-hidden="true"></span>
+        <span class="site-header__wordmark">
+          <span class="site-header__wordmark-base">addy-osmani</span><span
+            class="site-header__wordmark-accent">skills</span
+          >
+        </span>
       </a>
     </div>
 
@@ -35,12 +37,9 @@ const currentPath = Astro.url.pathname;
               <a
                 class:list={[
                   'site-header__nav-link',
-                  { 'is-active': !item.external && currentPath.startsWith(item.href) },
+                  { 'is-active': currentPath.startsWith(item.href) },
                 ]}
                 href={item.href}
-                {...(item.external
-                  ? { target: '_blank', rel: 'noopener noreferrer' }
-                  : {})}
               >
                 {item.label}
               </a>
@@ -51,32 +50,25 @@ const currentPath = Astro.url.pathname;
     </nav>
 
     <div class="site-header__actions">
-      <button
-        id="site-search-trigger"
-        type="button"
-        class="site-header__search"
-        aria-label="Search skills"
-        aria-keyshortcuts="Control+K Meta+K"
+      <SearchTrigger />
+      <a
+        class="site-header__github"
+        href={addy.repoUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub repository"
       >
-        <span class="site-header__search-icon" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
-            <path d="M20 20L16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          </svg>
-        </span>
-        <span class="site-header__search-label">Search</span>
-        <kbd class="site-header__search-kbd" aria-hidden="true">⌘K</kbd>
-      </button>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M12 2C6.48 2 2 6.58 2 12.26c0 4.52 2.87 8.35 6.84 9.7.5.1.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.62-3.37-1.36-3.37-1.36-.45-1.18-1.12-1.5-1.12-1.5-.92-.64.07-.63.07-.63 1.02.07 1.55 1.07 1.55 1.07.9 1.57 2.36 1.12 2.94.86.09-.67.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.03A9.2 9.2 0 0 1 12 6.84c.85 0 1.71.12 2.51.35 1.91-1.3 2.75-1.03 2.75-1.03.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.07.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.59.69.49A10.03 10.03 0 0 0 22 12.26C22 6.58 17.52 2 12 2Z"
+            fill="currentColor"></path>
+        </svg>
+      </a>
       <ThemeToggle />
     </div>
   </div>
   <div id="search-dialog-root"></div>
 </header>
-
-<script>
-  import { setupSearchLauncher } from '../../lib/search-boot';
-  setupSearchLauncher();
-</script>
 
 <style>
   .site-header {
@@ -109,6 +101,9 @@ const currentPath = Astro.url.pathname;
   }
 
   .site-header__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
     flex-shrink: 1;
     min-width: 0;
     text-decoration: none;
@@ -121,25 +116,41 @@ const currentPath = Astro.url.pathname;
     border-radius: var(--radius-sm);
   }
 
-  .site-header__title {
-    font-size: var(--text-label-md-size);
-    font-weight: var(--text-label-md-weight);
-    line-height: var(--text-label-md-line-height);
-    letter-spacing: var(--text-label-md-letter-spacing);
+  .site-header__mark {
+    flex-shrink: 0;
+    width: var(--space-2);
+    height: var(--space-5);
+    border-radius: var(--radius-sm);
+    background: linear-gradient(
+      180deg,
+      var(--color-accent) 0%,
+      color-mix(in srgb, var(--color-accent) 55%, var(--color-fg-muted)) 100%
+    );
+  }
+
+  .site-header__wordmark {
+    display: inline-flex;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-size: var(--text-label-md-size);
+    font-weight: var(--text-label-md-weight);
+    line-height: var(--text-label-md-line-height);
+    letter-spacing: var(--text-label-md-letter-spacing);
+  }
+
+  .site-header__wordmark-base {
+    color: var(--color-fg-default);
+  }
+
+  .site-header__wordmark-accent {
+    color: var(--color-link);
+    font-weight: 600;
   }
 
   @media (max-width: 959px) {
     html.has-mobile-skills-nav .site-header__nav {
-      display: none;
-    }
-  }
-
-  @media (max-width: 479px) {
-    .site-header__nav-link[href*='github.com'] {
       display: none;
     }
   }
@@ -202,26 +213,7 @@ const currentPath = Astro.url.pathname;
     justify-self: end;
   }
 
-  .site-header__search {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    min-width: 40px;
-    min-height: 40px;
-    padding: 0 var(--space-2);
-    border: 1px solid var(--color-outline);
-    border-radius: var(--radius-default);
-    background: var(--color-surface);
-    color: var(--color-fg-muted);
-    font-family: inherit;
-    cursor: pointer;
-    transition:
-      background-color var(--duration-fast) var(--ease-out),
-      border-color var(--duration-fast) var(--ease-out),
-      color var(--duration-fast) var(--ease-out);
-  }
-
+  .site-header__github,
   .site-header__actions :global(.theme-toggle),
   .site-header__start :global(.mobile-nav__trigger) {
     display: inline-flex;
@@ -235,34 +227,25 @@ const currentPath = Astro.url.pathname;
     background: transparent;
     color: var(--color-fg-muted);
     font-family: inherit;
+    text-decoration: none;
     cursor: pointer;
     transition: color var(--duration-fast) var(--ease-out);
   }
 
-  .site-header__search-label,
-  .site-header__search-kbd {
-    display: none;
-  }
-
-  .site-header__search:hover {
-    border-color: var(--color-outline-strong);
-    background: var(--color-surface-elevated);
-    color: var(--color-fg-default);
-  }
-
+  .site-header__github:hover,
   .site-header__actions :global(.theme-toggle:hover),
   .site-header__start :global(.mobile-nav__trigger:hover) {
     color: var(--color-fg-default);
   }
 
-  .site-header__search:focus-visible,
+  .site-header__github:focus-visible,
   .site-header__actions :global(.theme-toggle:focus-visible),
   .site-header__start :global(.mobile-nav__trigger:focus-visible) {
     outline: none;
     box-shadow: var(--shadow-focus);
   }
 
-  .site-header__search-icon,
+  .site-header__github svg,
   .site-header__start :global(.mobile-nav__trigger svg) {
     display: inline-flex;
     color: inherit;
@@ -272,7 +255,6 @@ const currentPath = Astro.url.pathname;
     color: inherit;
   }
 
-  /* Override legacy bundle rule that forced display on all theme icons */
   .site-header__actions
     :global(.theme-toggle:not([data-active-theme='dark']) > .theme-toggle__icon--dark) {
     display: none;
@@ -287,34 +269,11 @@ const currentPath = Astro.url.pathname;
     .site-header__inner {
       padding-inline: var(--space-page-gutter);
     }
-
-    .site-header__search {
-      padding-inline: var(--space-3);
-      font-size: var(--text-label-md-size);
-      font-weight: var(--text-label-md-weight);
-      line-height: var(--text-label-md-line-height);
-    }
-
-    .site-header__search-label,
-    .site-header__search-kbd {
-      display: inline;
-    }
-
-    .site-header__search-kbd {
-      padding: 0 var(--space-1);
-      border: 1px solid var(--color-outline);
-      border-radius: var(--radius-sm);
-      font-family: var(--font-mono);
-      font-size: var(--text-code-sm-size);
-      line-height: 1.4;
-      background: var(--color-code-bg);
-      color: var(--color-fg-subtle);
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .site-header__nav-link,
-    .site-header__search,
+    .site-header__github,
     .site-header__actions :global(.theme-toggle),
     .site-header__start :global(.mobile-nav__trigger) {
       transition: none;

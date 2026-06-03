@@ -1,0 +1,98 @@
+---
+---
+
+<button
+  id="site-search-trigger"
+  type="button"
+  class="search-trigger"
+  aria-label="Search skills"
+  aria-keyshortcuts="Control+K Meta+K"
+>
+  <span class="search-trigger__icon" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>
+      <path d="M20 20L16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </span>
+  <span class="search-trigger__label">Search</span>
+  <kbd class="search-trigger__kbd" aria-hidden="true">⌘K</kbd>
+</button>
+
+<script>
+  import { setupSearchLauncher } from '../../lib/search-boot';
+  setupSearchLauncher();
+</script>
+
+<style>
+  .search-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0 var(--space-2);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-default);
+    background: var(--color-surface);
+    color: var(--color-fg-muted);
+    font-family: inherit;
+    font-size: var(--text-label-md-size);
+    font-weight: var(--text-label-md-weight);
+    line-height: var(--text-label-md-line-height);
+    cursor: pointer;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+  }
+
+  .search-trigger__label,
+  .search-trigger__kbd {
+    display: none;
+  }
+
+  .search-trigger:hover {
+    border-color: var(--color-outline-strong);
+    background: var(--color-surface-elevated);
+    color: var(--color-fg-default);
+  }
+
+  .search-trigger:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .search-trigger__icon {
+    display: inline-flex;
+    color: inherit;
+  }
+
+  @media (min-width: 960px) {
+    .search-trigger {
+      padding-inline: var(--space-3);
+    }
+
+    .search-trigger__label,
+    .search-trigger__kbd {
+      display: inline;
+    }
+
+    .search-trigger__kbd {
+      padding: 0 var(--space-1);
+      border: 1px solid var(--color-outline);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: var(--text-code-sm-size);
+      line-height: 1.4;
+      background: var(--color-code-bg);
+      color: var(--color-fg-subtle);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .search-trigger {
+      transition: none;
+    }
+  }
+</style>

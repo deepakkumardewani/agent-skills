@@ -47,16 +47,16 @@ green. Dev: sidebar group reads "Meta"; `CI/CD and Automation` title; a non-lead
 **Goal:** refined brand, search in its own component, GitHub icon left of theme toggle, no GitHub nav
 link.
 
-- [ ] **2.1 Extract search** — create `src/components/search/SearchTrigger.astro` containing the
+- [x] **2.1 Extract search** — create `src/components/search/SearchTrigger.astro` containing the
   trigger button markup + the `setupSearchLauncher` script; render it from `Header.astro`. Remove the
   inline search markup/script from Header.
-- [ ] **2.2 GitHub icon** — remove the GitHub entry from `navItems` (nav = Docs, About). Add a GitHub
+- [x] **2.2 GitHub icon** — remove the GitHub entry from `navItems` (nav = Docs, About). Add a GitHub
   icon `<a>` in `.site-header__actions`, **left of `<ThemeToggle />`** (order: Search → GitHub →
   Theme). `aria-label="GitHub repository"`, `target="_blank" rel="noopener noreferrer"`, styled like
   the theme-toggle icon button. Use `site.repoUrl`/`addy.repoUrl` from `lib/site.ts`.
-- [ ] **2.3 Brand UI** — improve the `.site-header__brand` wordmark (mark/accent + intentional type),
+- [x] **2.3 Brand UI** — improve the `.site-header__brand` wordmark (mark/accent + intentional type),
   tokens only, keep focus ring + narrow-screen truncation.
-- [ ] **2.4 E2E** — header spec: no "GitHub" nav link; GitHub icon present immediately before theme
+- [x] **2.4 E2E** — header spec: no "GitHub" nav link; GitHub icon present immediately before theme
   toggle; search opens via click + ⌘K.
 
 **Verify / AC:** `bun run check` + header e2e green; visual check at CP-B.
