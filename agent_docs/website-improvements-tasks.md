@@ -88,12 +88,12 @@ link.
 ## Slice 4 — Footer / tribute (+ about copy)
 **Goal:** tribute only on `/about`; minimal credit elsewhere.
 
-- [ ] **4.1 Footer logic** — `src/components/layout/Footer.astro`: render the "A tribute to…" line
+- [x] **4.1 Footer logic** — `src/components/layout/Footer.astro`: render the "A tribute to…" line
   only when `Astro.url.pathname === '/about'` (or a `variant` prop). All pages keep maintainer line +
   a quiet upstream-repo link.
-- [ ] **4.2 About copy** — `src/pages/about.astro`: Foundations→Meta in the ADLC sentence; ensure the
+- [x] **4.2 About copy** — `src/pages/about.astro`: Foundations→Meta in the ADLC sentence; ensure the
   page reads as the tribute home.
-- [ ] **4.3 E2E** — footer spec: tribute present on `/about`, absent on `/` and `/docs`; every footer
+- [x] **4.3 E2E** — footer spec: tribute present on `/about`, absent on `/` and `/docs`; every footer
   links to Addy's repo + credits maintainer.
 
 **Verify / AC:** `bun run check` + footer e2e green.

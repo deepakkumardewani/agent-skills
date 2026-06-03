@@ -8,6 +8,8 @@ test.describe('/about', () => {
 
     await expect(page.getByRole('heading', { level: 1, name: 'Why I created this' })).toBeVisible();
     await expect(page.getByText(/not an official Addy Osmani project/i)).toBeVisible();
+    await expect(page.getByText(/Meta skills for context and discovery/i)).toBeVisible();
+    await expect(page.getByText(/Foundations/i)).toHaveCount(0);
   });
 
   test('Addy link points to upstream repo', async ({ page }) => {
