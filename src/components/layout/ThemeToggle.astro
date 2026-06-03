@@ -2,7 +2,13 @@
 import { getToggleLabel } from '../../lib/theme';
 ---
 
-<button type="button" class="theme-toggle" data-theme-toggle aria-label={getToggleLabel('light')}>
+<button
+  type="button"
+  class="theme-toggle"
+  data-theme-toggle
+  data-active-theme="light"
+  aria-label={getToggleLabel('light')}
+>
   <span class="theme-toggle__icon theme-toggle__icon--light" aria-hidden="true">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
       <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"></circle>
@@ -13,7 +19,7 @@ import { getToggleLabel } from '../../lib/theme';
         stroke-linecap="round"></path>
     </svg>
   </span>
-  <span class="theme-toggle__icon theme-toggle__icon--dark" aria-hidden="true">
+  <span class="theme-toggle__icon theme-toggle__icon--dark" hidden aria-hidden="true">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
       <path
         d="M21 14.5A8.5 8.5 0 1 1 9.5 3 6.5 6.5 0 0 0 21 14.5Z"
@@ -35,11 +41,21 @@ import { getToggleLabel } from '../../lib/theme';
 
   function syncToggleUi(button: HTMLButtonElement) {
     const theme = getDocumentTheme();
+    const isDark = theme === 'dark';
     button.dataset.activeTheme = theme;
     button.setAttribute('aria-label', getToggleLabel(theme));
     const label = button.querySelector('[data-theme-toggle-label]');
     if (label) {
       label.textContent = getToggleLabel(theme);
+    }
+
+    const lightIcon = button.querySelector('.theme-toggle__icon--light');
+    const darkIcon = button.querySelector('.theme-toggle__icon--dark');
+    if (lightIcon instanceof HTMLElement) {
+      lightIcon.hidden = isDark;
+    }
+    if (darkIcon instanceof HTMLElement) {
+      darkIcon.hidden = !isDark;
     }
   }
 
@@ -79,19 +95,24 @@ import { getToggleLabel } from '../../lib/theme';
     box-shadow: var(--shadow-focus);
   }
 
-  .theme-toggle__icon {
+  .theme-toggle__icon[hidden] {
+    display: none;
+  }
+
+  /* Child combinator + :not() beats Header `.site-header__actions .theme-toggle__icon` (0,3,0). */
+  .theme-toggle__icon--light {
     display: inline-flex;
   }
 
-  .theme-toggle__icon--dark {
+  .theme-toggle:not([data-active-theme='dark']) > .theme-toggle__icon--dark {
     display: none;
   }
 
-  .theme-toggle[data-active-theme='dark'] .theme-toggle__icon--light {
+  .theme-toggle[data-active-theme='dark'] > .theme-toggle__icon--light {
     display: none;
   }
 
-  .theme-toggle[data-active-theme='dark'] .theme-toggle__icon--dark {
+  .theme-toggle[data-active-theme='dark'] > .theme-toggle__icon--dark {
     display: inline-flex;
   }
 

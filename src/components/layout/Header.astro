@@ -263,10 +263,24 @@ const currentPath = Astro.url.pathname;
   }
 
   .site-header__search-icon,
-  .site-header__actions :global(.theme-toggle__icon),
   .site-header__start :global(.mobile-nav__trigger svg) {
     display: inline-flex;
     color: inherit;
+  }
+
+  .site-header__actions :global(.theme-toggle__icon) {
+    color: inherit;
+  }
+
+  /* Override legacy bundle rule that forced display on all theme icons */
+  .site-header__actions
+    :global(.theme-toggle:not([data-active-theme='dark']) > .theme-toggle__icon--dark) {
+    display: none;
+  }
+
+  .site-header__actions
+    :global(.theme-toggle[data-active-theme='dark'] > .theme-toggle__icon--light) {
+    display: none;
   }
 
   @media (min-width: 960px) {
