@@ -66,19 +66,19 @@ link.
 ## Slice 3 — Homepage  ⟶ CP-B
 **Goal:** wider hero, README-grounded copy, Commands section.
 
-- [ ] **3.1 Hero width** — `src/components/landing/Hero.astro`: section spans the page container (drop
+- [x] **3.1 Hero width** — `src/components/landing/Hero.astro`: section spans the page container (drop
   `--space-prose-max` cap on the section; keep readable measure on the subhead). Left-aligned.
-- [ ] **3.2 Hero copy** — title/subhead/meta from README ("Production-grade engineering skills for AI
+- [x] **3.2 Hero copy** — title/subhead/meta from README ("Production-grade engineering skills for AI
   coding agents" + README description); "Meta plus seven ADLC phases" with correct counts. No banned
   words.
-- [ ] **3.3 Commands section** — new component (e.g. `src/components/landing/CommandsTable.astro`)
+- [x] **3.3 Commands section** — new component (e.g. `src/components/landing/CommandsTable.astro`)
   reproducing the README Commands table (What you're doing / Command / Key principle) for the 7
   commands, verbatim key-principles. Render on `/`.
-- [ ] **3.4 Phase hints** — set `ADLC_PHASE_HINTS` (lib/adlc-cycle.ts) to the README "Key principle"
+- [x] **3.4 Phase hints** — set `ADLC_PHASE_HINTS` (lib/adlc-cycle.ts) to the README "Key principle"
   values so the diagram + Commands table agree.
-- [ ] **3.5 Landing copy cleanup** — `PhaseGrid.astro` lede + `ADLCDiagram.astro` lede:
+- [x] **3.5 Landing copy cleanup** — `PhaseGrid.astro` lede + `ADLCDiagram.astro` lede:
   Foundations→Meta, factual counts.
-- [ ] **3.6 E2E** — landing spec: Commands section lists 7 commands; hero bounding box ≈ container
+- [x] **3.6 E2E** — landing spec: Commands section lists 7 commands; hero bounding box ≈ container
   width; "Foundations" absent.
 
 **Verify / AC:** `bun run check` + landing e2e green; browser check (CP-B).

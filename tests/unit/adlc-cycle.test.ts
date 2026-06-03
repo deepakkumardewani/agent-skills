@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
+  ADLC_COMMAND_ROWS,
+  ADLC_PHASE_HINTS,
   buildAdlcCyclePhases,
   buildWheelTicks,
   formatDiagramCommand,
@@ -22,12 +24,14 @@ describe('adlc-cycle', () => {
     ]);
   });
 
-  it('builds seven phases with docs anchors and hints', () => {
+  it('builds seven phases with docs anchors and README key principles', () => {
     const phases = buildAdlcCyclePhases();
     expect(phases).toHaveLength(7);
     expect(phases[0]?.href).toBe('/docs#phase-define');
     expect(phases[0]?.command).toBe('/spec');
-    expect(phases[0]?.hint.length).toBeGreaterThan(10);
+    expect(phases[0]?.hint).toBe('Spec before code');
+    expect(ADLC_PHASE_HINTS.ship).toBe('Faster is safer');
+    expect(ADLC_COMMAND_ROWS).toHaveLength(7);
   });
 
   it('places first node at the top of the ring', () => {

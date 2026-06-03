@@ -1,16 +1,54 @@
 import type { Phase } from '../data/skills-data';
 import { getPhaseMeta, groupSkillsByPhase, PHASE_ORDER } from './skills';
 
-/** Short copy for landing diagram nodes and the mobile list. */
-export const ADLC_PHASE_HINTS: Readonly<Record<Exclude<Phase, 'meta'>, string>> = {
-  define: 'Shape the problem before you write code.',
-  plan: 'Break work into ordered, shippable steps.',
-  build: 'Implement incrementally against the plan.',
-  test: 'Prove behavior with tests that fail first.',
-  review: 'Check quality across multiple axes before merge.',
-  simplify: 'Remove complexity that does not earn its keep.',
-  ship: 'Launch with checklist, monitoring, and rollback in mind.',
-};
+export interface AdlcCommandRow {
+  phase: Exclude<Phase, 'meta'>;
+  task: string;
+  command: string;
+  principle: string;
+}
+
+/** README Commands table — shared by homepage table and diagram hints. */
+export const ADLC_COMMAND_ROWS: readonly AdlcCommandRow[] = [
+  {
+    phase: 'define',
+    task: 'Define what to build',
+    command: '/spec',
+    principle: 'Spec before code',
+  },
+  {
+    phase: 'plan',
+    task: 'Plan how to build it',
+    command: '/plan',
+    principle: 'Small, atomic tasks',
+  },
+  {
+    phase: 'build',
+    task: 'Build incrementally',
+    command: '/build',
+    principle: 'One slice at a time',
+  },
+  { phase: 'test', task: 'Prove it works', command: '/test', principle: 'Tests are proof' },
+  {
+    phase: 'review',
+    task: 'Review before merge',
+    command: '/review',
+    principle: 'Improve code health',
+  },
+  {
+    phase: 'simplify',
+    task: 'Simplify the code',
+    command: '/code-simplify',
+    principle: 'Clarity over cleverness',
+  },
+  { phase: 'ship', task: 'Ship to production', command: '/ship', principle: 'Faster is safer' },
+] as const;
+
+/** Short copy for landing diagram nodes and the mobile list (README key principles). */
+export const ADLC_PHASE_HINTS: Readonly<Record<Exclude<Phase, 'meta'>, string>> =
+  Object.fromEntries(ADLC_COMMAND_ROWS.map((row) => [row.phase, row.principle])) as Readonly<
+    Record<Exclude<Phase, 'meta'>, string>
+  >;
 
 export type NodeAlign = 'center' | 'start' | 'end';
 export type HintPlacement = 'top' | 'bottom' | 'left' | 'right';
