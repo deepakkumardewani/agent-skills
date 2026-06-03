@@ -1,7 +1,7 @@
 import type { Phase } from '../src/data/skills-data';
 
 export const PHASE_ORDER: Phase[] = [
-  'foundations',
+  'meta',
   'define',
   'plan',
   'build',
@@ -12,7 +12,7 @@ export const PHASE_ORDER: Phase[] = [
 ];
 
 export const PHASE_META: Record<Phase, { label: string; command: string }> = {
-  foundations: { label: 'Foundations', command: '' },
+  meta: { label: 'Meta', command: '' },
   define: { label: 'Define', command: '/spec' },
   plan: { label: 'Plan', command: '/plan' },
   build: { label: 'Build', command: '/build' },
@@ -22,18 +22,29 @@ export const PHASE_META: Record<Phase, { label: string; command: string }> = {
   ship: { label: 'Ship', command: '/ship' },
 };
 
-/** Site IA mapping from SPEC §3 — overrides upstream README lifecycle grouping. */
+/** README Commands table — one lead skill per ADLC command. */
+export const LEAD_SKILL_BY_COMMAND: Record<string, string> = {
+  '/spec': 'spec-driven-development',
+  '/plan': 'planning-and-task-breakdown',
+  '/build': 'incremental-implementation',
+  '/test': 'test-driven-development',
+  '/review': 'code-review-and-quality',
+  '/code-simplify': 'code-simplification',
+  '/ship': 'shipping-and-launch',
+};
+
+/** Site IA mapping from spec §3.1 — overrides upstream README lifecycle grouping. */
 export const SKILL_PHASE_MAP: Record<string, Phase> = {
-  'using-agent-skills': 'foundations',
-  'interview-me': 'foundations',
-  'doubt-driven-development': 'foundations',
-  'context-engineering': 'foundations',
-  'source-driven-development': 'foundations',
+  'using-agent-skills': 'meta',
+  'interview-me': 'define',
   'idea-refine': 'define',
   'spec-driven-development': 'define',
   'planning-and-task-breakdown': 'plan',
   'incremental-implementation': 'build',
   'test-driven-development': 'build',
+  'context-engineering': 'build',
+  'source-driven-development': 'build',
+  'doubt-driven-development': 'build',
   'frontend-ui-engineering': 'build',
   'api-and-interface-design': 'build',
   'browser-testing-with-devtools': 'test',

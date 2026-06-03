@@ -55,7 +55,7 @@
   --color-code-fn: #0369a1;
 
   /* Phase chips */
-  --phase-foundations: #57534e;
+  --phase-meta: #57534e;
   --phase-define: #d97706;
   --phase-plan: #ea580c;
   --phase-build: #e11d48;
@@ -63,7 +63,7 @@
   --phase-review: #7c3aed;
   --phase-simplify: #0284c7;
   --phase-ship: #65a30d;
-  --phase-foundations-subtle: #f5f5f4;
+  --phase-meta-subtle: #f5f5f4;
   --phase-define-subtle: #fef3c7;
   --phase-plan-subtle: #ffedd5;
   --phase-build-subtle: #ffe4e6;
@@ -248,7 +248,7 @@
   --color-code-fn: #38bdf8;
 
   /* Phase chips — 800-level with 20% opacity overlays */
-  --phase-foundations: #a8a29e;
+  --phase-meta: #a8a29e;
   --phase-define: #f59e0b;
   --phase-plan: #fb923c;
   --phase-build: #fb7185;
@@ -256,7 +256,7 @@
   --phase-review: #a78bfa;
   --phase-simplify: #38bdf8;
   --phase-ship: #a3e635;
-  --phase-foundations-subtle: rgba(41, 37, 36, 0.2);
+  --phase-meta-subtle: rgba(41, 37, 36, 0.2);
   --phase-define-subtle: rgba(217, 119, 6, 0.2);
   --phase-plan-subtle: rgba(234, 88, 12, 0.2);
   --phase-build-subtle: rgba(225, 29, 72, 0.2);

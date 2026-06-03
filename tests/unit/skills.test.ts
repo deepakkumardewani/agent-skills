@@ -10,9 +10,9 @@ import {
 } from '../../src/lib/skills';
 
 describe('skills lib', () => {
-  it('orders phases Foundations first, then the seven ADLC phases', () => {
+  it('orders phases Meta first, then the seven ADLC phases', () => {
     expect(PHASE_ORDER).toEqual([
-      'foundations',
+      'meta',
       'define',
       'plan',
       'build',
@@ -24,7 +24,7 @@ describe('skills lib', () => {
 
     const groups = groupSkillsByPhase();
     expect(groups.map((group) => group.phase)).toEqual([...PHASE_ORDER]);
-    expect(groups[0]?.label).toBe('Foundations');
+    expect(groups[0]?.label).toBe('Meta');
     expect(groups[1]?.command).toBe('/spec');
     expect(groups[7]?.command).toBe('/ship');
   });
@@ -38,11 +38,11 @@ describe('skills lib', () => {
       subtleVar: '--phase-define-subtle',
     });
 
-    expect(getPhaseMeta('foundations')).toMatchObject({
-      label: 'Foundations',
+    expect(getPhaseMeta('meta')).toMatchObject({
+      label: 'Meta',
       command: '',
-      fgVar: '--phase-foundations',
-      subtleVar: '--phase-foundations-subtle',
+      fgVar: '--phase-meta',
+      subtleVar: '--phase-meta-subtle',
     });
   });
 
@@ -57,20 +57,32 @@ describe('skills lib', () => {
     expect(getRelatedSkills('missing-skill')).toEqual([]);
   });
 
-  it('formats kebab-case skill names for display', () => {
-    expect(formatSkillDisplayName('spec-driven-development')).toBe('Spec Driven Development');
-    expect(formatSkillDisplayName('ci-cd-and-automation')).toBe('Ci Cd And Automation');
+  it.each([
+    ['ci-cd-and-automation', 'CI/CD and Automation'],
+    ['api-and-interface-design', 'API and Interface Design'],
+    ['documentation-and-adrs', 'Documentation and ADRs'],
+    ['code-review-and-quality', 'Code Review and Quality'],
+    ['git-workflow-and-versioning', 'Git Workflow and Versioning'],
+    ['security-and-hardening', 'Security and Hardening'],
+    ['debugging-and-error-recovery', 'Debugging and Error Recovery'],
+    ['deprecation-and-migration', 'Deprecation and Migration'],
+    ['browser-testing-with-devtools', 'Browser Testing with DevTools'],
+    ['using-agent-skills', 'Using Agent Skills'],
+    ['frontend-ui-engineering', 'Frontend UI Engineering'],
+    ['test-driven-development', 'Test Driven Development'],
+  ] as const)('formats %s as "%s"', (slug, expected) => {
+    expect(formatSkillDisplayName(slug)).toBe(expected);
   });
 
   it('sorts skills alphabetically by formatted display name within a group', () => {
     const groups = groupSkillsByPhase();
-    const foundations = groups[0];
-    expect(foundations?.phase).toBe('foundations');
+    const meta = groups[0];
+    expect(meta?.phase).toBe('meta');
 
-    const sorted = sortSkillsAlphabetically(foundations?.skills ?? []);
+    const sorted = sortSkillsAlphabetically(meta?.skills ?? []);
     const displayNames = sorted.map((skill) => formatSkillDisplayName(skill.name));
     expect(displayNames).toEqual([...displayNames].sort((a, b) => a.localeCompare(b)));
-    expect(sorted.length).toBeGreaterThanOrEqual(5);
+    expect(sorted.length).toBeGreaterThanOrEqual(1);
   });
 
   it('includes every synced skill in exactly one sidebar group', () => {

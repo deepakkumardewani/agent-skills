@@ -163,23 +163,11 @@ export function descriptionSnippetForQuery(
 }
 
 function getPrimaryTrigger(skill: Skill): string | undefined {
-  if (skill.triggers.length > 0) {
-    return skill.triggers[0];
-  }
-  const command = getPhaseMeta(skill.phase).command;
-  return command || undefined;
+  return skill.triggers[0];
 }
 
 function getTriggerText(skill: Skill): string {
-  const meta = getPhaseMeta(skill.phase);
-  const parts = new Set<string>();
-  if (meta.command) {
-    parts.add(meta.command);
-  }
-  for (const trigger of skill.triggers) {
-    parts.add(trigger);
-  }
-  return Array.from(parts).join(' ');
+  return skill.triggers.join(' ');
 }
 
 function toSearchDocument(skill: Skill): SearchDocument {
@@ -238,6 +226,10 @@ function isUniqueSlugPrefix(documents: SearchDocument[], prefix: string): boolea
 }
 
 function phasesMatchingQuery(query: string): Phase[] {
+  if (query.trim().startsWith('/')) {
+    return [];
+  }
+
   const normalized = normalizeSearchQuery(query).toLowerCase();
   if (!normalized) {
     return [];
@@ -392,7 +384,13 @@ export function createSearchIndex(): SearchIndex {
       const hits = miniSearch.search(searchQuery);
       const ranked = rankSearchHits(documents, hits, trimmed);
 
-      return ranked.slice(0, limit).map((entry) => toSearchResult(entry.doc));
+      const results =
+        trimmed.startsWith('/')
+          ? ranked.filter((entry) => triggerMatchesQuery(entry.doc, trimmed))
+          : ranked;
+
+      const slice = results.length > 0 ? results : ranked;
+      return slice.slice(0, limit).map((entry) => toSearchResult(entry.doc));
     },
   };
 }

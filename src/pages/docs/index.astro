@@ -3,7 +3,7 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
 import { groupSkillsByPhase } from '../../lib/skills';
 
 const groups = groupSkillsByPhase();
-const adlcPhases = groups.filter((group) => group.phase !== 'foundations');
+const adlcPhases = groups.filter((group) => group.phase !== 'meta');
 const skillCount = groups.reduce((total, group) => total + group.skills.length, 0);
 ---
 
@@ -35,11 +35,11 @@ const skillCount = groups.reduce((total, group) => total + group.skills.length, 
       </p>
     </section>
 
-    <section id="phase-foundations" class="docs-index__section docs-index__phase-anchor">
-      <h2>Foundations</h2>
+    <section id="phase-meta" class="docs-index__section docs-index__phase-anchor">
+      <h2>Meta</h2>
       <p>
-        Skills for context setup, requirements interviews, source-driven work, and discovering
-        which skill to use. Browse them under <strong>Foundations</strong> in the sidebar.
+        Skills for discovering which skill to use. Browse them under <strong>Meta</strong> in the
+        sidebar.
       </p>
     </section>
 
@@ -47,8 +47,7 @@ const skillCount = groups.reduce((total, group) => total + group.skills.length, 
       <h2>The ADLC framework</h2>
       <p>
         Most skills map to one phase of the AI Development Lifecycle — a loop from defining the
-        problem through shipping and simplifying what you built. Foundations skills sit outside the
-        loop; they help you set up context, interview for requirements, and work from official docs.
+        problem through shipping and simplifying what you built. Meta skills sit outside the loop.
       </p>
       <ol class="docs-index__phases">
         {

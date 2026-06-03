@@ -2,7 +2,7 @@
 slug: using-agent-skills
 name: "using-agent-skills"
 description: "Discovers and invokes agent skills. Use when starting a session or when you need to discover which skill applies to the current task. This is the meta-skill that governs how all other skills are discovered and invoked."
-phase: foundations
+phase: meta
 triggers: []
 related: ["api-and-interface-design","browser-testing-with-devtools","ci-cd-and-automation","code-review-and-quality","code-simplification","context-engineering","debugging-and-error-recovery","deprecation-and-migration","documentation-and-adrs","doubt-driven-development","frontend-ui-engineering","git-workflow-and-versioning","incremental-implementation","interview-me","performance-optimization","planning-and-task-breakdown","security-and-hardening","shipping-and-launch","source-driven-development","spec-driven-development","test-driven-development"]
 ---

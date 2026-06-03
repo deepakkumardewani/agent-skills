@@ -40,7 +40,9 @@ describe('sync-skills helpers', () => {
   });
 
   it('classifies skills into SPEC lifecycle phases', () => {
-    expect(classifyPhase('interview-me')).toBe('foundations');
+    expect(classifyPhase('interview-me')).toBe('define');
+    expect(classifyPhase('using-agent-skills')).toBe('meta');
+    expect(classifyPhase('context-engineering')).toBe('build');
     expect(classifyPhase('spec-driven-development')).toBe('define');
     expect(classifyPhase('code-simplification')).toBe('simplify');
     expect(classifyPhase('shipping-and-launch')).toBe('ship');
@@ -70,9 +72,10 @@ describe('sync-skills helpers', () => {
     ]);
   });
 
-  it('builds triggers from phase commands', () => {
-    expect(buildTriggers('define', '/spec')).toEqual(['/spec']);
-    expect(buildTriggers('foundations', '')).toEqual([]);
+  it('builds triggers for lead skills only', () => {
+    expect(buildTriggers('spec-driven-development', 'define', '/spec')).toEqual(['/spec']);
+    expect(buildTriggers('idea-refine', 'define', '/spec')).toEqual([]);
+    expect(buildTriggers('using-agent-skills', 'meta', '')).toEqual([]);
   });
 
   it('formats normalized markdown frontmatter', () => {
@@ -89,7 +92,7 @@ describe('sync-skills helpers', () => {
 
     const output = formatSkillMarkdown(skill, '# Body');
     expect(output).toContain('phase: define');
-    expect(output).toContain('triggers: ["/spec"]');
+    expect(output).toContain('triggers: []');
     expect(output).toContain(
       'related: ["debugging-and-error-recovery","planning-and-task-breakdown"]',
     );

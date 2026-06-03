@@ -11,8 +11,7 @@ interface Props {
 const { skill } = Astro.props;
 const phaseMeta = getPhaseMeta(skill.phase);
 const displayName = formatSkillDisplayName(skill.name);
-const commands =
-  skill.triggers.length > 0 ? skill.triggers : phaseMeta.command ? [phaseMeta.command] : [];
+const primaryCommand = skill.triggers[0];
 ---
 
 <header class="skill-header-card">
@@ -27,12 +26,12 @@ const commands =
   <h1 class="skill-header-card__title">{displayName}</h1>
   <p class="skill-header-card__description">{skill.description}</p>
   {
-    commands.length > 0 && (
+    primaryCommand ? (
       <div class="skill-header-card__commands">
-        {commands.map((command) => (
-          <CopyableCommand command={command} />
-        ))}
+        <CopyableCommand command={primaryCommand} />
       </div>
+    ) : (
+      <p class="skill-header-card__activation">Activates automatically</p>
     )
   }
 </header>
@@ -100,5 +99,12 @@ const commands =
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
+  }
+
+  .skill-header-card__activation {
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+    color: var(--color-fg-subtle);
+    font-style: italic;
   }
 </style>

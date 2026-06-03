@@ -118,11 +118,11 @@ describe('search lib', () => {
     }
   });
 
-  it('ranks Foundations skills first for the "foundations" query', () => {
-    const results = index.search('foundations', 8);
+  it('ranks Meta skills first for the "meta" query', () => {
+    const results = index.search('meta', 8);
     expect(results.length).toBeGreaterThan(0);
-    expect(results[0]?.phase).toBe('foundations');
-    expect(results.every((result) => result.phase === 'foundations')).toBe(true);
+    expect(results[0]?.phase).toBe('meta');
+    expect(results.every((result) => result.phase === 'meta')).toBe(true);
   });
 
   it('ranks Define-phase skills ahead of unrelated partial matches for "def"', () => {
@@ -150,12 +150,13 @@ describe('search lib', () => {
     expect(slugs).toContain('spec-driven-development');
   });
 
-  it('normalizes slash-prefixed queries the same as bare trigger text', () => {
+  it('normalizes slash-prefixed queries and matches lead skills by trigger only', () => {
     expect(normalizeSearchQuery('/spec')).toBe('spec');
     const slashResults = index.search('/spec', 5).map((result) => result.slug);
+    expect(slashResults).toEqual(['spec-driven-development']);
     const bareResults = index.search('spec', 5).map((result) => result.slug);
-    expect(slashResults).toEqual(bareResults);
-    expect(slashResults[0]).toBe('spec-driven-development');
+    expect(bareResults[0]).toBe('spec-driven-development');
+    expect(bareResults.length).toBeGreaterThan(slashResults.length);
   });
 
   it('finds the debugging skill for /debug via trigger metadata', () => {
@@ -168,11 +169,11 @@ describe('search lib', () => {
     expect(slugFromQuery('Test Driven Development')).toBe('test-driven-development');
   });
 
-  it('finds skills by per-skill trigger strings', () => {
+  it('finds the lead skill by slash command /build', () => {
     const results = index.search('/build');
     const slugs = results.map((result) => result.slug);
-    expect(slugs).toContain('frontend-ui-engineering');
     expect(slugs).toContain('incremental-implementation');
+    expect(slugs).not.toContain('frontend-ui-engineering');
   });
 
   it('includes primaryTrigger on results for ADLC skills', () => {
@@ -180,16 +181,16 @@ describe('search lib', () => {
     expect(results[0]?.primaryTrigger).toBe('/spec');
   });
 
-  it('omits primaryTrigger for Foundations skills without triggers', () => {
+  it('omits primaryTrigger for Meta skills without triggers', () => {
     const all = index.listAll();
-    const contextEngineering = all.find((result) => result.slug === 'context-engineering');
+    const contextEngineering = all.find((result) => result.slug === 'using-agent-skills');
     expect(contextEngineering?.primaryTrigger).toBeUndefined();
   });
 
   it('listAll returns every skill in phase order then alphabetical', () => {
     const all = index.listAll();
     expect(all).toHaveLength(skillsData.skills.length);
-    expect(all[0]?.phase).toBe('foundations');
+    expect(all[0]?.phase).toBe('meta');
     const defineStart = all.findIndex((result) => result.phase === 'define');
     const planStart = all.findIndex((result) => result.phase === 'plan');
     expect(defineStart).toBeGreaterThan(-1);

@@ -2,7 +2,7 @@ import type { Phase } from '../data/skills-data';
 import { getPhaseMeta, groupSkillsByPhase, PHASE_ORDER } from './skills';
 
 /** Short copy for landing diagram nodes and the mobile list. */
-export const ADLC_PHASE_HINTS: Readonly<Record<Exclude<Phase, 'foundations'>, string>> = {
+export const ADLC_PHASE_HINTS: Readonly<Record<Exclude<Phase, 'meta'>, string>> = {
   define: 'Shape the problem before you write code.',
   plan: 'Break work into ordered, shippable steps.',
   build: 'Implement incrementally against the plan.',
@@ -19,7 +19,7 @@ export type HintPlacement = 'top' | 'bottom' | 'left' | 'right';
 export const ADLC_NODE_CARD_WIDTH_REM = 10.5;
 
 export interface AdlcCyclePhase {
-  phase: Exclude<Phase, 'foundations'>;
+  phase: Exclude<Phase, 'meta'>;
   index: number;
   label: string;
   command: string;
@@ -43,10 +43,10 @@ export interface WheelTick {
 }
 
 const CYCLE_PHASES = PHASE_ORDER.filter(
-  (phase): phase is Exclude<Phase, 'foundations'> => phase !== 'foundations',
+  (phase): phase is Exclude<Phase, 'meta'> => phase !== 'meta',
 );
 
-export function getAdlcCyclePhases(): readonly Exclude<Phase, 'foundations'>[] {
+export function getAdlcCyclePhases(): readonly Exclude<Phase, 'meta'>[] {
   return CYCLE_PHASES;
 }
 
@@ -103,11 +103,11 @@ export function nodePositionPercent(
 }
 
 export function buildAdlcCyclePhases(ringRadius = 44, center = 50): AdlcCyclePhase[] {
-  const groups = groupSkillsByPhase().filter((g) => g.phase !== 'foundations');
+  const groups = groupSkillsByPhase().filter((g) => g.phase !== 'meta');
   const total = groups.length;
 
   return groups.map((group, index) => {
-    const phase = group.phase as Exclude<Phase, 'foundations'>;
+    const phase = group.phase as Exclude<Phase, 'meta'>;
     const meta = getPhaseMeta(phase);
     const { x, y, angleDeg } = nodePositionPercent(index, total, ringRadius, center);
 

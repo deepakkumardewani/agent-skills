@@ -3,7 +3,7 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 const phaseSchema = z.enum([
-  'foundations',
+  'meta',
   'define',
   'plan',
   'build',
