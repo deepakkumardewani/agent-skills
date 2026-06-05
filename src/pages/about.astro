@@ -10,37 +10,60 @@ import { addy, site } from '../lib/site';
   <article class="about-page prose">
     <header class="about-page__header">
       <h1>Why I created this</h1>
+      <p class="about-page__lede">
+        Addy published dozens of focused agent skills as Markdown files. I wanted a docs-style place
+        to read them — searchable, grouped by lifecycle phase, easy in the browser.
+      </p>
+      <div class="about-page__actions">
+        <a class="about-page__action about-page__action--primary" href="/docs">Browse docs</a>
+        <a class="about-page__action" href="/quickstart">Quick start</a>
+      </div>
     </header>
 
-    <section class="about-page__section" aria-labelledby="about-story">
-      <h2 id="about-story">A personal tribute</h2>
-      <p>
-        This is not an official Addy Osmani project. It is a fan-built docs site that makes
-        <a href={addy.repoUrl}>Addy Osmani's agent-skills</a> easier to browse.
+    <aside class="about-page__disclaimer" aria-label="Project disclaimer">
+      <p class="about-page__disclaimer-label">Not official</p>
+      <p class="about-page__disclaimer-text">
+        This is not an official Addy Osmani project. It is a personal tribute that syncs from
+        <a href={addy.repoUrl}>Addy Osmani's agent-skills</a> and stays read-only.
       </p>
-      <p>
-        Addy published dozens of focused skills — spec writing, testing, code review, shipping — as
-        plain Markdown files agents can load on demand. That collection helped me work with AI tools
-        in a more structured way. I wanted a place to read them like documentation: grouped by phase,
-        searchable, and easy to read in the browser.
-      </p>
-      <p>
-        On the docs pages, skills are organized by the AI Development Lifecycle (ADLC): Define, Plan,
-        Build, Test, Review, Simplify, Ship — plus Meta skills for context and discovery.
-      </p>
-      <p>
-        If you use these skills, credit the upstream repo. Star it, open issues there, send PRs
-        there. This site syncs from that source and stays read-only.
-      </p>
-    </section>
+    </aside>
 
-    <section class="about-page__section" aria-labelledby="about-help">
-      <h2 id="about-help">How to help</h2>
-      <p>
-        For site bugs or suggestions, open an issue on
-        <a href={site.repoUrl}>this project's GitHub repository</a>.
-      </p>
-    </section>
+    <div class="about-page__body">
+      <section class="about-page__section" aria-labelledby="about-story">
+        <h2 id="about-story">A personal tribute</h2>
+        <div class="about-page__prose-stack">
+          <p>
+            The upstream pack covers spec writing, testing, code review, shipping, and more — each
+            skill is a focused instruction set agents load on demand. That structure helped me work
+            with AI tools with more discipline than ad-hoc prompting.
+          </p>
+        </div>
+      </section>
+
+      <section class="about-page__section" aria-labelledby="about-help">
+        <h2 id="about-help">How to help</h2>
+        <div class="about-page__cards">
+          <article class="about-page__card">
+            <h3 class="about-page__card-title">Upstream skills repo</h3>
+            <p class="about-page__card-body">
+              Skill content, stars, issues, and pull requests.
+            </p>
+            <a class="about-page__card-link" href={addy.repoUrl}>
+              Addy Osmani's agent-skills →
+            </a>
+          </article>
+          <article class="about-page__card">
+            <h3 class="about-page__card-title">This docs site</h3>
+            <p class="about-page__card-body">
+              Bugs and suggestions for this tribute site.
+            </p>
+            <a class="about-page__card-link" href={`${site.repoUrl}/issues`}>
+              Open an issue →
+            </a>
+          </article>
+        </div>
+      </section>
+    </div>
   </article>
 </MarketingLayout>
 
@@ -51,23 +74,193 @@ import { addy, site } from '../lib/site';
   }
 
   .about-page__header {
-    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-outline);
   }
 
-  .about-page__header h1 {
-    font-size: clamp(var(--text-headline-lg-size), 6vw, var(--text-display-lg-size));
-    font-weight: var(--text-display-lg-weight);
-    line-height: var(--text-display-lg-line-height);
-    letter-spacing: var(--text-display-lg-letter-spacing);
+  .about-page.prose .about-page__header > * {
+    margin-top: 0;
   }
 
-  .about-page__section + .about-page__section {
-    margin-top: var(--space-12);
+  .about-page.prose .about-page__header > * + * {
+    margin-top: var(--space-4);
   }
 
-  @media (min-width: 960px) {
-    .about-page__section + .about-page__section {
-      margin-top: var(--space-section-margin);
+  .about-page.prose .about-page__header .about-page__lede + .about-page__actions {
+    margin-top: var(--space-6);
+  }
+
+  .about-page__lede {
+    font-size: var(--text-body-lg-size);
+    line-height: var(--text-body-lg-line-height);
+    color: var(--color-fg-muted);
+  }
+
+  .about-page__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .about-page__disclaimer {
+    margin-top: var(--space-6);
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    border: 1px solid color-mix(in srgb, var(--color-warning) 35%, var(--color-outline));
+    background: color-mix(in srgb, var(--color-primary-subtle) 40%, var(--color-surface-elevated));
+  }
+
+  .about-page__disclaimer-label {
+    margin: 0;
+    font-size: var(--text-caps-xs-size);
+    font-weight: var(--text-caps-xs-weight);
+    line-height: var(--text-caps-xs-line-height);
+    letter-spacing: var(--text-caps-xs-letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-on-primary-subtle);
+  }
+
+  .about-page__disclaimer-text {
+    margin: var(--space-2) 0 0;
+    font-size: var(--text-body-md-size);
+    line-height: var(--text-body-md-line-height);
+    color: var(--color-fg-muted);
+  }
+
+  .about-page__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    margin-top: var(--space-10);
+  }
+
+  .about-page__section h2 {
+    margin-top: 0;
+  }
+
+  .about-page__prose-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  .about-page__prose-stack p {
+    margin: 0;
+  }
+
+  .about-page__cards {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
+
+  @media (min-width: 640px) {
+    .about-page__cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .about-page__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-outline);
+    background: var(--color-surface);
+  }
+
+  .about-page__card-title {
+    margin: 0;
+    font-size: var(--text-title-sm-size);
+    font-weight: var(--text-title-sm-weight);
+    line-height: var(--text-title-sm-line-height);
+    letter-spacing: var(--text-title-sm-letter-spacing);
+  }
+
+  .about-page__card-body {
+    margin: 0;
+    flex: 1;
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+    color: var(--color-fg-muted);
+  }
+
+  .about-page__card-link {
+    font-size: var(--text-label-md-size);
+    font-weight: var(--text-label-md-weight);
+    line-height: var(--text-label-md-line-height);
+    color: var(--color-link);
+    text-decoration: none;
+  }
+
+  .about-page__card-link:hover {
+    text-decoration: underline;
+    color: var(--color-link-hover);
+  }
+
+  .about-page.prose .about-page__card-link {
+    color: var(--color-link);
+    text-decoration: none;
+  }
+
+  .about-page.prose .about-page__card-link:hover {
+    text-decoration: underline;
+    color: var(--color-link-hover);
+  }
+
+  .about-page__action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-md);
+    font-size: var(--text-label-md-size);
+    font-weight: var(--text-label-md-weight);
+    line-height: var(--text-label-md-line-height);
+    color: var(--color-fg-default);
+    text-decoration: none;
+    background: var(--color-surface);
+    transition:
+      border-color 0.15s ease,
+      background-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .about-page.prose .about-page__action {
+    color: var(--color-fg-default);
+    text-decoration: none;
+  }
+
+  .about-page__action:hover,
+  .about-page.prose .about-page__action:hover {
+    border-color: var(--color-outline-strong);
+    background: var(--color-surface-elevated);
+    text-decoration: none;
+    color: var(--color-fg-default);
+  }
+
+  .about-page__action--primary,
+  .about-page.prose .about-page__action--primary {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+
+  .about-page__action--primary:hover,
+  .about-page.prose .about-page__action--primary:hover {
+    border-color: var(--color-primary-hover);
+    background: var(--color-primary-hover);
+    color: var(--color-on-primary);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about-page__action {
+      transition: none;
     }
   }
 </style>

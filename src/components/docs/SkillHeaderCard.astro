@@ -1,26 +1,16 @@
 ---
 import type { Skill } from '../../data/skills-data';
-import { formatSkillDisplayName, getPhaseMeta } from '../../lib/skills';
-import PhaseChip from './PhaseChip.astro';
+import { formatSkillDisplayName } from '../../lib/skills';
 
 interface Props {
   skill: Skill;
 }
 
 const { skill } = Astro.props;
-const phaseMeta = getPhaseMeta(skill.phase);
 const displayName = formatSkillDisplayName(skill.name);
 ---
 
 <header class="skill-header-card">
-  <div class="skill-header-card__meta">
-    <PhaseChip phase={skill.phase} />
-    <nav class="skill-header-card__breadcrumb" aria-label="Breadcrumb">
-      <a href="/docs">Docs</a>
-      <span aria-hidden="true">/</span>
-      <span>{phaseMeta.label}</span>
-    </nav>
-  </div>
   <h1 class="skill-header-card__title">{displayName}</h1>
   <p class="skill-header-card__description">{skill.description}</p>
 </header>
@@ -41,32 +31,6 @@ const displayName = formatSkillDisplayName(skill.name);
     .skill-header-card {
       padding: var(--space-8);
     }
-  }
-
-  .skill-header-card__meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-3);
-  }
-
-  .skill-header-card__breadcrumb {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: var(--text-body-sm-size);
-    line-height: var(--text-body-sm-line-height);
-    color: var(--color-fg-muted);
-  }
-
-  .skill-header-card__breadcrumb a {
-    color: var(--color-link);
-    text-decoration: none;
-  }
-
-  .skill-header-card__breadcrumb a:hover {
-    text-decoration: underline;
-    color: var(--color-link-hover);
   }
 
   .skill-header-card__title {

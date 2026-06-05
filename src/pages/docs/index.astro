@@ -1,10 +1,134 @@
 ---
+import PhaseChip from '../../components/docs/PhaseChip.astro';
 import DocsLayout from '../../layouts/DocsLayout.astro';
-import { groupSkillsByPhase } from '../../lib/skills';
+import { ADLC_COMMAND_ROWS } from '../../lib/adlc-cycle';
+import { addy } from '../../lib/site';
+import { getPhaseMeta, groupSkillsByPhase } from '../../lib/skills';
 
 const groups = groupSkillsByPhase();
 const adlcPhases = groups.filter((group) => group.phase !== 'meta');
+const metaGroup = groups.find((group) => group.phase === 'meta');
 const skillCount = groups.reduce((total, group) => total + group.skills.length, 0);
+const repoBase = `${addy.repoUrl}/blob/main`;
+
+const pageSections = [
+  { id: 'how-skills-work', label: 'How skills work' },
+  { id: 'phase-meta', label: 'Meta' },
+  { id: 'adlc-framework', label: 'ADLC framework' },
+  { id: 'agent-personas', label: 'Agent personas' },
+  { id: 'reference-checklists', label: 'Reference checklists' },
+  { id: 'project-structure', label: 'Project structure' },
+  { id: 'why-agent-skills', label: 'Why agent skills?' },
+  { id: 'find-a-skill', label: 'Find a skill' },
+] as const;
+
+const designPrinciples = [
+  {
+    title: 'Process, not prose',
+    body: 'Skills are workflows agents follow, not reference docs they read. Each has steps, checkpoints, and exit criteria.',
+  },
+  {
+    title: 'Anti-rationalization',
+    body: 'Every skill includes common excuses agents use to skip steps (e.g., "I\'ll add tests later") with documented counter-arguments.',
+  },
+  {
+    title: 'Verification is non-negotiable',
+    body: 'Every skill ends with evidence requirements — tests passing, build output, runtime data. "Seems right" is never sufficient.',
+  },
+  {
+    title: 'Progressive disclosure',
+    body: 'The SKILL.md is the entry point. Supporting references load only when needed, keeping token usage minimal.',
+  },
+] as const;
+
+const agentPersonas = [
+  {
+    slug: 'code-reviewer',
+    role: 'Senior Staff Engineer',
+    perspective: 'Five-axis code review with "would a staff engineer approve this?" standard',
+  },
+  {
+    slug: 'test-engineer',
+    role: 'QA Specialist',
+    perspective: 'Test strategy, coverage analysis, and the Prove-It pattern',
+  },
+  {
+    slug: 'security-auditor',
+    role: 'Security Engineer',
+    perspective: 'Vulnerability detection, threat modeling, OWASP assessment',
+  },
+] as const;
+
+const referenceChecklists = [
+  {
+    slug: 'testing-patterns.md',
+    covers: 'Test structure, naming, mocking, React/API/E2E examples, anti-patterns',
+  },
+  {
+    slug: 'security-checklist.md',
+    covers: 'Pre-commit checks, auth, input validation, headers, CORS, OWASP Top 10',
+  },
+  {
+    slug: 'performance-checklist.md',
+    covers: 'Core Web Vitals targets, frontend/backend checklists, measurement commands',
+  },
+  {
+    slug: 'accessibility-checklist.md',
+    covers: 'Keyboard nav, screen readers, visual design, ARIA, testing tools',
+  },
+] as const;
+
+const skillAnatomy = `┌─────────────────────────────────────────────────┐
+│  SKILL.md                                       │
+│                                                 │
+│  ┌─ Frontmatter ─────────────────────────────┐  │
+│  │ name: lowercase-hyphen-name               │  │
+│  │ description: Guides agents through [task].│  │
+│  │              Use when…                    │  │
+│  └───────────────────────────────────────────┘  │
+│  Overview         → What this skill does        │
+│  When to Use      → Triggering conditions       │
+│  Process          → Step-by-step workflow       │
+│  Rationalizations → Excuses + rebuttals         │
+│  Red Flags        → Signs something's wrong     │
+│  Verification     → Evidence requirements       │
+└─────────────────────────────────────────────────┘`;
+
+const projectStructure = `agent-skills/
+├── skills/                            # 23 skills (22 lifecycle + 1 meta)
+│   ├── interview-me/                  #   Define
+│   ├── idea-refine/                   #   Define
+│   ├── spec-driven-development/       #   Define
+│   ├── planning-and-task-breakdown/   #   Plan
+│   ├── incremental-implementation/    #   Build
+│   ├── context-engineering/           #   Build
+│   ├── source-driven-development/     #   Build
+│   ├── doubt-driven-development/      #   Build
+│   ├── frontend-ui-engineering/       #   Build
+│   ├── test-driven-development/       #   Build
+│   ├── api-and-interface-design/      #   Build
+│   ├── browser-testing-with-devtools/ #   Verify
+│   ├── debugging-and-error-recovery/  #   Verify
+│   ├── code-review-and-quality/       #   Review
+│   ├── code-simplification/           #   Review
+│   ├── security-and-hardening/        #   Review
+│   ├── performance-optimization/      #   Review
+│   ├── git-workflow-and-versioning/   #   Ship
+│   ├── ci-cd-and-automation/          #   Ship
+│   ├── deprecation-and-migration/     #   Ship
+│   ├── documentation-and-adrs/        #   Ship
+│   ├── shipping-and-launch/           #   Ship
+│   └── using-agent-skills/            #   Meta: how to use this pack
+├── agents/                            # 3 specialist personas
+├── references/                        # 4 supplementary checklists
+├── hooks/                             # Session lifecycle hooks
+├── .claude/commands/                  # 7 slash commands (Claude Code)
+├── .gemini/commands/                  # 7 slash commands (Gemini CLI)
+└── docs/                              # Setup guides per tool`;
+
+const adlcHintByPhase = Object.fromEntries(
+  ADLC_COMMAND_ROWS.map((row) => [row.phase, row.principle]),
+) as Record<string, string>;
 ---
 
 <DocsLayout
@@ -15,69 +139,226 @@ const skillCount = groups.reduce((total, group) => total + group.skills.length, 
     <header class="docs-index__header">
       <h1>Getting started</h1>
       <p class="docs-index__lede">
-        This site collects {skillCount} agent skills from
-        <a href="https://github.com/addyosmani/agent-skills">Addy Osmani's agent-skills</a>
-        repo. Each skill is a focused instruction set you can invoke in Claude Code, Cursor, Codex,
-        or any tool that supports skills.
+        {skillCount} agent skills from
+        <a href={addy.repoUrl}>Addy Osmani's agent-skills</a>, organized by the AI Development
+        Lifecycle. Each skill is a focused instruction set for Claude Code, Cursor, Codex, and other
+        tools that support skills.
       </p>
+      <div class="docs-index__actions">
+        <a class="docs-index__action docs-index__action--primary" href="/quickstart">Quick start</a>
+        <a class="docs-index__action" href="/docs/skills/using-agent-skills">Browse skills</a>
+      </div>
     </header>
 
-    <section class="docs-index__section">
-      <h2>How skills work</h2>
-      <p>
-        A skill tells the agent what to do in a specific situation — writing a spec, running tests,
-        reviewing a PR, shipping to production. Pick a skill from the sidebar and read its
-        instructions when the task matches.
-      </p>
-      <p>
-        Skills are plain Markdown with frontmatter. The site syncs from the upstream repo, so what
-        you read here is what the agent loads.
-      </p>
-    </section>
-
-    <section id="phase-meta" class="docs-index__section docs-index__phase-anchor">
-      <h2>Meta</h2>
-      <p>
-        Skills for discovering which skill to use. Browse them under <strong>Meta</strong> in the
-        sidebar.
-      </p>
-    </section>
-
-    <section class="docs-index__section">
-      <h2>The ADLC framework</h2>
-      <p>
-        Most skills map to one phase of the AI Development Lifecycle — a loop from defining the
-        problem through shipping and simplifying what you built. Meta skills sit outside the loop.
-      </p>
-      <ol class="docs-index__phases">
+    <nav class="docs-index__toc" aria-label="On this page">
+      <p class="docs-index__toc-label">On this page</p>
+      <ul class="docs-index__toc-list">
         {
-          adlcPhases.map((group) => (
-            <li id={`phase-${group.phase}`} class="docs-index__phase-anchor">
-              <strong>{group.label}</strong>
-              {group.command ? (
-                <>
-                  {' '}
-                  (<code>{group.command}</code>)
-                </>
-              ) : null}
-              {' — '}
-              {group.skills.length} skill{group.skills.length === 1 ? '' : 's'}
+          pageSections.map((section) => (
+            <li class="docs-index__toc-item">
+              <a href={`#${section.id}`}>{section.label}</a>
             </li>
           ))
         }
-      </ol>
-    </section>
+      </ul>
+    </nav>
 
-    <section class="docs-index__section">
-      <h2>Find a skill</h2>
-      <p>
-        Use the sidebar to browse by phase, or open search with <kbd>⌘</kbd><kbd>K</kbd>. Every skill page shows full instructions and related skills
-        when the upstream metadata lists them.
-      </p>
-      <p class="docs-index__browse">
-        <a href="/docs/skills/using-agent-skills">Start with Using Agent Skills →</a>
-      </p>
-    </section>
+    <div class="docs-index__body">
+      <section id="how-skills-work" class="docs-index__section">
+        <h2>How skills work</h2>
+        <p>
+          A skill tells the agent what to do in a specific situation — writing a spec, running tests,
+          reviewing a PR, shipping to production. Pick a skill from the sidebar when the task matches.
+        </p>
+        <figure class="docs-index__figure">
+          <figcaption class="docs-index__figure-caption">Skill anatomy (from upstream README)</figcaption>
+          <pre><code>{skillAnatomy}</code></pre>
+        </figure>
+        <div class="docs-index__principles">
+          {
+            designPrinciples.map((principle) => (
+              <article class="docs-index__principle">
+                <h3 class="docs-index__principle-title">{principle.title}</h3>
+                <p class="docs-index__principle-body">{principle.body}</p>
+              </article>
+            ))
+          }
+        </div>
+        <p class="docs-index__note">
+          Skills are plain Markdown with frontmatter. The site syncs from the upstream repo — what you
+          read here is what the agent loads.
+        </p>
+      </section>
+
+      <div class="docs-index__group">
+        <aside id="phase-meta" class="docs-index__callout docs-index__phase-anchor">
+          <div class="docs-index__callout-head">
+            <PhaseChip phase="meta" size="sm" />
+            <h2 class="docs-index__callout-title">Meta</h2>
+          </div>
+          <p>
+            Meta skills sit outside the ADLC loop. They help you discover which skill to use — browse
+            under <strong>Meta</strong> in the sidebar
+            {metaGroup ? ` (${metaGroup.skills.length} skill${metaGroup.skills.length === 1 ? '' : 's'})` : ''}.
+          </p>
+        </aside>
+
+        <section id="adlc-framework" class="docs-index__section">
+          <h2>The ADLC framework</h2>
+          <p>
+            Most skills map to one phase of the AI Development Lifecycle — a loop from defining the
+            problem through shipping and simplifying what you built. Seven slash commands map to lead
+            skills; every other skill activates automatically based on what you are doing.
+          </p>
+          <ol class="docs-index__phase-list">
+            {
+              adlcPhases.map((group) => {
+                const meta = getPhaseMeta(group.phase);
+                const hint = adlcHintByPhase[group.phase] ?? '';
+                return (
+                  <li
+                    id={`phase-${group.phase}`}
+                    class="docs-index__phase-item docs-index__phase-anchor"
+                    style={`--phase-accent: var(${meta.fgVar}); --phase-bg: var(${meta.subtleVar});`}
+                  >
+                    <div class="docs-index__phase-main">
+                      <span class="docs-index__phase-label">{group.label}</span>
+                      {group.command ? <code class="docs-index__phase-command">{group.command}</code> : null}
+                    </div>
+                    <p class="docs-index__phase-meta">
+                      {group.skills.length} skill{group.skills.length === 1 ? '' : 's'}
+                      {hint ? ` · ${hint}` : ''}
+                    </p>
+                  </li>
+                );
+              })
+            }
+          </ol>
+        </section>
+      </div>
+
+      <div class="docs-index__group docs-index__group--reference">
+        <section id="agent-personas" class="docs-index__section">
+          <h2>Agent Personas</h2>
+          <p class="docs-index__section-lede">
+            Pre-configured specialist personas for targeted reviews.
+          </p>
+          <div class="docs-index__table-wrap">
+            <table class="docs-index__table">
+              <caption class="docs-index__table-caption">
+                Specialist personas in the upstream agents directory
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Agent</th>
+                  <th scope="col">Role</th>
+                  <th scope="col">Perspective</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  agentPersonas.map((persona) => (
+                    <tr>
+                      <td>
+                        <a href={`${repoBase}/agents/${persona.slug}.md`}>{persona.slug}</a>
+                      </td>
+                      <td>{persona.role}</td>
+                      <td>{persona.perspective}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="reference-checklists" class="docs-index__section">
+          <h2>Reference Checklists</h2>
+          <p class="docs-index__section-lede">
+            Quick-reference material that skills pull in when needed.
+          </p>
+          <div class="docs-index__table-wrap">
+            <table class="docs-index__table">
+              <caption class="docs-index__table-caption">
+                Supplementary checklists in the upstream references directory
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Reference</th>
+                  <th scope="col">Covers</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  referenceChecklists.map((ref) => (
+                    <tr>
+                      <td>
+                        <a href={`${repoBase}/references/${ref.slug}`}>{ref.slug}</a>
+                      </td>
+                      <td>{ref.covers}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <section id="project-structure" class="docs-index__section">
+        <h2>Project Structure</h2>
+        <p class="docs-index__section-lede">The upstream pack layout.</p>
+        <figure class="docs-index__figure">
+          <figcaption class="docs-index__figure-caption">Repository tree</figcaption>
+          <pre><code>{projectStructure}</code></pre>
+        </figure>
+      </section>
+
+      <section id="why-agent-skills" class="docs-index__section docs-index__section--prose-wide">
+        <h2>Why Agent Skills?</h2>
+        <div class="docs-index__prose-stack">
+          <p>
+            AI coding agents default to the shortest path — which often means skipping specs, tests,
+            security reviews, and the practices that make software reliable. Agent Skills gives agents
+            structured workflows that enforce the same discipline senior engineers bring to production
+            code.
+          </p>
+          <p>
+            Each skill encodes hard-won engineering judgment: <em>when</em> to write a spec, <em>what</em>
+            to test, <em>how</em> to review, and <em>when</em> to ship. These aren't generic prompts —
+            they're opinionated, process-driven workflows that separate production-quality work from
+            prototype-quality work.
+          </p>
+          <p>
+            Skills bake in best practices from Google's engineering culture — including concepts from
+            <a href="https://abseil.io/resources/swe-book">Software Engineering at Google</a> and
+            Google's
+            <a href="https://google.github.io/eng-practices/">engineering practices guide</a>. You'll
+            find Hyrum's Law in API design, the Beyonce Rule and test pyramid in testing, change sizing
+            and review speed norms in code review, Chesterton's Fence in simplification, trunk-based
+            development in git workflow, Shift Left and feature flags in CI/CD, and a dedicated
+            deprecation skill treating code as a liability.
+          </p>
+        </div>
+      </section>
+
+      <section id="find-a-skill" class="docs-index__section">
+        <div class="docs-index__cta">
+          <div class="docs-index__cta-copy">
+            <h2 class="docs-index__cta-title">Find a skill</h2>
+            <p>
+              Browse by phase in the sidebar, or open search with <kbd>⌘</kbd><kbd>K</kbd>. Every skill
+              page shows full instructions and related skills when upstream metadata lists them.
+            </p>
+          </div>
+          <div class="docs-index__cta-actions">
+            <a class="docs-index__action docs-index__action--primary" href="/docs/skills/using-agent-skills">
+              Start with Using Agent Skills
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
   </article>
 </DocsLayout>
 
@@ -88,7 +369,8 @@ const skillCount = groups.reduce((total, group) => total + group.skills.length, 
   }
 
   .docs-index__header {
-    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-outline);
   }
 
   .docs-index__lede {
@@ -98,28 +380,383 @@ const skillCount = groups.reduce((total, group) => total + group.skills.length, 
     color: var(--color-fg-muted);
   }
 
-  .docs-index__section + .docs-index__section {
-    margin-top: var(--space-8);
+  .docs-index__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
   }
 
-  .docs-index__phases {
-    margin-top: var(--space-4);
-    padding-left: var(--space-6);
+  .docs-index__action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-md);
+    font-size: var(--text-label-md-size);
+    font-weight: var(--text-label-md-weight);
+    line-height: var(--text-label-md-line-height);
+    color: var(--color-fg-default);
+    text-decoration: none;
+    background: var(--color-surface);
+    transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .docs-index.prose .docs-index__action {
+    color: var(--color-fg-default);
+    text-decoration: none;
+  }
+
+  .docs-index__action:hover,
+  .docs-index.prose .docs-index__action:hover {
+    border-color: var(--color-outline-strong);
+    background: var(--color-surface-elevated);
+    text-decoration: none;
+    color: var(--color-fg-default);
+  }
+
+  .docs-index__action--primary,
+  .docs-index.prose .docs-index__action--primary {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+
+  .docs-index__action--primary:hover,
+  .docs-index.prose .docs-index__action--primary:hover {
+    border-color: var(--color-primary-hover);
+    background: var(--color-primary-hover);
+    color: var(--color-on-primary);
+  }
+
+  .docs-index__toc {
+    margin-top: var(--space-6);
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-elevated);
+    border: 1px solid var(--color-outline);
+  }
+
+  .docs-index__toc-label {
+    margin: 0;
+    font-size: var(--text-caps-xs-size);
+    font-weight: var(--text-caps-xs-weight);
+    line-height: var(--text-caps-xs-line-height);
+    letter-spacing: var(--text-caps-xs-letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-fg-subtle);
+  }
+
+  .docs-index__toc-list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-1);
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 520px) {
+    .docs-index__toc-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-6);
+    }
+  }
+
+  .docs-index__toc-item {
+    margin: 0;
+  }
+
+  .docs-index__toc-list a {
+    display: block;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    border-left: 2px solid transparent;
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+    color: var(--color-fg-muted);
+    text-decoration: none;
+    transition:
+      color 0.15s ease,
+      background-color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .docs-index__toc-list a:hover,
+  .docs-index__toc-list a:focus-visible {
+    color: var(--color-link);
+    background: color-mix(in srgb, var(--color-primary-subtle) 40%, transparent);
+    border-left-color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .docs-index__body {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: var(--space-12);
+    margin-top: var(--space-10);
   }
 
-  .docs-index__phases code {
+  .docs-index__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .docs-index__group--reference {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-outline);
+  }
+
+  .docs-index__section h2 {
+    margin-top: 0;
+  }
+
+  .docs-index__section-lede {
+    margin-top: var(--space-2);
+    color: var(--color-fg-muted);
+  }
+
+  .docs-index__figure {
+    margin: var(--space-6) 0 0;
+  }
+
+  .docs-index__figure-caption {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-label-sm-size);
+    font-weight: var(--text-label-sm-weight);
+    line-height: var(--text-label-sm-line-height);
+    letter-spacing: var(--text-label-sm-letter-spacing);
+    color: var(--color-fg-subtle);
+  }
+
+  .docs-index__figure pre {
+    margin-top: 0;
+  }
+
+  .docs-index__principles {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .docs-index__principles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .docs-index__principle {
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-outline);
+    border-left: 3px solid var(--color-primary);
+    background: var(--color-surface);
+  }
+
+  .docs-index__principle-title {
+    margin: 0;
+    font-size: var(--text-title-sm-size);
+    font-weight: var(--text-title-sm-weight);
+    line-height: var(--text-title-sm-line-height);
+    letter-spacing: var(--text-title-sm-letter-spacing);
+  }
+
+  .docs-index__principle-body {
+    margin: var(--space-2) 0 0;
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+    color: var(--color-fg-muted);
+  }
+
+  .docs-index__note {
+    margin-top: var(--space-6);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-elevated);
+    font-size: var(--text-body-md-size);
+    line-height: var(--text-body-md-line-height);
+    color: var(--color-fg-muted);
+  }
+
+  .docs-index__callout {
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-outline);
+    background: var(--phase-meta-subtle);
+  }
+
+  .docs-index__callout-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+
+  .docs-index__callout-title {
+    margin: 0;
+    font-size: var(--text-headline-sm-size);
+    font-weight: var(--text-headline-sm-weight);
+    line-height: var(--text-headline-sm-line-height);
+    letter-spacing: var(--text-headline-sm-letter-spacing);
+  }
+
+  .docs-index__callout p {
+    margin: 0;
+    color: var(--color-fg-muted);
+  }
+
+  .docs-index__phase-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .docs-index__phase-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-outline);
+    border-left: 3px solid var(--phase-accent);
+    background: color-mix(in srgb, var(--phase-bg) 55%, var(--color-surface));
+  }
+
+  .docs-index__phase-main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+  }
+
+  .docs-index__phase-label {
+    font-size: var(--text-title-sm-size);
+    font-weight: var(--text-title-sm-weight);
+    line-height: var(--text-title-sm-line-height);
+    color: var(--phase-accent);
+  }
+
+  .docs-index__phase-command {
+    font-family: var(--font-mono);
+    font-size: var(--text-code-sm-size);
+    line-height: var(--text-code-sm-line-height);
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-sm);
+    background: var(--color-code-bg);
+    color: var(--color-link);
+  }
+
+  .docs-index__phase-meta {
+    margin: 0;
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+    color: var(--color-fg-muted);
+  }
+
+  .docs-index__table-wrap {
+    margin-top: var(--space-4);
+    overflow-x: auto;
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-xs);
+  }
+
+  .docs-index__table {
+    width: 100%;
+    min-width: 28rem;
+    border-collapse: collapse;
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-line-height);
+  }
+
+  .docs-index__table-caption {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .docs-index__table th,
+  .docs-index__table td {
+    padding: var(--space-4) var(--space-5);
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-outline);
+  }
+
+  .docs-index__table thead th {
+    font-size: var(--text-label-sm-size);
+    font-weight: var(--text-label-sm-weight);
+    letter-spacing: var(--text-label-sm-letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-fg-subtle);
+    background: var(--color-surface-elevated);
+  }
+
+  .docs-index__table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .docs-index__table td:first-child {
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .docs-index__table td:first-child a {
+    font-family: var(--font-mono);
     font-size: var(--text-code-sm-size);
   }
 
-  .docs-index__browse {
+  .docs-index__prose-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
     margin-top: var(--space-4);
   }
 
-  .docs-index__browse a {
-    font-weight: var(--text-label-md-weight);
+  .docs-index__prose-stack p {
+    margin: 0;
+  }
+
+  .docs-index__cta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    border: 1px solid color-mix(in srgb, var(--color-primary) 35%, var(--color-outline));
+    background: color-mix(in srgb, var(--color-primary-subtle) 45%, var(--color-surface));
+  }
+
+  .docs-index__cta-title {
+    margin: 0;
+    font-size: var(--text-headline-sm-size);
+    font-weight: var(--text-headline-sm-weight);
+    line-height: var(--text-headline-sm-line-height);
+    letter-spacing: var(--text-headline-sm-letter-spacing);
+  }
+
+  .docs-index__cta-copy p {
+    margin: var(--space-2) 0 0;
+    color: var(--color-fg-muted);
+  }
+
+  .docs-index__cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
   }
 
   .docs-index kbd {
@@ -130,5 +767,26 @@ const skillCount = groups.reduce((total, group) => total + group.skills.length, 
     font-family: var(--font-mono);
     font-size: var(--text-code-sm-size);
     background: var(--color-code-bg);
+  }
+
+  @media (min-width: 640px) {
+    .docs-index__cta {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-8);
+    }
+
+    .docs-index__cta-copy {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .docs-index__action,
+    .docs-index__toc-list a {
+      transition: none;
+    }
   }
 </style>

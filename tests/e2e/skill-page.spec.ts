@@ -5,14 +5,13 @@ const skillSlug = 'incremental-implementation';
 const displayName = formatSkillDisplayName(skillSlug);
 
 test.describe('skill page', () => {
-  test('header card shows name, phase chip, and description', async ({ page }) => {
+  test('header card shows name and description only', async ({ page }) => {
     await page.goto(`/docs/skills/${skillSlug}`);
 
     const header = page.locator('.skill-header-card');
     await expect(header.getByRole('heading', { level: 1, name: displayName })).toBeVisible();
-    await expect(header.locator('.phase-chip')).toHaveText('Build');
-    await expect(header.locator('.copyable-command')).toHaveCount(0);
-    await expect(header.getByText('Activates automatically')).toHaveCount(0);
+    await expect(header.locator('.phase-chip')).toHaveCount(0);
+    await expect(header.getByRole('navigation', { name: 'Breadcrumb' })).toHaveCount(0);
   });
 
   test('SKILL.md body renders in prose', async ({ page }) => {

@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
 import { addy } from '../../src/lib/site';
 import { maintainerLink } from './helpers';
 
