@@ -1,24 +1,12 @@
-import { expect, type Page, test } from '@playwright/test';
-import { isMobileProject, openSearchDialog, searchInput } from './helpers';
-
-async function expectPrimaryNavLinks(page: Page): Promise<void> {
-  const menuButton = page.getByRole('button', { name: 'Open site menu' });
-  if (await menuButton.isVisible()) {
-    await page.getByRole('button', { name: 'Open site menu' }).click();
-    const menu = page.getByRole('dialog', { name: 'Site menu' });
-    await expect(menu.getByRole('link', { name: 'Docs' })).toBeVisible();
-    await expect(menu.getByRole('link', { name: 'Quick start' })).toBeVisible();
-    await expect(menu.getByRole('link', { name: 'About' })).toBeVisible();
-    await page.keyboard.press('Escape');
-    await expect(menu).toBeHidden();
-    return;
-  }
-
-  const primaryNav = page.getByRole('navigation', { name: 'Primary' });
-  await expect(primaryNav.getByRole('link', { name: 'Docs' })).toBeVisible();
-  await expect(primaryNav.getByRole('link', { name: 'Quick start' })).toBeVisible();
-  await expect(primaryNav.getByRole('link', { name: 'About' })).toBeVisible();
-}
+import { expect, test } from '@playwright/test';
+import {
+  expectPrimaryNavLinks,
+  isMobileProject,
+  openSearchDialog,
+  openSearchViaClick,
+  searchInput,
+  waitForSiteNavMenu,
+} from './helpers';
 
 test.describe('site header', () => {
   test('primary nav has Docs, Quick start, and About (no GitHub text link)', async ({ page }) => {
@@ -34,6 +22,7 @@ test.describe('site header', () => {
     test.skip(!isMobileProject(testInfo.project.name), 'Mobile browsers only');
 
     await page.goto('/');
+    await waitForSiteNavMenu(page);
 
     await expect(page.getByRole('button', { name: 'Open site menu' })).toBeVisible({
       timeout: 15_000,
@@ -106,8 +95,7 @@ test.describe('site header', () => {
   test('search opens via click and keyboard shortcut', async ({ page }) => {
     await page.goto('/');
 
-    await page.getByRole('button', { name: 'Search skills' }).click();
-    await expect(page.getByRole('dialog', { name: 'Search skills' })).toBeVisible();
+    await openSearchViaClick(page);
     await page.keyboard.press('Escape');
     await expect(page.getByRole('dialog', { name: 'Search skills' })).toBeHidden();
 

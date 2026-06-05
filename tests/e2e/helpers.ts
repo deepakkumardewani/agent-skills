@@ -27,6 +27,57 @@ export async function waitForIslandHydration(page: Page, componentName: string):
   );
 }
 
+export async function waitForSiteNavMenu(page: Page): Promise<void> {
+  const viewport = page.viewportSize();
+  if (!viewport || viewport.width >= 960) {
+    return;
+  }
+
+  await waitForIslandHydration(page, 'SiteNavMenu');
+  await expect(page.getByRole('button', { name: 'Open site menu' })).toBeVisible({
+    timeout: 15_000,
+  });
+}
+
+export async function clickPrimaryNavLink(page: Page, linkName: string): Promise<void> {
+  await waitForSiteNavMenu(page);
+
+  const menuButton = page.getByRole('button', { name: 'Open site menu' });
+  if (await menuButton.isVisible()) {
+    await menuButton.click();
+    const menu = page.getByRole('dialog', { name: 'Site menu' });
+    await expect(menu).toBeVisible();
+    await menu.getByRole('link', { name: linkName }).click();
+    return;
+  }
+
+  await page
+    .getByRole('navigation', { name: 'Primary' })
+    .getByRole('link', { name: linkName })
+    .click();
+}
+
+export async function expectPrimaryNavLinks(page: Page): Promise<void> {
+  await waitForSiteNavMenu(page);
+
+  const menuButton = page.getByRole('button', { name: 'Open site menu' });
+  if (await menuButton.isVisible()) {
+    await menuButton.click();
+    const menu = page.getByRole('dialog', { name: 'Site menu' });
+    await expect(menu.getByRole('link', { name: 'Docs' })).toBeVisible();
+    await expect(menu.getByRole('link', { name: 'Quick start' })).toBeVisible();
+    await expect(menu.getByRole('link', { name: 'About' })).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(menu).toBeHidden();
+    return;
+  }
+
+  const primaryNav = page.getByRole('navigation', { name: 'Primary' });
+  await expect(primaryNav.getByRole('link', { name: 'Docs' })).toBeVisible();
+  await expect(primaryNav.getByRole('link', { name: 'Quick start' })).toBeVisible();
+  await expect(primaryNav.getByRole('link', { name: 'About' })).toBeVisible();
+}
+
 export async function openSearchDialog(page: Page): Promise<void> {
   const isMac = process.platform === 'darwin';
   await page.keyboard.press(isMac ? 'Meta+k' : 'Control+k');
@@ -37,6 +88,13 @@ export async function openSearchDialog(page: Page): Promise<void> {
   }
 
   await expect(dialog).toBeVisible({ timeout: 15_000 });
+}
+
+export async function openSearchViaClick(page: Page): Promise<void> {
+  await page.getByRole('button', { name: 'Search skills' }).click();
+  await expect(page.getByRole('dialog', { name: 'Search skills' })).toBeVisible({
+    timeout: 15_000,
+  });
 }
 
 export async function openSkillsNav(page: Page, isMobile: boolean): Promise<void> {

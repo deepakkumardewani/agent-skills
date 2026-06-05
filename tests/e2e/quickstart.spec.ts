@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { waitForIslandHydration } from './helpers';
+import { clickPrimaryNavLink, waitForIslandHydration } from './helpers';
 
 const TOOL_SECTIONS = [
   { name: 'Claude Code', badge: 'Recommended' },
@@ -38,7 +38,7 @@ test.describe('quick start page', () => {
     await context.grantPermissions(['clipboard-read', 'clipboard-write']);
     await page.goto('/quickstart');
 
-    await waitForIslandHydration(page, 'CopyableCommand');
+    await waitForIslandHydration(page, 'QuickstartTools');
 
     const command = '/plugin marketplace add addyosmani/agent-skills';
     const row = page.locator('[data-copyable-command]').filter({ hasText: command }).first();
@@ -54,10 +54,7 @@ test.describe('quick start page', () => {
   test('header nav and hero link resolve', async ({ page }) => {
     await page.goto('/');
 
-    await page
-      .getByRole('navigation', { name: 'Primary' })
-      .getByRole('link', { name: 'Quick start' })
-      .click();
+    await clickPrimaryNavLink(page, 'Quick start');
     await expect(page).toHaveURL('/quickstart');
 
     await page.goto('/');

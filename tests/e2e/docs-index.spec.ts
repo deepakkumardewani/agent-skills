@@ -13,10 +13,10 @@ const DOCS_SECTIONS = [
 ] as const;
 
 const DESIGN_CHOICES = [
-  'Process, not prose.',
-  'Anti-rationalization.',
-  'Verification is non-negotiable.',
-  'Progressive disclosure.',
+  'Process, not prose',
+  'Anti-rationalization',
+  'Verification is non-negotiable',
+  'Progressive disclosure',
 ] as const;
 
 const UPSTREAM_LINKS = [
