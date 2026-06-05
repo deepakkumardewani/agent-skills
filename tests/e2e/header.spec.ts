@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import {
+  closeSearchDialog,
   expectPrimaryNavLinks,
   isMobileProject,
   openSearchDialog,
@@ -96,8 +97,7 @@ test.describe('site header', () => {
     await page.goto('/');
 
     await openSearchViaClick(page);
-    await page.keyboard.press('Escape');
-    await expect(page.getByRole('dialog', { name: 'Search skills' })).toBeHidden();
+    await closeSearchDialog(page);
 
     await openSearchDialog(page);
     await expect(searchInput(page)).toBeVisible();

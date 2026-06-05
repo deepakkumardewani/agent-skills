@@ -64,11 +64,12 @@ export async function expectPrimaryNavLinks(page: Page): Promise<void> {
   if (await menuButton.isVisible()) {
     await menuButton.click();
     const menu = page.getByRole('dialog', { name: 'Site menu' });
+    await expect(menu).toBeVisible();
     await expect(menu.getByRole('link', { name: 'Docs' })).toBeVisible();
     await expect(menu.getByRole('link', { name: 'Quick start' })).toBeVisible();
     await expect(menu.getByRole('link', { name: 'About' })).toBeVisible();
-    await page.keyboard.press('Escape');
-    await expect(menu).toBeHidden();
+    await menu.getByRole('button', { name: 'Close site menu' }).last().click();
+    await expect(menuButton).toHaveAttribute('aria-expanded', 'false');
     return;
   }
 
@@ -79,15 +80,35 @@ export async function expectPrimaryNavLinks(page: Page): Promise<void> {
 }
 
 export async function openSearchDialog(page: Page): Promise<void> {
-  const isMac = process.platform === 'darwin';
-  await page.keyboard.press(isMac ? 'Meta+k' : 'Control+k');
-
   const dialog = page.getByRole('dialog', { name: 'Search skills' });
-  if (await dialog.isHidden()) {
-    await page.getByRole('button', { name: 'Search skills' }).click();
+  if (await dialog.isVisible()) {
+    await expect(searchInput(page)).toBeVisible();
+    return;
+  }
+
+  const isMac = process.platform === 'darwin';
+  const shortcut = isMac ? 'Meta+k' : 'Control+k';
+
+  await page.keyboard.press(shortcut);
+
+  try {
+    await expect(dialog).toBeVisible({ timeout: 2_000 });
+  } catch {
+    await page.waitForFunction(
+      () => document.getElementById('search-dialog-root')?.dataset.mounted === 'true',
+      { timeout: 15_000 },
+    );
+  }
+
+  // Avoid a second Cmd/Ctrl+K — it toggles closed when mount used initialOpen: true.
+  if (!(await dialog.isVisible())) {
+    await page.evaluate(() => {
+      window.dispatchEvent(new CustomEvent('site-search:open'));
+    });
   }
 
   await expect(dialog).toBeVisible({ timeout: 15_000 });
+  await expect(searchInput(page)).toBeVisible({ timeout: 15_000 });
 }
 
 export async function openSearchViaClick(page: Page): Promise<void> {
@@ -95,6 +116,17 @@ export async function openSearchViaClick(page: Page): Promise<void> {
   await expect(page.getByRole('dialog', { name: 'Search skills' })).toBeVisible({
     timeout: 15_000,
   });
+  await expect(searchInput(page)).toBeVisible({ timeout: 15_000 });
+}
+
+export async function closeSearchDialog(page: Page): Promise<void> {
+  const dialog = page.getByRole('dialog', { name: 'Search skills' });
+  if (!(await dialog.isVisible())) {
+    return;
+  }
+
+  await searchInput(page).press('Escape');
+  await expect(dialog).toBeHidden({ timeout: 15_000 });
 }
 
 export async function openSkillsNav(page: Page, isMobile: boolean): Promise<void> {
