@@ -4,6 +4,7 @@ import {
   ADLC_PHASE_HINTS,
   buildAdlcCyclePhases,
   buildWheelTicks,
+  flowArcPath,
   formatDiagramCommand,
   getAdlcCyclePhases,
   hintPlacementForAngle,
@@ -70,5 +71,16 @@ describe('adlc-cycle', () => {
     const ticks = buildWheelTicks();
     expect(ticks).toHaveLength(12);
     expect(ticks.filter((tick) => tick.cardinal)).toHaveLength(4);
+  });
+
+  it('builds SVG arc paths for clockwise and counter-clockwise segments', () => {
+    const clockwise = flowArcPath(0, 90, 40);
+    expect(clockwise).toMatch(/^M [\d.]+ [\d.]+ A 40 40 0 0 1/);
+
+    const counterClockwise = flowArcPath(90, 0, 40);
+    expect(counterClockwise).toMatch(/^M [\d.]+ [\d.]+ A 40 40 0 0 0/);
+
+    const largeArc = flowArcPath(0, 200, 40);
+    expect(largeArc).toContain('A 40 40 0 1');
   });
 });

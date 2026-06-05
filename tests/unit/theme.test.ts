@@ -54,6 +54,16 @@ describe('theme lib', () => {
     expect(getToggleLabel('dark')).toBe('Switch to light mode');
   });
 
+  it('falls back safely when browser globals are unavailable', () => {
+    vi.stubGlobal('localStorage', undefined);
+    vi.stubGlobal('window', undefined);
+    vi.stubGlobal('document', undefined);
+
+    expect(getStoredTheme()).toBeNull();
+    expect(getSystemTheme()).toBe('light');
+    expect(getDocumentTheme()).toBe('light');
+  });
+
   describe('browser APIs', () => {
     const documentElement = { dataset: { theme: 'light' } };
 
@@ -82,9 +92,26 @@ describe('theme lib', () => {
       expect(getSystemTheme()).toBe('dark');
     });
 
+    it('falls back to light when the system prefers light mode', () => {
+      vi.stubGlobal('window', {
+        matchMedia: vi.fn().mockReturnValue({
+          matches: false,
+          addEventListener: vi.fn(),
+          removeEventListener: vi.fn(),
+        }),
+      });
+
+      expect(getSystemTheme()).toBe('light');
+    });
+
     it('reads theme from the document root', () => {
       documentElement.dataset.theme = 'dark';
       expect(getDocumentTheme()).toBe('dark');
+    });
+
+    it('defaults to light when the document root has an invalid theme', () => {
+      documentElement.dataset.theme = 'system';
+      expect(getDocumentTheme()).toBe('light');
     });
 
     it('applies theme to document and localStorage', () => {

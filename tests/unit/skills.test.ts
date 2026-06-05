@@ -4,6 +4,7 @@ import {
   formatSkillDisplayName,
   getPhaseMeta,
   getRelatedSkills,
+  getSkillBySlug,
   groupSkillsByPhase,
   PHASE_ORDER,
   sortSkillsAlphabetically,
@@ -55,6 +56,15 @@ describe('skills lib', () => {
   it('returns an empty list when a skill has no related entries', () => {
     expect(getRelatedSkills('spec-driven-development')).toEqual([]);
     expect(getRelatedSkills('missing-skill')).toEqual([]);
+  });
+
+  it('looks up skills by slug', () => {
+    expect(getSkillBySlug('spec-driven-development')?.phase).toBe('define');
+    expect(getSkillBySlug('missing-skill')).toBeUndefined();
+  });
+
+  it('skips empty segments in kebab-case names', () => {
+    expect(formatSkillDisplayName('foo--bar')).toBe('Foo Bar');
   });
 
   it.each([
