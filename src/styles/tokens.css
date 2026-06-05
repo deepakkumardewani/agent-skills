@@ -160,6 +160,11 @@
   --space-container-max: 1280px;
   --space-prose-max: 68ch;
   --space-sidebar-width: 264px;
+  --layout-header-height: 65px;
+  --layout-docs-sidebar-left: max(
+    var(--space-page-gutter),
+    calc((100vw - var(--space-container-max)) / 2 + var(--space-page-gutter))
+  );
   --space-card-gap: 16px;
   --space-section-margin: 96px;
   --space-page-gutter: 32px;
