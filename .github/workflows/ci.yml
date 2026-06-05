@@ -35,11 +35,11 @@ jobs:
       - name: Typecheck
         run: bun run typecheck
 
-      - name: Unit tests with coverage
-        run: bun vitest run --coverage
-
       - name: Production build
         run: bun run build
+
+      - name: Unit tests with coverage
+        run: bun vitest run --coverage
 
   e2e:
     name: Playwright e2e

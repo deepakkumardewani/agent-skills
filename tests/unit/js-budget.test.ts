@@ -6,6 +6,8 @@ import {
   measurePageJsGzip,
 } from '../../src/lib/js-budget';
 
+const hasProductionBuild = existsSync('dist/index.html');
+
 describe('js-budget', () => {
   it('extracts unique astro script references from HTML', () => {
     const html = `
@@ -20,15 +22,14 @@ describe('js-budget', () => {
     ]);
   });
 
-  it('keeps landing and skill pages within gzip budgets after build', () => {
-    if (!existsSync('dist/index.html')) {
-      throw new Error('Run `bun run build` before js-budget tests.');
-    }
+  it.skipIf(!hasProductionBuild)(
+    'keeps landing and skill pages within gzip budgets after build',
+    () => {
+      const landing = measurePageJsGzip('dist', 'index.html');
+      const skill = measurePageJsGzip('dist', 'docs/skills/spec-driven-development/index.html');
 
-    const landing = measurePageJsGzip('dist', 'index.html');
-    const skill = measurePageJsGzip('dist', 'docs/skills/spec-driven-development/index.html');
-
-    expect(landing.totalGzipBytes).toBeLessThanOrEqual(JS_BUDGET_BYTES.landing);
-    expect(skill.totalGzipBytes).toBeLessThanOrEqual(JS_BUDGET_BYTES.skill);
-  });
+      expect(landing.totalGzipBytes).toBeLessThanOrEqual(JS_BUDGET_BYTES.landing);
+      expect(skill.totalGzipBytes).toBeLessThanOrEqual(JS_BUDGET_BYTES.skill);
+    },
+  );
 });
