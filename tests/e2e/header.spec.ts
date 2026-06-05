@@ -1,14 +1,68 @@
-import { expect, test } from '@playwright/test';
-import { openSearchDialog, searchInput } from './helpers';
+import { expect, type Page, test } from '@playwright/test';
+import { isMobileProject, openSearchDialog, searchInput } from './helpers';
+
+async function expectPrimaryNavLinks(page: Page): Promise<void> {
+  const menuButton = page.getByRole('button', { name: 'Open site menu' });
+  if (await menuButton.isVisible()) {
+    await page.getByRole('button', { name: 'Open site menu' }).click();
+    const menu = page.getByRole('dialog', { name: 'Site menu' });
+    await expect(menu.getByRole('link', { name: 'Docs' })).toBeVisible();
+    await expect(menu.getByRole('link', { name: 'Quick start' })).toBeVisible();
+    await expect(menu.getByRole('link', { name: 'About' })).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(menu).toBeHidden();
+    return;
+  }
+
+  const primaryNav = page.getByRole('navigation', { name: 'Primary' });
+  await expect(primaryNav.getByRole('link', { name: 'Docs' })).toBeVisible();
+  await expect(primaryNav.getByRole('link', { name: 'Quick start' })).toBeVisible();
+  await expect(primaryNav.getByRole('link', { name: 'About' })).toBeVisible();
+}
 
 test.describe('site header', () => {
-  test('primary nav has Docs and About only (no GitHub text link)', async ({ page }) => {
+  test('primary nav has Docs, Quick start, and About (no GitHub text link)', async ({ page }) => {
     await page.goto('/');
 
-    const primaryNav = page.getByRole('navigation', { name: 'Primary' });
-    await expect(primaryNav.getByRole('link', { name: 'Docs' })).toBeVisible();
-    await expect(primaryNav.getByRole('link', { name: 'About' })).toBeVisible();
-    await expect(primaryNav.getByRole('link', { name: 'GitHub' })).toHaveCount(0);
+    await expectPrimaryNavLinks(page);
+    await expect(
+      page.locator('.site-header__nav').getByRole('link', { name: 'GitHub' }),
+    ).toHaveCount(0);
+  });
+
+  test('mobile header keeps a single row without inline nav links', async ({ page }, testInfo) => {
+    test.skip(!isMobileProject(testInfo.project.name), 'Mobile browsers only');
+
+    await page.goto('/');
+
+    await expect(page.getByRole('button', { name: 'Open site menu' })).toBeVisible({
+      timeout: 15_000,
+    });
+    await expect(page.locator('.site-header__nav')).toBeHidden();
+
+    const layout = await page.evaluate(() => {
+      const inner = document.querySelector('.site-header__inner');
+      const start = document.querySelector('.site-header__start');
+      const actions = document.querySelector('.site-header__actions');
+      const nav = document.querySelector('.site-header__nav');
+      if (!inner || !start || !actions || !nav) {
+        return { compactHeader: false, navHidden: false };
+      }
+      const innerRect = inner.getBoundingClientRect();
+      const startRect = start.getBoundingClientRect();
+      const actionsRect = actions.getBoundingClientRect();
+      return {
+        compactHeader:
+          Math.abs(startRect.top - actionsRect.top) <= 2 &&
+          innerRect.height <= 72 &&
+          startRect.bottom <= innerRect.bottom + 2 &&
+          actionsRect.bottom <= innerRect.bottom + 2,
+        navHidden: getComputedStyle(nav).display === 'none',
+      };
+    });
+
+    expect(layout.navHidden).toBe(true);
+    expect(layout.compactHeader).toBe(true);
   });
 
   test('GitHub icon sits immediately before the theme toggle', async ({ page }) => {
@@ -27,7 +81,7 @@ test.describe('site header', () => {
           if (child.matches('[data-theme-toggle]')) return 'theme';
           return null;
         })
-        .filter((key): key is string => key !== null);
+        .filter((key): key is 'search' | 'github' | 'theme' => key !== null);
     });
 
     expect(actionKeys).toEqual(['search', 'github', 'theme']);
@@ -44,7 +98,7 @@ test.describe('site header', () => {
     const brand = page.locator('.site-header__brand');
     await expect(brand).toBeVisible();
     await expect(brand.locator('.site-header__mark')).toBeVisible();
-    await expect(brand.locator('.site-header__wordmark-accent')).toHaveText('skills');
+    await expect(brand.locator('.site-header__wordmark-accent')).toHaveText('agent-skills');
     await brand.focus();
     await expect(brand).toBeFocused();
   });

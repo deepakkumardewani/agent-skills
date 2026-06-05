@@ -5,6 +5,7 @@ import {
   MOBILE_NAV_BREAKPOINT_PX,
   MOBILE_NAV_MEDIA_QUERY,
   shouldShowMobileNav,
+  shouldShowSiteNavMenu,
   skillHref,
 } from '../../src/lib/mobile-nav';
 
@@ -26,6 +27,13 @@ describe('mobile-nav helpers', () => {
     expect(shouldShowMobileNav('/docs/skills/build', true)).toBe(true);
     expect(shouldShowMobileNav('/docs', false)).toBe(false);
     expect(shouldShowMobileNav('/about', true)).toBe(false);
+  });
+
+  it('shows site menu only on marketing routes in mobile viewports', () => {
+    expect(shouldShowSiteNavMenu('/', true)).toBe(true);
+    expect(shouldShowSiteNavMenu('/about', true)).toBe(true);
+    expect(shouldShowSiteNavMenu('/docs', true)).toBe(false);
+    expect(shouldShowSiteNavMenu('/', false)).toBe(false);
   });
 
   it('builds skill hrefs and active state from pathname', () => {

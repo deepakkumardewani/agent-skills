@@ -3,12 +3,14 @@ import { MOBILE_NAV_MEDIA_QUERY } from '../../lib/mobile-nav';
 import { addy } from '../../lib/site';
 import SearchTrigger from '../search/SearchTrigger.astro';
 import MobileNav from './MobileNav';
+import SiteNavMenu from './SiteNavMenu';
 import ThemeToggle from './ThemeToggle.astro';
 
 const showMobileNav = Astro.url.pathname === '/docs' || Astro.url.pathname.startsWith('/docs/');
 
 const navItems = [
   { href: '/docs', label: 'Docs' },
+  { href: '/quickstart', label: 'Quick start' },
   { href: '/about', label: 'About' },
 ] as const;
 
@@ -18,12 +20,18 @@ const currentPath = Astro.url.pathname;
 <header class="site-header">
   <div class="site-header__inner">
     <div class="site-header__start">
-      {showMobileNav && <MobileNav client:media={MOBILE_NAV_MEDIA_QUERY} />}
+      {
+        showMobileNav ? (
+          <MobileNav client:media={MOBILE_NAV_MEDIA_QUERY} />
+        ) : (
+          <SiteNavMenu client:media={MOBILE_NAV_MEDIA_QUERY} />
+        )
+      }
       <a class="site-header__brand" href="/">
         <span class="site-header__mark" aria-hidden="true"></span>
         <span class="site-header__wordmark">
-          <span class="site-header__wordmark-base">addy-osmani</span><span
-            class="site-header__wordmark-accent">skills</span
+          <span class="site-header__wordmark-base">addy-osmani:</span><span
+            class="site-header__wordmark-accent">agent-skills</span
           >
         </span>
       </a>
@@ -37,7 +45,12 @@ const currentPath = Astro.url.pathname;
               <a
                 class:list={[
                   'site-header__nav-link',
-                  { 'is-active': currentPath.startsWith(item.href) },
+                  {
+                    'is-active':
+                      item.href === '/docs'
+                        ? currentPath.startsWith('/docs')
+                        : currentPath === item.href,
+                  },
                 ]}
                 href={item.href}
               >
@@ -150,7 +163,33 @@ const currentPath = Astro.url.pathname;
   }
 
   @media (max-width: 959px) {
-    html.has-mobile-skills-nav .site-header__nav {
+    .site-header__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+    }
+
+    .site-header__start {
+      flex: 1 1 auto;
+      min-width: 0;
+      grid-column: unset;
+      grid-row: unset;
+    }
+
+    .site-header__nav {
+      display: none;
+    }
+
+    .site-header__actions {
+      flex-shrink: 0;
+      grid-column: unset;
+      grid-row: unset;
+    }
+  }
+
+  @media (max-width: 479px) {
+    .site-header__wordmark-base {
       display: none;
     }
   }

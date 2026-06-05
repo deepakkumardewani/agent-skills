@@ -11,6 +11,10 @@ export function shouldShowMobileNav(pathname: string, isMobileViewport: boolean)
   return isMobileViewport && isDocsRoute(pathname);
 }
 
+export function shouldShowSiteNavMenu(pathname: string, isMobileViewport: boolean): boolean {
+  return isMobileViewport && !isDocsRoute(pathname);
+}
+
 export function skillHref(slug: string): string {
   return `/docs/skills/${slug}`;
 }
