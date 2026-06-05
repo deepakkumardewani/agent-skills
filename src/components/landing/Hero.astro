@@ -13,38 +13,82 @@ const skillCount = skillsData.skills.length;
     building software. These ones are packaged so AI agents follow them consistently across every phase
     of development.
   </p>
-  <p class="landing-hero__cta-row">
-    <a class="landing-hero__cta" href="/docs">Browse skills →</a>
-  </p>
-  <p class="landing-hero__meta">
-    {skillCount} skills across Meta plus seven ADLC phases
-  </p>
+  <div class="landing-hero__actions">
+    <p class="landing-hero__cta-row">
+      <a class="landing-hero__cta" href="/docs">Browse skills →</a>
+      <a class="landing-hero__cta landing-hero__cta--secondary" href="/quickstart">Quick start →</a>
+    </p>
+    <p class="landing-hero__meta">
+      {skillCount} skills across Meta plus seven ADLC phases
+    </p>
+  </div>
 </section>
 
 <style>
   .landing-hero {
     width: 100%;
     text-align: left;
+    padding-bottom: var(--space-2);
+  }
+
+  @media (min-width: 960px) {
+    .landing-hero {
+      padding-bottom: var(--space-8);
+    }
   }
 
   .landing-hero__title {
-    font-size: clamp(var(--text-headline-lg-size), 8vw, var(--text-display-lg-size));
+    font-size: clamp(var(--text-headline-md-size), 6.5vw, var(--text-display-lg-size));
     font-weight: var(--text-display-lg-weight);
-    line-height: var(--text-display-lg-line-height);
-    letter-spacing: var(--text-display-lg-letter-spacing);
+    line-height: 1.15;
+    letter-spacing: var(--text-headline-md-letter-spacing);
     color: var(--color-fg-default);
   }
 
+  @media (min-width: 640px) {
+    .landing-hero__title {
+      font-size: clamp(var(--text-headline-lg-size), 8vw, var(--text-display-lg-size));
+      line-height: var(--text-display-lg-line-height);
+      letter-spacing: var(--text-display-lg-letter-spacing);
+    }
+  }
+
   .landing-hero__subhead {
-    margin-top: var(--space-6);
-    max-width: 42rem;
-    font-size: var(--text-body-lg-size);
-    line-height: var(--text-body-lg-line-height);
+    margin-top: var(--space-4);
+    max-width: var(--space-prose-max);
+    font-size: var(--text-body-md-size);
+    line-height: var(--text-body-md-line-height);
     color: var(--color-fg-muted);
   }
 
+  @media (min-width: 640px) {
+    .landing-hero__subhead {
+      margin-top: var(--space-6);
+      font-size: var(--text-body-lg-size);
+      line-height: var(--text-body-lg-line-height);
+    }
+  }
+
+  .landing-hero__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-5);
+  }
+
+  @media (min-width: 640px) {
+    .landing-hero__actions {
+      gap: var(--space-3);
+      margin-top: var(--space-8);
+    }
+  }
+
   .landing-hero__cta-row {
-    margin-top: var(--space-8);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    margin: 0;
   }
 
   .landing-hero__cta {
@@ -77,8 +121,20 @@ const skillCount = skillsData.skills.length;
     transform: scale(0.98);
   }
 
+  .landing-hero__cta--secondary {
+    background: transparent;
+    color: var(--color-fg-default);
+    border: 1px solid var(--color-outline);
+    box-shadow: none;
+  }
+
+  .landing-hero__cta--secondary:hover {
+    background: var(--color-surface-elevated);
+    color: var(--color-fg-default);
+  }
+
   .landing-hero__meta {
-    margin-top: var(--space-6);
+    margin: 0;
     font-size: var(--text-body-sm-size);
     line-height: var(--text-body-sm-line-height);
     color: var(--color-fg-subtle);

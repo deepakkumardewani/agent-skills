@@ -66,8 +66,12 @@ test.describe('landing page', () => {
 
     const mainText = await page.locator('.marketing-shell').innerText();
     expect(mainText).not.toMatch(/Foundations/i);
+    await expect(page.getByRole('heading', { name: 'Browse by phase' })).toHaveCount(0);
     await expect(page.locator('.landing-hero__meta')).toContainText('Meta plus seven ADLC phases');
-    await expect(page.locator('.phase-grid__lede')).toContainText('Meta plus seven ADLC phases');
+    await expect(page.getByRole('link', { name: 'Meta skills' })).toHaveAttribute(
+      'href',
+      '/docs#phase-meta',
+    );
   });
 
   test('Browse skills CTA navigates to docs', async ({ page }, testInfo) => {

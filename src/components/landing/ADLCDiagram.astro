@@ -5,8 +5,10 @@ import {
   buildWheelTicks,
   flowArcPath,
 } from '../../lib/adlc-cycle';
+import { getPhaseMeta } from '../../lib/skills';
 import HintPopoverBubble from '../ui/HintPopoverBubble.astro';
 
+const metaPhase = getPhaseMeta('meta');
 const center = 50;
 const ringRadius = 44;
 const circumference = 2 * Math.PI * ringRadius;
@@ -28,7 +30,8 @@ const phaseListLabel = nodes.map((n) => n.label).join(', ');
   <h2 id="adlc-diagram-title" class="adlc-diagram__title">The AI Development Lifecycle</h2>
   <p class="adlc-diagram__lede">
     Most skills map to one phase of a loop: define the problem, plan, build, test, review, simplify,
-    and ship. Meta skills sit outside the loop — discovery, context, and working from official docs.
+    and ship. <a class="adlc-diagram__meta-link" href="/docs#phase-meta">Meta skills</a> sit outside
+    the loop — discovery, context, and working from official docs.
   </p>
 
   <figure class="adlc-diagram__figure">
@@ -131,6 +134,18 @@ const phaseListLabel = nodes.map((n) => n.label).join(', ');
     </div>
 
     <ol class="adlc-diagram__mobile-list">
+      <li>
+        <a class="adlc-diagram__mobile-item adlc-diagram__mobile-item--meta" href="/docs#phase-meta">
+          <span class="adlc-diagram__mobile-num" aria-hidden="true">—</span>
+          <span class="adlc-diagram__mobile-body">
+            <span class="adlc-diagram__mobile-label">{metaPhase.label}</span>
+            <span class="adlc-diagram__mobile-command adlc-diagram__mobile-command--muted"
+              >Core practices</span
+            >
+            <span class="adlc-diagram__mobile-hint">Outside the ADLC loop</span>
+          </span>
+        </a>
+      </li>
       {
         nodes.map((node) => (
           <li>
@@ -154,10 +169,6 @@ const phaseListLabel = nodes.map((n) => n.label).join(', ');
         ))
       }
     </ol>
-
-    <figcaption class="adlc-diagram__caption">
-      Pick a phase, open a skill, and read its instructions when the task matches.
-    </figcaption>
   </figure>
 </section>
 
@@ -208,15 +219,8 @@ const phaseListLabel = nodes.map((n) => n.label).join(', ');
 
 <style>
   .adlc-diagram {
-    margin-top: var(--space-12);
     max-width: 52rem;
     margin-inline: auto;
-  }
-
-  @media (min-width: 960px) {
-    .adlc-diagram {
-      margin-top: var(--space-section-margin);
-    }
   }
 
   .adlc-diagram__title {
@@ -233,12 +237,29 @@ const phaseListLabel = nodes.map((n) => n.label).join(', ');
     line-height: var(--text-body-md-line-height);
     color: var(--color-fg-muted);
     text-align: center;
-    max-width: 42rem;
+    max-width: var(--space-prose-max);
     margin-inline: auto;
   }
 
+  .adlc-diagram__meta-link {
+    color: var(--color-link);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .adlc-diagram__meta-link:hover {
+    color: var(--color-link-hover);
+    text-decoration: underline;
+  }
+
+  .adlc-diagram__meta-link:focus-visible {
+    outline: none;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-focus);
+  }
+
   .adlc-diagram__figure {
-    margin-top: var(--space-8);
+    margin-top: var(--space-10);
   }
 
   .adlc-diagram__desktop {
@@ -684,6 +705,16 @@ const phaseListLabel = nodes.map((n) => n.label).join(', ');
     color: var(--color-fg-muted);
   }
 
+  .adlc-diagram__mobile-item--meta {
+    border-left: 3px solid var(--phase-meta);
+  }
+
+  .adlc-diagram__mobile-command--muted {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-sm-size);
+    color: var(--color-fg-muted);
+  }
+
   .adlc-diagram__mobile-item--define {
     border-left: 3px solid var(--phase-define);
   }
@@ -704,14 +735,6 @@ const phaseListLabel = nodes.map((n) => n.label).join(', ');
   }
   .adlc-diagram__mobile-item--ship {
     border-left: 3px solid var(--phase-ship);
-  }
-
-  .adlc-diagram__caption {
-    margin-top: var(--space-6);
-    font-size: var(--text-body-sm-size);
-    line-height: var(--text-body-sm-line-height);
-    color: var(--color-fg-subtle);
-    text-align: center;
   }
 
   @media (min-width: 768px) {

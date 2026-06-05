@@ -2,7 +2,6 @@
 import ADLCDiagram from '../components/landing/ADLCDiagram.astro';
 import CommandsTable from '../components/landing/CommandsTable.astro';
 import Hero from '../components/landing/Hero.astro';
-import PhaseGrid from '../components/landing/PhaseGrid.astro';
 import MarketingLayout from '../layouts/MarketingLayout.astro';
 ---
 
@@ -10,8 +9,26 @@ import MarketingLayout from '../layouts/MarketingLayout.astro';
   title="addy-osmani-skills — Agent skills for the ADLC"
   description="A browsable tribute to Addy Osmani's agent-skills, organized by the AI Development Lifecycle."
 >
-  <Hero />
-  <CommandsTable />
-  <ADLCDiagram />
-  <PhaseGrid />
+  <div class="landing">
+    <Hero />
+    <div class="landing__block">
+      <ADLCDiagram />
+    </div>
+    <div class="landing__block">
+      <CommandsTable />
+    </div>
+  </div>
 </MarketingLayout>
+
+<style>
+  .landing__block {
+    padding-top: var(--space-12);
+    border-top: 1px solid var(--color-divider);
+  }
+
+  @media (min-width: 960px) {
+    .landing__block {
+      padding-top: var(--space-section-margin);
+    }
+  }
+</style>

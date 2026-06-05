@@ -40,14 +40,7 @@ import { ADLC_COMMAND_ROWS } from '../../lib/adlc-cycle';
 
 <style>
   .commands-table {
-    margin-top: var(--space-12);
     width: 100%;
-  }
-
-  @media (min-width: 960px) {
-    .commands-table {
-      margin-top: var(--space-section-margin);
-    }
   }
 
   .commands-table__title {
@@ -55,17 +48,16 @@ import { ADLC_COMMAND_ROWS } from '../../lib/adlc-cycle';
     font-weight: var(--text-headline-md-weight);
     line-height: var(--text-headline-md-line-height);
     letter-spacing: var(--text-headline-md-letter-spacing);
-    text-align: center;
+    text-align: left;
   }
 
   .commands-table__lede {
     margin-top: var(--space-4);
-    max-width: 42rem;
-    margin-inline: auto;
+    max-width: var(--space-prose-max);
     font-size: var(--text-body-md-size);
     line-height: var(--text-body-md-line-height);
     color: var(--color-fg-muted);
-    text-align: center;
+    text-align: left;
   }
 
   .commands-table__wrap {
@@ -118,6 +110,14 @@ import { ADLC_COMMAND_ROWS } from '../../lib/adlc-cycle';
     border-bottom: none;
   }
 
+  .commands-table__table tbody tr {
+    transition: background-color var(--duration-fast) var(--ease-out);
+  }
+
+  .commands-table__table tbody tr:hover td {
+    background: var(--color-surface-elevated);
+  }
+
   .commands-table__table tbody td:first-child {
     color: var(--color-fg-default);
     font-weight: 500;
@@ -131,5 +131,16 @@ import { ADLC_COMMAND_ROWS } from '../../lib/adlc-cycle';
 
   .commands-table__table tbody td:last-child {
     color: var(--color-fg-muted);
+  }
+
+  .commands-table__table tbody td:nth-child(2) {
+    width: 9rem;
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .commands-table__table tbody tr {
+      transition: none;
+    }
   }
 </style>

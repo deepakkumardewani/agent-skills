@@ -22,12 +22,19 @@ const { title, description, ogTitle, ogDescription } = Astro.props;
     width: min(100%, var(--space-container-max));
     margin: 0 auto;
     padding-inline: var(--space-4);
-    padding-block: var(--space-8) var(--space-12);
+    padding-block: var(--space-4) var(--space-12);
+  }
+
+  @media (min-width: 640px) {
+    .marketing-shell {
+      padding-block: var(--space-8) var(--space-12);
+    }
   }
 
   @media (min-width: 960px) {
     .marketing-shell {
       padding-inline: var(--space-page-gutter);
+      padding-block: var(--space-12) var(--space-16);
     }
   }
 </style>
