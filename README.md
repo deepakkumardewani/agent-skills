@@ -23,7 +23,7 @@ A static docs site for [Addy Osmani](https://addyosmani.com)'s [agent-skills](ht
 
 | Gate | Target | How we verify |
 | --- | --- | --- |
-| **Unit coverage** | **>90%** (enforced **≥95%** statements/lines on `src/lib` + `scripts`) | `bun run test:coverage` |
+| **Unit coverage** | **≥80%** on `src/lib` + `scripts` (enforced in CI) | `bun run test:coverage` |
 | **Lint + types** | Zero Biome issues, strict TypeScript | `bun run check` |
 | **E2E** | User-visible flows across desktop + mobile | `bun run test:e2e` (12 specs · Chromium · WebKit · mobile) |
 | **Accessibility** | axe-core checks in Playwright | `tests/e2e/a11y.spec.ts` |
@@ -119,7 +119,7 @@ Skills source of truth: [`../agent-skills/`](../agent-skills/) (sibling repo). R
 
 ## Testing strategy
 
-- **`src/lib/**` and `scripts/**`** — unit tests required; **≥95%** line/statement coverage enforced in CI
+- **`src/lib/**` and `scripts/**`** — unit tests required; **≥80%** coverage enforced in CI
 - **Components and pages** — Playwright e2e (static Astro surfaces + hydrated islands)
 - **Bug fixes** — failing test first, then fix (`bun run check` must stay green)
 
