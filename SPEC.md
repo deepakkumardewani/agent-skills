@@ -19,12 +19,17 @@ Addy's work currently lives only as a GitHub repo. It deserves a dedicated, beau
 
 - [ ] A first-time visitor understands the ADLC framework within 60 seconds of landing.
 - [ ] A visitor can find a relevant skill for a stated task in ≤3 clicks via the lifecycle-phase sidebar.
-- [ ] Each skill page renders a structured header (name, one-line description, phase chip) followed by the full `SKILL.md` content and a related-skills section.
+- [ ] Each skill page renders a structured header (name, one-line description) followed by the full `SKILL.md` content and a related-skills section.
 - [ ] Client-side fuzzy search returns relevant skills for partial-keyword queries across name + description.
 - [ ] Dark mode toggle works, defaults to system preference.
 - [ ] Site is mobile-responsive down to 360px width.
 - [ ] Lighthouse scores ≥95 for Performance, Accessibility, Best Practices, SEO on landing + a representative skill page.
 - [ ] `/about` page credits Addy with a link to his work and credits the maintainer.
+- [ ] `/docs` surfaces How Skills Work, Agent Personas, Reference Checklists, Project Structure, and Why Agent Skills from the upstream README.
+- [ ] `/quickstart` reproduces per-tool install instructions from the upstream README.
+- [ ] Footer tribute line appears only on `/about`; other pages keep a minimal maintainer + upstream-repo credit.
+- [ ] Sidebar group is **Meta** (not "Foundations"); skill display names are acronym-correct (e.g. `CI/CD and Automation`).
+- [ ] Only lead skills show a slash-command trigger; non-lead skills show "Activates automatically".
 
 ## 2. Commands
 
@@ -82,6 +87,7 @@ addy-osmani-skills/
 │   ├── pages/
 │   │   ├── index.astro           # Landing
 │   │   ├── about.astro
+│   │   ├── quickstart.astro      # Per-tool install from upstream README
 │   │   ├── docs/
 │   │   │   ├── index.astro       # Getting started + ADLC overview
 │   │   │   └── skills/
@@ -103,14 +109,16 @@ addy-osmani-skills/
 
 **Sidebar groups** (in this order):
 
-1. **Foundations** (cross-cutting): `interview-me`, `doubt-driven-development`, `context-engineering`, `source-driven-development`, `using-agent-skills`
-2. **Define** — trigger: `/spec`
-3. **Plan** — trigger: `/plan`
-4. **Build** — trigger: `/build`
-5. **Test** — trigger: `/test`
-6. **Review** — trigger: `/review`
-7. **Simplify** — trigger: `/code-simplify`
-8. **Ship** — trigger: `/ship`
+1. **Meta** (cross-cutting): `using-agent-skills` — no slash command
+2. **Define** — trigger: `/spec` (lead skill: `spec-driven-development`)
+3. **Plan** — trigger: `/plan` (lead skill: `planning-and-task-breakdown`)
+4. **Build** — trigger: `/build` (lead skill: `incremental-implementation`)
+5. **Test** — trigger: `/test` (lead skill: `test-driven-development`)
+6. **Review** — trigger: `/review` (lead skill: `code-review-and-quality`)
+7. **Simplify** — trigger: `/code-simplify` (lead skill: `code-simplification`)
+8. **Ship** — trigger: `/ship` (lead skill: `shipping-and-launch`)
+
+Only the **7 lead skills** display a slash-command trigger on their skill page. All other skills show "Activates automatically". Phase headers still show the group command in the sidebar, diagram, and docs overview.
 
 Each phase header shows the slash command as part of the label. Skills inside each group are alphabetical.
 
@@ -119,8 +127,9 @@ Each phase header shows the slash command as part of the label. Skills inside ea
 | Route                 | Layout          | Purpose                                 |
 | --------------------- | --------------- | --------------------------------------- |
 | `/`                   | MarketingLayout | Hero + ADLC framework + CTA to browse   |
+| `/quickstart`         | MarketingLayout | Per-tool install from upstream README   |
 | `/about`              | MarketingLayout | Tribute story + maintainer + Addy links |
-| `/docs`               | DocsLayout      | Getting started + ADLC overview         |
+| `/docs`               | DocsLayout      | Getting started + ADLC overview + README sections (How Skills Work, Personas, Checklists, Structure, Why) |
 | `/docs/skills/[slug]` | DocsLayout      | Per-skill page                          |
 | `/404`                | MarketingLayout | Not found                               |
 
@@ -176,7 +185,7 @@ Scope: pure logic in `src/lib/**` and any data transformations in `scripts/sync-
 
 Mandatory coverage:
 
-- [ ] `lib/skills.ts` — grouping by phase, foundations filtering, slug generation, related-skills resolution.
+- [ ] `lib/skills.ts` — grouping by phase, meta filtering, slug generation, related-skills resolution.
 - [ ] `lib/search.ts` — index building, query relevance for representative inputs.
 - [ ] `scripts/sync-skills.ts` — parsing skills-data.js, frontmatter extraction, write target paths.
 
@@ -190,7 +199,7 @@ Mandatory specs:
 
 - [ ] **landing.spec.ts** — landing renders, ADLC framework section visible, CTA navigates to `/docs`.
 - [ ] **sidebar-nav.spec.ts** — all 8 sidebar groups render; clicking a skill loads the right page.
-- [ ] **skill-page.spec.ts** — header card shows name + phase chip + description; no copy-command UI; SKILL.md body renders; related-skills section appears.
+- [ ] **skill-page.spec.ts** — header card shows name + description only (phase lives in sidebar); SKILL.md body renders; related-skills section appears.
 - [ ] **search.spec.ts** — opening search via shortcut (e.g., `Cmd+K`), typing a partial query, navigating with arrow keys, pressing Enter goes to the right skill.
 - [ ] **theme.spec.ts** — theme toggle flips `data-theme`; preference persists across navigation.
 - [ ] **about.spec.ts** — `/about` shows tribute copy + maintainer credit + Addy link.
@@ -214,7 +223,7 @@ Run on Chromium + WebKit. Mobile viewport projects for sidebar/mobile-nav specs.
 - Use CSS custom properties for any color/spacing/type value that appears more than once.
 - Server-render by default; opt into client islands only when interactivity is required.
 - Honor `prefers-reduced-motion` for any animation.
-- Credit Addy + link to his work on every layout (footer) and explicitly on `/about`.
+- Credit Addy + link to his work on `/about` (tribute) and via a minimal upstream-repo link on every layout footer; credit the maintainer on every page.
 
 ### Ask first
 

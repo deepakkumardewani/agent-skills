@@ -103,12 +103,12 @@ link.
 ## Slice 5 — Quick Start page
 **Goal:** `/quickstart` reproducing README install steps; linked from nav + hero + docs.
 
-- [ ] **5.1 Page** — `src/pages/quickstart.astro` (MarketingLayout, `.prose`): per-tool sections
+- [x] **5.1 Page** — `src/pages/quickstart.astro` (MarketingLayout, `.prose`): per-tool sections
   (Claude Code, Cursor, Gemini CLI, Windsurf, OpenCode, GitHub Copilot, Kiro, Codex/Other) as native
   `<details>/<summary>`; install commands via `CopyableCommand`; preserve the SSH-error note.
-- [ ] **5.2 Links** — add "Quick start" to header `navItems` (now Docs, Quick start, About); add a
+- [x] **5.2 Links** — add "Quick start" to header `navItems` (now Docs, Quick start, About); add a
   secondary CTA on the hero; link from the docs index.
-- [ ] **5.3 E2E** — quickstart spec: page renders all tool sections; a command is copyable; nav +
+- [x] **5.3 E2E** — quickstart spec: page renders all tool sections; a command is copyable; nav +
   hero link resolve; no console errors.
 
 **Verify / AC:** `bun run check` + quickstart e2e green.
@@ -119,16 +119,16 @@ link.
 **Goal:** surface README's How Skills Work, Agent Personas, Reference Checklists, Project Structure,
 Why Agent Skills on `/docs`.
 
-- [ ] **6.1 How skills work** — expand the section to README anatomy + 4 design choices.
-- [ ] **6.2 ADLC + Meta** — update "The ADLC framework" + `#phase-foundations`→`#phase-meta` section
+- [x] **6.1 How skills work** — expand the section to README anatomy + 4 design choices.
+- [x] **6.2 ADLC + Meta** — update "The ADLC framework" + `#phase-foundations`→`#phase-meta` section
   copy.
-- [ ] **6.3 Agent Personas** — table (code-reviewer / test-engineer / security-auditor + perspective)
+- [x] **6.3 Agent Personas** — table (code-reviewer / test-engineer / security-auditor + perspective)
   linking upstream `agents/`.
-- [ ] **6.4 Reference Checklists** — table (testing/security/performance/accessibility) linking
+- [x] **6.4 Reference Checklists** — table (testing/security/performance/accessibility) linking
   upstream `references/`.
-- [ ] **6.5 Project Structure** — README repo tree as a reference block.
-- [ ] **6.6 Why Agent Skills?** — README rationale section.
-- [ ] **6.7 E2E** — docs spec: each new section present, links resolve, copy traceable to README.
+- [x] **6.5 Project Structure** — README repo tree as a reference block.
+- [x] **6.6 Why Agent Skills?** — README rationale section.
+- [x] **6.7 E2E** — docs spec: each new section present, links resolve, copy traceable to README.
 
 **Verify / AC:** `bun run check` + full e2e suite green (CP-C).
 
@@ -137,11 +137,11 @@ Why Agent Skills on `/docs`.
 ## Slice 7 — Governance docs  ⟶ CP-D
 **Goal:** make CLAUDE.md + root SPEC.md describe the finished state.
 
-- [ ] **7.1 CLAUDE.md** — footer rule → tribute on `/about` only; sidebar line Foundations→Meta;
+- [x] **7.1 CLAUDE.md** — footer rule → tribute on `/about` only; sidebar line Foundations→Meta;
   add `/quickstart` to routing.
-- [ ] **7.2 Root SPEC.md** — §3 IA (Meta + reassignment + lead-skill triggers), §3 routes
+- [x] **7.2 Root SPEC.md** — §3 IA (Meta + reassignment + lead-skill triggers), §3 routes
   (+`/quickstart`), §6 boundaries (footer), acceptance criteria.
-- [ ] **7.3 Final gate** — `bun run check`, `bun run test:e2e`, `bun run build` all green (CP-D).
+- [x] **7.3 Final gate** — `bun run check`, `bun run test:e2e`, `bun run build` all green (CP-D).
 
 **Verify / AC:** docs match behavior; full check + build + e2e green.
 

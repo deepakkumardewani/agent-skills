@@ -68,14 +68,14 @@ src/content/skills/*.md   (synced bodies — never hand-edit)
 
 ## Routing (locked — SPEC §3)
 
-Sidebar groups in order: **Foundations → Define → Plan → Build → Test → Review → Simplify → Ship**
+Sidebar groups in order: **Meta → Define → Plan → Build → Test → Review → Simplify → Ship**
 
-Pages: `/`, `/about`, `/docs`, `/docs/skills/[slug]`, `/404`. Don't reorder groups or add routes without updating SPEC.md first.
+Pages: `/`, `/about`, `/quickstart`, `/docs`, `/docs/skills/[slug]`, `/404`. Don't reorder groups or add routes without updating SPEC.md first.
 
 ## Per-skill page contract
 
 Every `/docs/skills/[slug]` renders:
-1. `<SkillHeaderCard />` — name (h1), description, `<PhaseChip />`
+1. `<SkillHeaderCard />` — name (h1), description
 2. Body — SKILL.md via content collection, `.prose` class only
 3. `<RelatedSkills />` — omit section entirely if empty
 
@@ -115,7 +115,7 @@ SKILL.md bodies are exempt — those are Addy's words.
 - `bun run check` before done.
 - Update SPEC.md if a structural decision changes.
 - Use design tokens for every repeated color/spacing/type value.
-- Footer credits Addy on every page; `/about` credits maintainer.
+- Footer shows the tribute only on `/about`; other pages keep a minimal repo credit + maintainer.
 
 ### Ask first
 - New runtime dependency (especially > 5 KB gzipped).

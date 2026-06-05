@@ -48,7 +48,7 @@ Don't add routes or reorder groups without updating SPEC.md.
 
 ## Per-skill page contract
 
-1. `<SkillHeaderCard />` — name, description, phase chip
+1. `<SkillHeaderCard />` — name, description
 2. Rendered SKILL.md body (`.prose` class only)
 3. `<RelatedSkills />` — omit if empty
 
