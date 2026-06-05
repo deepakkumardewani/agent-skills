@@ -183,7 +183,9 @@ export const skillsData = {
           "name": "test-driven-development",
           "description": "Drives development with tests. Use when implementing any logic, fixing any bug, or changing any behavior. Use when you need to prove that code works, when a bug report arrives, or when you're about to modify existing functionality.",
           "phase": "build",
-          "triggers": [],
+          "triggers": [
+            "/test"
+          ],
           "related": [
             "browser-testing-with-devtools"
           ]
@@ -509,7 +511,9 @@ export const skillsData = {
       "name": "test-driven-development",
       "description": "Drives development with tests. Use when implementing any logic, fixing any bug, or changing any behavior. Use when you need to prove that code works, when a bug report arrives, or when you're about to modify existing functionality.",
       "phase": "build",
-      "triggers": [],
+      "triggers": [
+        "/test"
+      ],
       "related": [
         "browser-testing-with-devtools"
       ]

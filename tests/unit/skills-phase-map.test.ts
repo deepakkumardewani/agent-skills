@@ -69,14 +69,15 @@ describe('skills-phase-map', () => {
 });
 
 describe('buildTriggers', () => {
-  it('returns the phase command only for lead skills', () => {
-    expect(buildTriggers('spec-driven-development', 'define', '/spec')).toEqual(['/spec']);
-    expect(buildTriggers('idea-refine', 'define', '/spec')).toEqual([]);
-    expect(buildTriggers('incremental-implementation', 'build', '/build')).toEqual(['/build']);
-    expect(buildTriggers('api-and-interface-design', 'build', '/build')).toEqual([]);
+  it('returns the lead command for lead skills regardless of phase grouping', () => {
+    expect(buildTriggers('spec-driven-development', 'define')).toEqual(['/spec']);
+    expect(buildTriggers('incremental-implementation', 'build')).toEqual(['/build']);
+    expect(buildTriggers('test-driven-development', 'build')).toEqual(['/test']);
+    expect(buildTriggers('idea-refine', 'define')).toEqual([]);
+    expect(buildTriggers('api-and-interface-design', 'build')).toEqual([]);
   });
 
   it('returns no triggers for meta skills', () => {
-    expect(buildTriggers('using-agent-skills', 'meta', '')).toEqual([]);
+    expect(buildTriggers('using-agent-skills', 'meta')).toEqual([]);
   });
 });

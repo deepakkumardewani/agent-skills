@@ -73,9 +73,10 @@ describe('sync-skills helpers', () => {
   });
 
   it('builds triggers for lead skills only', () => {
-    expect(buildTriggers('spec-driven-development', 'define', '/spec')).toEqual(['/spec']);
-    expect(buildTriggers('idea-refine', 'define', '/spec')).toEqual([]);
-    expect(buildTriggers('using-agent-skills', 'meta', '')).toEqual([]);
+    expect(buildTriggers('spec-driven-development', 'define')).toEqual(['/spec']);
+    expect(buildTriggers('test-driven-development', 'build')).toEqual(['/test']);
+    expect(buildTriggers('idea-refine', 'define')).toEqual([]);
+    expect(buildTriggers('using-agent-skills', 'meta')).toEqual([]);
   });
 
   it('formats normalized markdown frontmatter', () => {

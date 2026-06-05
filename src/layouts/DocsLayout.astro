@@ -15,9 +15,9 @@ const { title, description } = Astro.props;
     <aside class="docs-shell__sidebar">
       <Sidebar />
     </aside>
-    <main class="docs-shell__main" id="main-content">
+    <div class="docs-shell__main">
       <slot />
-    </main>
+    </div>
   </div>
 </BaseLayout>
 

@@ -111,14 +111,15 @@ export function classifyPhase(slug: string): Phase {
   return phase;
 }
 
-export function buildTriggers(slug: string, phase: Phase, command: string): string[] {
-  if (phase === 'meta' || !command) {
+export function buildTriggers(slug: string, phase: Phase): string[] {
+  if (phase === 'meta') {
     return [];
   }
 
-  const leadSlug = LEAD_SKILL_BY_COMMAND[command];
-  if (leadSlug === slug) {
-    return [command];
+  for (const [command, leadSlug] of Object.entries(LEAD_SKILL_BY_COMMAND)) {
+    if (leadSlug === slug) {
+      return [command];
+    }
   }
 
   return [];
@@ -149,14 +150,13 @@ export function buildSkillRecord(
   knownSlugs: Set<string>,
 ): Skill {
   const phase = classifyPhase(slug);
-  const command = PHASE_META[phase].command;
 
   return {
     slug,
     name: parsed.name,
     description: parsed.description,
     phase,
-    triggers: buildTriggers(slug, phase, command),
+    triggers: buildTriggers(slug, phase),
     related: resolveRelatedSkills(bodyContent, knownSlugs, slug),
   };
 }

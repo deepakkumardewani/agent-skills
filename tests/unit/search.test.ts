@@ -159,10 +159,10 @@ describe('search lib', () => {
     expect(bareResults.length).toBeGreaterThan(slashResults.length);
   });
 
-  it('finds the debugging skill for /debug via trigger metadata', () => {
-    const results = index.search('/debug', 8);
-    expect(results.map((result) => result.slug)).toContain('debugging-and-error-recovery');
-    expect(results[0]?.slug).toBe('debugging-and-error-recovery');
+  it('finds TDD for /test via trigger metadata', () => {
+    const results = index.search('/test', 8);
+    expect(results.map((result) => result.slug)).toContain('test-driven-development');
+    expect(results[0]?.slug).toBe('test-driven-development');
   });
 
   it('maps slug-shaped queries with slugFromQuery', () => {

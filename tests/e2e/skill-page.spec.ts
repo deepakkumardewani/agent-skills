@@ -5,13 +5,23 @@ const skillSlug = 'incremental-implementation';
 const displayName = formatSkillDisplayName(skillSlug);
 
 test.describe('skill page', () => {
-  test('header card shows name and description only', async ({ page }) => {
+  test('lead skill header shows slash-command trigger', async ({ page }) => {
     await page.goto(`/docs/skills/${skillSlug}`);
 
     const header = page.locator('.skill-header-card');
     await expect(header.getByRole('heading', { level: 1, name: displayName })).toBeVisible();
+    await expect(header.getByText('Trigger:')).toBeVisible();
+    await expect(header.locator('code')).toHaveText('/build');
     await expect(header.locator('.phase-chip')).toHaveCount(0);
     await expect(header.getByRole('navigation', { name: 'Breadcrumb' })).toHaveCount(0);
+  });
+
+  test('non-lead skill header shows activates automatically', async ({ page }) => {
+    await page.goto('/docs/skills/api-and-interface-design');
+
+    const header = page.locator('.skill-header-card');
+    await expect(header.getByText('Activates automatically')).toBeVisible();
+    await expect(header.locator('code')).toHaveCount(0);
   });
 
   test('SKILL.md body renders in prose', async ({ page }) => {

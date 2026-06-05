@@ -8,11 +8,21 @@ interface Props {
 
 const { skill } = Astro.props;
 const displayName = formatSkillDisplayName(skill.name);
+const trigger = skill.triggers[0];
 ---
 
 <header class="skill-header-card">
   <h1 class="skill-header-card__title">{displayName}</h1>
   <p class="skill-header-card__description">{skill.description}</p>
+  {
+    trigger ? (
+      <p class="skill-header-card__trigger">
+        Trigger: <code>{trigger}</code>
+      </p>
+    ) : (
+      <p class="skill-header-card__trigger">Activates automatically</p>
+    )
+  }
 </header>
 
 <style>
@@ -46,5 +56,21 @@ const displayName = formatSkillDisplayName(skill.name);
     font-weight: var(--text-body-lg-weight);
     line-height: var(--text-body-lg-line-height);
     color: var(--color-fg-muted);
+  }
+
+  .skill-header-card__trigger {
+    font-size: var(--text-body-sm-size);
+    font-weight: var(--text-body-sm-weight);
+    line-height: var(--text-body-sm-line-height);
+    color: var(--color-fg-muted);
+  }
+
+  .skill-header-card__trigger code {
+    font-family: var(--font-mono);
+    font-size: var(--text-code-sm-size);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-muted);
+    color: var(--color-fg-default);
   }
 </style>
