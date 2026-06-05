@@ -12,7 +12,7 @@ let bootListenersAttached = false;
 
 function removeBootListeners(): void {
   document.removeEventListener('keydown', handleBootKeyDown);
-  document.getElementById(SEARCH_TRIGGER_ID)?.removeEventListener('click', handleBootTriggerClick);
+  document.removeEventListener('click', handleBootTriggerClick);
   bootListenersAttached = false;
 }
 
@@ -49,7 +49,16 @@ function handleBootKeyDown(event: KeyboardEvent): void {
   }
 }
 
-function handleBootTriggerClick(): void {
+function handleBootTriggerClick(event: MouseEvent): void {
+  const target = event.target;
+  if (!(target instanceof Element)) {
+    return;
+  }
+
+  if (!target.closest(`#${SEARCH_TRIGGER_ID}`)) {
+    return;
+  }
+
   void ensureMounted(true);
 }
 
@@ -59,7 +68,7 @@ function attachBootListeners(): void {
   }
 
   document.addEventListener('keydown', handleBootKeyDown);
-  document.getElementById(SEARCH_TRIGGER_ID)?.addEventListener('click', handleBootTriggerClick);
+  document.addEventListener('click', handleBootTriggerClick);
   bootListenersAttached = true;
 }
 

@@ -20,7 +20,9 @@
 
 <script>
   import { setupSearchLauncher } from '../../lib/search-boot';
+
   setupSearchLauncher();
+  document.addEventListener('astro:page-load', setupSearchLauncher);
 </script>
 
 <style>
