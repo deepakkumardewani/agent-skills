@@ -409,24 +409,24 @@
 
 > **Skill:** `vercel:deployment-expert` agent + `vercel:deploy` skill.
 
-- [ ] **13.1 Push to GitHub**
+- [x] **13.1 Push to GitHub**
   - Confirm repo URL with user.
   - Push branch, open PR if maintainer wants the review flow; else push to `main` per user instruction.
   - **AC:** repo populated.
 
-- [ ] **13.2 Link Vercel project**
+- [x] **13.2 Link Vercel project**
   - Connect repo, framework preset Astro (auto-detected), build command `bun run build`.
   - **AC:** preview deploy URL live.
 
-- [ ] **13.3 Set production domain**
+- [x] **13.3 Set production domain**
   - User decides domain (Vercel-provided or custom).
   - **AC:** prod URL serves the site.
 
-- [ ] **13.4 Sanity check production**
+- [x] **13.4 Sanity check production**
   - Re-run Lighthouse against production URL.
   - **AC:** ≥95 holds in production.
 
-- [ ] **13.5 🚢 SHIP**
+- [x] **13.5 🚢 SHIP**
   - Announce / share / open for traffic.
 
 ## Maintenance tasks (post-launch)
