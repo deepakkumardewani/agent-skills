@@ -58,6 +58,20 @@ describe('descriptionSnippetForQuery', () => {
     expect(snippet.text.toLowerCase()).toContain('switching');
     expect(snippet.text.startsWith('Optimizes agent')).toBe(false);
   });
+
+  it('returns a prefix snippet when the query does not match the description', () => {
+    const snippet = descriptionSnippetForQuery(longDescription, 'nomatch');
+    expect(snippet.leadingEllipsis).toBe(false);
+    expect(snippet.text).toBe(longDescription.slice(0, 150));
+  });
+
+  it('recenters long matches near the end of very long descriptions', () => {
+    const tailMatchDescription = `${'word '.repeat(80)}terminal anchor phrase here`;
+    const snippet = descriptionSnippetForQuery(tailMatchDescription, 'anchor', 60);
+    expect(snippet.text.toLowerCase()).toContain('anchor');
+    expect(snippet.leadingEllipsis).toBe(true);
+    expect(snippet.text.length).toBeLessThanOrEqual(65);
+  });
 });
 
 describe('search lib', () => {
@@ -142,6 +156,10 @@ describe('search lib', () => {
   it('returns no results for blank queries', () => {
     expect(index.search('')).toEqual([]);
     expect(index.search('   ')).toEqual([]);
+  });
+
+  it('returns no results for slash-only queries', () => {
+    expect(index.search('/')).toEqual([]);
   });
 
   it('finds Define-phase skills when searching by slash command /spec', () => {

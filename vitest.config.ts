@@ -9,9 +9,10 @@ export default defineConfig({
       include: ['src/lib/**', 'scripts/**'],
       exclude: ['coverage/**'],
       thresholds: {
-        lines: 80,
-        functions: 80,
-        statements: 80,
+        lines: 95,
+        functions: 95,
+        statements: 95,
+        branches: 90,
       },
     },
   },
