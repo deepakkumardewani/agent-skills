@@ -77,7 +77,7 @@ addy-osmani-skills/
 │   ├── components/
 │   │   ├── layout/               # Header, Footer, Sidebar, ThemeToggle, MobileNav
 │   │   ├── docs/                 # SkillHeaderCard, RelatedSkills, PhaseChip
-│   │   ├── landing/              # Hero, ADLCDiagram, PhaseGrid, CTASection
+│   │   ├── landing/              # Hero, ADLCDiagram, CommandsTable
 │   │   ├── search/               # SearchDialog, SearchResults (client-island)
 │   │   └── ui/                   # Button, Chip, Card primitives
 │   ├── layouts/

@@ -1,4 +1,5 @@
 ---
+import { isSkillActive, skillHref } from '../../lib/mobile-nav';
 import {
   formatSkillDisplayName,
   getPhaseMeta,
@@ -8,14 +9,6 @@ import {
 
 const groups = groupSkillsByPhase();
 const currentPath = Astro.url.pathname;
-
-function skillHref(slug: string): string {
-  return `/docs/skills/${slug}`;
-}
-
-function isSkillActive(slug: string): boolean {
-  return currentPath === skillHref(slug);
-}
 ---
 
 <nav class="sidebar" aria-label="Skills by lifecycle phase">
@@ -35,7 +28,7 @@ function isSkillActive(slug: string): boolean {
           </h2>
           <ul class="sidebar__list" role="list">
             {skills.map((skill) => {
-              const active = isSkillActive(skill.slug);
+              const active = isSkillActive(currentPath, skill.slug);
               return (
                 <li>
                   <a

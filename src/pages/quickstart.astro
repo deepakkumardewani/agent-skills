@@ -1,5 +1,5 @@
 ---
-import CopyableCommand from '../components/docs/CopyableCommand';
+import QuickstartTools from '../components/quickstart/QuickstartTools';
 import MarketingLayout from '../layouts/MarketingLayout.astro';
 import { addy } from '../lib/site';
 
@@ -20,166 +20,7 @@ const docsBase = `${addy.repoUrl}/blob/main/docs`;
     </header>
 
     <section class="quickstart-page__install" aria-label="Install by tool">
-      <div class="quickstart-page__tools">
-        <details class="quickstart-tool quickstart-tool--featured" open>
-          <summary class="quickstart-tool__summary">
-            <span class="quickstart-tool__summary-text">
-              <span class="quickstart-tool__name">Claude Code</span>
-              <span class="quickstart-tool__badge">Recommended</span>
-            </span>
-          </summary>
-          <div class="quickstart-tool__body">
-            <div class="quickstart-tool__step">
-              <h3 class="quickstart-tool__step-title">Marketplace install</h3>
-              <div class="quickstart-tool__commands">
-                <CopyableCommand
-                  client:visible
-                  command="/plugin marketplace add addyosmani/agent-skills"
-                />
-                <CopyableCommand client:visible command="/plugin install agent-skills@addy-agent-skills" />
-              </div>
-            </div>
-
-            <aside class="quickstart-tool__note" aria-label="SSH troubleshooting">
-              <p class="quickstart-tool__note-title">SSH errors?</p>
-              <p class="quickstart-tool__note-text">
-                The marketplace clones repos via SSH. If you do not have SSH keys on GitHub,
-                <a
-                  href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account"
-                  >add your SSH key</a
-                >
-                or force HTTPS cloning:
-              </p>
-              <div class="quickstart-tool__commands">
-                <CopyableCommand
-                  client:visible
-                  command="/plugin marketplace add https://github.com/addyosmani/agent-skills.git"
-                />
-                <CopyableCommand
-                  client:visible
-                  command="/plugin install agent-skills@addy-agent-skills"
-                />
-              </div>
-            </aside>
-
-            <div class="quickstart-tool__step">
-              <h3 class="quickstart-tool__step-title">Local / development</h3>
-              <div class="quickstart-tool__commands">
-                <CopyableCommand
-                  client:visible
-                  command="git clone https://github.com/addyosmani/agent-skills.git"
-                />
-                <CopyableCommand client:visible command="claude --plugin-dir /path/to/agent-skills" />
-              </div>
-            </div>
-          </div>
-        </details>
-
-        <details class="quickstart-tool">
-          <summary class="quickstart-tool__summary">
-            <span class="quickstart-tool__name">Cursor</span>
-          </summary>
-          <div class="quickstart-tool__body">
-            <p class="quickstart-tool__prose">
-              Copy any <code>SKILL.md</code> into <code>.cursor/rules/</code>, or reference the full
-              <code>skills/</code> directory. See
-              <a href={`${docsBase}/cursor-setup.md`}>cursor-setup.md</a>.
-            </p>
-          </div>
-        </details>
-
-        <details class="quickstart-tool">
-          <summary class="quickstart-tool__summary">
-            <span class="quickstart-tool__name">Gemini CLI</span>
-          </summary>
-          <div class="quickstart-tool__body">
-            <p class="quickstart-tool__prose">
-              Install as native skills for auto-discovery, or add to <code>GEMINI.md</code> for
-              persistent context. See
-              <a href={`${docsBase}/gemini-cli-setup.md`}>gemini-cli-setup.md</a>.
-            </p>
-            <div class="quickstart-tool__step">
-              <h3 class="quickstart-tool__step-title">Install from the repo</h3>
-              <div class="quickstart-tool__commands">
-                <CopyableCommand
-                  client:visible
-                  command="gemini skills install https://github.com/addyosmani/agent-skills.git --path skills"
-                />
-              </div>
-            </div>
-            <div class="quickstart-tool__step">
-              <h3 class="quickstart-tool__step-title">Install from a local clone</h3>
-              <div class="quickstart-tool__commands">
-                <CopyableCommand client:visible command="gemini skills install ./agent-skills/skills/" />
-              </div>
-            </div>
-          </div>
-        </details>
-
-        <details class="quickstart-tool">
-          <summary class="quickstart-tool__summary">
-            <span class="quickstart-tool__name">Windsurf</span>
-          </summary>
-          <div class="quickstart-tool__body">
-            <p class="quickstart-tool__prose">
-              Add skill contents to your Windsurf rules configuration. See
-              <a href={`${docsBase}/windsurf-setup.md`}>windsurf-setup.md</a>.
-            </p>
-          </div>
-        </details>
-
-        <details class="quickstart-tool">
-          <summary class="quickstart-tool__summary">
-            <span class="quickstart-tool__name">OpenCode</span>
-          </summary>
-          <div class="quickstart-tool__body">
-            <p class="quickstart-tool__prose">
-              Uses agent-driven skill execution via <code>AGENTS.md</code> and the
-              <code>skill</code> tool. See
-              <a href={`${docsBase}/opencode-setup.md`}>opencode-setup.md</a>.
-            </p>
-          </div>
-        </details>
-
-        <details class="quickstart-tool">
-          <summary class="quickstart-tool__summary">
-            <span class="quickstart-tool__name">GitHub Copilot</span>
-          </summary>
-          <div class="quickstart-tool__body">
-            <p class="quickstart-tool__prose">
-              Use agent definitions from <code>agents/</code> as Copilot personas and skill content in
-              <code>.github/copilot-instructions.md</code>. See
-              <a href={`${docsBase}/copilot-setup.md`}>copilot-setup.md</a>.
-            </p>
-          </div>
-        </details>
-
-        <details class="quickstart-tool">
-          <summary class="quickstart-tool__summary">
-            <span class="quickstart-tool__name">Kiro IDE &amp; CLI</span>
-          </summary>
-          <div class="quickstart-tool__body">
-            <p class="quickstart-tool__prose">
-              Skills for Kiro live under <code>.kiro/skills/</code> at project or global level. Kiro
-              also supports <code>Agents.md</code>. See
-              <a href="https://kiro.dev/docs/skills/">Kiro skills documentation</a>.
-            </p>
-          </div>
-        </details>
-
-        <details class="quickstart-tool">
-          <summary class="quickstart-tool__summary">
-            <span class="quickstart-tool__name">Codex / Other Agents</span>
-          </summary>
-          <div class="quickstart-tool__body">
-            <p class="quickstart-tool__prose">
-              Skills are plain Markdown — they work with any agent that accepts system prompts or
-              instruction files. See
-              <a href={`${docsBase}/getting-started.md`}>getting-started.md</a>.
-            </p>
-          </div>
-        </details>
-      </div>
+      <QuickstartTools client:visible docsBase={docsBase} />
     </section>
 
     <p class="quickstart-page__footer-link">
@@ -224,7 +65,7 @@ const docsBase = `${addy.repoUrl}/blob/main/docs`;
     color: var(--color-link-hover);
   }
 
-  .quickstart-page__tools {
+  :global(.quickstart-page__tools) {
     border: 1px solid var(--color-outline);
     border-radius: var(--radius-xl);
     background: var(--color-surface);
@@ -232,24 +73,24 @@ const docsBase = `${addy.repoUrl}/blob/main/docs`;
     overflow: hidden;
   }
 
-  .quickstart-tool {
+  :global(.quickstart-tool) {
     border-bottom: 1px solid var(--color-outline);
     background: var(--color-surface);
   }
 
-  .quickstart-tool:last-child {
+  :global(.quickstart-tool:last-child) {
     border-bottom: none;
   }
 
-  .quickstart-tool[open] {
+  :global(.quickstart-tool[open]) {
     background: color-mix(in srgb, var(--color-primary-subtle) 18%, var(--color-surface));
   }
 
-  .quickstart-tool--featured[open] {
+  :global(.quickstart-tool--featured[open]) {
     background: color-mix(in srgb, var(--color-primary-subtle) 32%, var(--color-surface));
   }
 
-  .quickstart-tool__summary {
+  :global(.quickstart-tool__summary) {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -260,28 +101,28 @@ const docsBase = `${addy.repoUrl}/blob/main/docs`;
     transition: background-color var(--duration-fast) var(--ease-out);
   }
 
-  .quickstart-tool__summary::-webkit-details-marker {
+  :global(.quickstart-tool__summary::-webkit-details-marker) {
     display: none;
   }
 
-  .quickstart-tool__summary::marker {
+  :global(.quickstart-tool__summary::marker) {
     content: '';
   }
 
-  .quickstart-tool__summary:hover {
+  :global(.quickstart-tool__summary:hover) {
     background: var(--color-surface-elevated);
   }
 
-  .quickstart-tool[open] > .quickstart-tool__summary {
+  :global(.quickstart-tool[open] > .quickstart-tool__summary) {
     background: transparent;
   }
 
-  .quickstart-tool__summary:focus-visible {
+  :global(.quickstart-tool__summary:focus-visible) {
     outline: none;
     box-shadow: inset var(--shadow-focus);
   }
 
-  .quickstart-tool__summary::after {
+  :global(.quickstart-tool__summary::after) {
     content: '';
     flex-shrink: 0;
     width: 1.25rem;
@@ -294,11 +135,11 @@ const docsBase = `${addy.repoUrl}/blob/main/docs`;
     transition: transform var(--duration-fast) var(--ease-out);
   }
 
-  .quickstart-tool[open] > .quickstart-tool__summary::after {
+  :global(.quickstart-tool[open] > .quickstart-tool__summary::after) {
     transform: rotate(180deg);
   }
 
-  .quickstart-tool__summary-text {
+  :global(.quickstart-tool__summary-text) {
     display: inline-flex;
     flex-wrap: wrap;
     align-items: center;
@@ -306,14 +147,14 @@ const docsBase = `${addy.repoUrl}/blob/main/docs`;
     min-width: 0;
   }
 
-  .quickstart-tool__name {
+  :global(.quickstart-tool__name) {
     font-size: var(--text-title-md-size);
     font-weight: var(--text-title-md-weight);
     line-height: var(--text-title-md-line-height);
     color: var(--color-fg-default);
   }
 
-  .quickstart-tool__badge {
+  :global(.quickstart-tool__badge) {
     display: inline-flex;
     align-items: center;
     min-height: 22px;
@@ -328,7 +169,7 @@ const docsBase = `${addy.repoUrl}/blob/main/docs`;
     background: var(--color-primary-subtle);
   }
 
-  .quickstart-tool__body {
+  :global(.quickstart-tool__body) {
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
@@ -336,17 +177,17 @@ const docsBase = `${addy.repoUrl}/blob/main/docs`;
     border-top: 1px solid var(--color-outline);
   }
 
-  .quickstart-tool[open] > .quickstart-tool__body {
+  :global(.quickstart-tool[open] > .quickstart-tool__body) {
     padding-top: var(--space-5);
   }
 
-  .quickstart-tool__step {
+  :global(.quickstart-tool__step) {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
   }
 
-  .quickstart-tool__step-title {
+  :global(.quickstart-tool__step-title) {
     font-size: var(--text-label-md-size);
     font-weight: var(--text-label-md-weight);
     line-height: var(--text-label-md-line-height);
@@ -354,34 +195,34 @@ const docsBase = `${addy.repoUrl}/blob/main/docs`;
     color: var(--color-fg-muted);
   }
 
-  .quickstart-tool__commands {
+  :global(.quickstart-tool__commands) {
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
   }
 
-  .quickstart-tool__commands :global(.copyable-command) {
+  :global(.quickstart-tool__commands .copyable-command) {
     margin-top: 0;
   }
 
-  .quickstart-tool__prose {
+  :global(.quickstart-tool__prose) {
     margin: 0;
     font-size: var(--text-body-md-size);
     line-height: var(--text-body-md-line-height);
     color: var(--color-fg-muted);
   }
 
-  .quickstart-tool__prose a {
+  :global(.quickstart-tool__prose a) {
     color: var(--color-link);
     text-decoration: none;
   }
 
-  .quickstart-tool__prose a:hover {
+  :global(.quickstart-tool__prose a:hover) {
     text-decoration: underline;
     color: var(--color-link-hover);
   }
 
-  .quickstart-tool__prose code {
+  :global(.quickstart-tool__prose code) {
     font-family: var(--font-mono);
     font-size: var(--text-code-sm-size);
     line-height: var(--text-code-sm-line-height);
@@ -391,7 +232,7 @@ const docsBase = `${addy.repoUrl}/blob/main/docs`;
     color: var(--color-code-fg);
   }
 
-  .quickstart-tool__note {
+  :global(.quickstart-tool__note) {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
@@ -401,7 +242,7 @@ const docsBase = `${addy.repoUrl}/blob/main/docs`;
     background: color-mix(in srgb, var(--color-primary-subtle) 40%, var(--color-surface-elevated));
   }
 
-  .quickstart-tool__note-title {
+  :global(.quickstart-tool__note-title) {
     margin: 0;
     font-size: var(--text-label-md-size);
     font-weight: var(--text-label-md-weight);
@@ -409,19 +250,19 @@ const docsBase = `${addy.repoUrl}/blob/main/docs`;
     color: var(--color-on-primary-subtle);
   }
 
-  .quickstart-tool__note-text {
+  :global(.quickstart-tool__note-text) {
     margin: 0;
     font-size: var(--text-body-sm-size);
     line-height: var(--text-body-sm-line-height);
     color: var(--color-fg-muted);
   }
 
-  .quickstart-tool__note-text a {
+  :global(.quickstart-tool__note-text a) {
     color: var(--color-link);
     text-decoration: none;
   }
 
-  .quickstart-tool__note-text a:hover {
+  :global(.quickstart-tool__note-text a:hover) {
     text-decoration: underline;
   }
 
@@ -443,18 +284,18 @@ const docsBase = `${addy.repoUrl}/blob/main/docs`;
   }
 
   @media (min-width: 640px) {
-    .quickstart-tool__summary {
+    :global(.quickstart-tool__summary) {
       padding-inline: var(--space-6);
     }
 
-    .quickstart-tool__body {
+    :global(.quickstart-tool__body) {
       padding-inline: var(--space-6);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .quickstart-tool__summary,
-    .quickstart-tool__summary::after {
+    :global(.quickstart-tool__summary),
+    :global(.quickstart-tool__summary::after) {
       transition: none;
     }
   }

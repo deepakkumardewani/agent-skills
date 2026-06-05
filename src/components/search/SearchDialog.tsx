@@ -1,6 +1,7 @@
 import type { JSX } from 'preact';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { Phase } from '../../data/skills-data';
+import { useDrawerModal } from '../../lib/drawer-modal';
 import {
   createSearchIndex,
   descriptionSnippetForQuery,
@@ -11,8 +12,6 @@ import {
 import { getPhaseMeta } from '../../lib/skills';
 
 const SEARCH_TRIGGER_ID = 'site-search-trigger';
-const FOCUSABLE_SELECTOR =
-  'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 function SearchIcon() {
   return (
@@ -92,11 +91,9 @@ export default function SearchDialog({ initialOpen = false }: SearchDialogProps)
   const [query, setQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
   const [liveMessage, setLiveMessage] = useState('');
-  const dialogRef = useRef<HTMLDivElement>(null);
   const openListAnnouncedRef = useRef(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   const trimmedQuery = query.trim();
   const isQueryEmpty = trimmedQuery.length === 0;
@@ -112,13 +109,23 @@ export default function SearchDialog({ initialOpen = false }: SearchDialogProps)
     setActiveIndex(0);
   }, []);
 
+  const {
+    drawerRef: dialogRef,
+    captureTriggerFocus,
+    trapFocus,
+  } = useDrawerModal({
+    isOpen,
+    onClose: close,
+    focusOnOpen: inputRef,
+    closeOnEscape: false,
+  });
+
   const open = useCallback(() => {
-    previousFocusRef.current =
-      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    captureTriggerFocus();
     setIsOpen(true);
     setQuery('');
     setActiveIndex(0);
-  }, []);
+  }, [captureTriggerFocus]);
 
   useEffect(() => {
     if (initialOpen) {
@@ -174,42 +181,6 @@ export default function SearchDialog({ initialOpen = false }: SearchDialogProps)
   }, [open]);
 
   useEffect(() => {
-    if (!isOpen) {
-      previousFocusRef.current?.focus();
-      return;
-    }
-
-    const scrollY = window.scrollY;
-    const { style: htmlStyle } = document.documentElement;
-    const { style: bodyStyle } = document.body;
-    const previousHtmlOverflow = htmlStyle.overflow;
-    const previousBodyOverflow = bodyStyle.overflow;
-    const previousBodyPosition = bodyStyle.position;
-    const previousBodyTop = bodyStyle.top;
-    const previousBodyWidth = bodyStyle.width;
-
-    htmlStyle.overflow = 'hidden';
-    bodyStyle.overflow = 'hidden';
-    bodyStyle.position = 'fixed';
-    bodyStyle.top = `-${scrollY}px`;
-    bodyStyle.width = '100%';
-
-    const frame = window.requestAnimationFrame(() => {
-      inputRef.current?.focus();
-    });
-
-    return () => {
-      window.cancelAnimationFrame(frame);
-      htmlStyle.overflow = previousHtmlOverflow;
-      bodyStyle.overflow = previousBodyOverflow;
-      bodyStyle.position = previousBodyPosition;
-      bodyStyle.top = previousBodyTop;
-      bodyStyle.width = previousBodyWidth;
-      window.scrollTo(0, scrollY);
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
     if (!isOpen || !listRef.current) {
       return;
     }
@@ -250,35 +221,6 @@ export default function SearchDialog({ initialOpen = false }: SearchDialogProps)
 
     return () => window.clearTimeout(timer);
   }, [displayResults.length, isOpen, isQueryEmpty, searchIndex.skillCount, showNoResults]);
-
-  function trapFocus(event: JSX.TargetedKeyboardEvent<HTMLDivElement>) {
-    if (event.key !== 'Tab' || !dialogRef.current) {
-      return;
-    }
-
-    const focusable = Array.from(
-      dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
-    ).filter((element) => element.offsetParent !== null);
-
-    if (focusable.length === 0) {
-      return;
-    }
-
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    const active = document.activeElement;
-
-    if (event.shiftKey && active === first) {
-      event.preventDefault();
-      last?.focus();
-      return;
-    }
-
-    if (!event.shiftKey && active === last) {
-      event.preventDefault();
-      first?.focus();
-    }
-  }
 
   function handleDialogKeyDown(event: JSX.TargetedKeyboardEvent<HTMLDivElement>) {
     if (event.key === 'Escape') {

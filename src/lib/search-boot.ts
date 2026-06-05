@@ -1,11 +1,8 @@
 import { h, render } from 'preact';
+import { isDocsRoute } from './mobile-nav';
 
 const SEARCH_ROOT_ID = 'search-dialog-root';
 const SEARCH_TRIGGER_ID = 'site-search-trigger';
-
-function isDocsRoute(pathname: string): boolean {
-  return pathname === '/docs' || pathname.startsWith('/docs/');
-}
 
 let mountPromise: Promise<void> | null = null;
 let bootListenersAttached = false;

@@ -1,5 +1,5 @@
-import type { JSX } from 'preact';
-import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
+import { useCallback, useEffect, useState } from 'preact/hooks';
+import { useDrawerModal } from '../../lib/drawer-modal';
 import {
   isSkillActive,
   MOBILE_NAV_MEDIA_QUERY,
@@ -12,9 +12,6 @@ import {
   groupSkillsByPhase,
   sortSkillsAlphabetically,
 } from '../../lib/skills';
-
-const FOCUSABLE_SELECTOR =
-  'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 function MenuIcon() {
   return (
@@ -42,8 +39,6 @@ export default function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
   const [pathname, setPathname] = useState('');
   const [isMobileViewport, setIsMobileViewport] = useState(false);
-  const drawerRef = useRef<HTMLDivElement>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   const showNav = shouldShowMobileNav(pathname, isMobileViewport);
 
@@ -51,11 +46,16 @@ export default function MobileNav() {
     setIsOpen(false);
   }, []);
 
+  const { drawerRef, captureTriggerFocus, trapFocus } = useDrawerModal({
+    isOpen,
+    onClose: close,
+    focusOnOpen: '[data-mobile-nav-close]',
+  });
+
   const open = useCallback(() => {
-    previousFocusRef.current =
-      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    captureTriggerFocus();
     setIsOpen(true);
-  }, []);
+  }, [captureTriggerFocus]);
 
   useEffect(() => {
     setPathname(window.location.pathname);
@@ -71,87 +71,6 @@ export default function MobileNav() {
     document.documentElement.classList.toggle('has-mobile-skills-nav', showNav);
     return () => document.documentElement.classList.remove('has-mobile-skills-nav');
   }, [showNav]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      previousFocusRef.current?.focus();
-      return;
-    }
-
-    const scrollY = window.scrollY;
-    const { style: htmlStyle } = document.documentElement;
-    const { style: bodyStyle } = document.body;
-    const previousHtmlOverflow = htmlStyle.overflow;
-    const previousBodyOverflow = bodyStyle.overflow;
-    const previousBodyPosition = bodyStyle.position;
-    const previousBodyTop = bodyStyle.top;
-    const previousBodyWidth = bodyStyle.width;
-
-    htmlStyle.overflow = 'hidden';
-    bodyStyle.overflow = 'hidden';
-    bodyStyle.position = 'fixed';
-    bodyStyle.top = `-${scrollY}px`;
-    bodyStyle.width = '100%';
-
-    const frame = window.requestAnimationFrame(() => {
-      drawerRef.current?.querySelector<HTMLElement>('[data-mobile-nav-close]')?.focus();
-    });
-
-    return () => {
-      window.cancelAnimationFrame(frame);
-      htmlStyle.overflow = previousHtmlOverflow;
-      bodyStyle.overflow = previousBodyOverflow;
-      bodyStyle.position = previousBodyPosition;
-      bodyStyle.top = previousBodyTop;
-      bodyStyle.width = previousBodyWidth;
-      window.scrollTo(0, scrollY);
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        close();
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [close, isOpen]);
-
-  function trapFocus(event: JSX.TargetedKeyboardEvent<HTMLDivElement>) {
-    if (event.key !== 'Tab' || !drawerRef.current) {
-      return;
-    }
-
-    const focusable = Array.from(
-      drawerRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
-    ).filter((element) => element.offsetParent !== null);
-
-    if (focusable.length === 0) {
-      return;
-    }
-
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    const active = document.activeElement;
-
-    if (event.shiftKey && active === first) {
-      event.preventDefault();
-      last?.focus();
-      return;
-    }
-
-    if (!event.shiftKey && active === last) {
-      event.preventDefault();
-      first?.focus();
-    }
-  }
 
   if (!showNav) {
     return null;

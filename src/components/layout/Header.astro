@@ -1,19 +1,13 @@
 ---
-import { MOBILE_NAV_MEDIA_QUERY } from '../../lib/mobile-nav';
+import { isDocsRoute, MOBILE_NAV_MEDIA_QUERY } from '../../lib/mobile-nav';
+import { isNavActive, NAV_ITEMS } from '../../lib/nav';
 import { addy } from '../../lib/site';
 import SearchTrigger from '../search/SearchTrigger.astro';
 import MobileNav from './MobileNav';
 import SiteNavMenu from './SiteNavMenu';
 import ThemeToggle from './ThemeToggle.astro';
 
-const showMobileNav = Astro.url.pathname === '/docs' || Astro.url.pathname.startsWith('/docs/');
-
-const navItems = [
-  { href: '/docs', label: 'Docs' },
-  { href: '/quickstart', label: 'Quick start' },
-  { href: '/about', label: 'About' },
-] as const;
-
+const showMobileNav = isDocsRoute(Astro.url.pathname);
 const currentPath = Astro.url.pathname;
 ---
 
@@ -40,17 +34,12 @@ const currentPath = Astro.url.pathname;
     <nav class="site-header__nav" aria-label="Primary">
       <ul class="site-header__nav-list">
         {
-          navItems.map((item) => (
+          NAV_ITEMS.map((item) => (
             <li>
               <a
                 class:list={[
                   'site-header__nav-link',
-                  {
-                    'is-active':
-                      item.href === '/docs'
-                        ? currentPath.startsWith('/docs')
-                        : currentPath === item.href,
-                  },
+                  { 'is-active': isNavActive(currentPath, item.href) },
                 ]}
                 href={item.href}
               >
