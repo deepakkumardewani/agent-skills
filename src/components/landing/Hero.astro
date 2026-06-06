@@ -1,4 +1,5 @@
 ---
+import '../../styles/landing-hero.css';
 import { skillsData } from '../../data/skills-data';
 
 const skillCount = skillsData.skills.length;
@@ -15,138 +16,17 @@ const skillCount = skillsData.skills.length;
   </p>
   <div class="landing-hero__actions">
     <p class="landing-hero__cta-row">
-      <a class="landing-hero__cta" href="/docs">Browse skills →</a>
-      <a class="landing-hero__cta landing-hero__cta--secondary" href="/quickstart">Quick start →</a>
+      <a class="landing-hero__cta" href="/docs">
+        <span class="landing-hero__cta-label">Browse skills</span>
+        <span class="landing-hero__cta-arrow" aria-hidden="true">→</span>
+      </a>
+      <a class="landing-hero__cta landing-hero__cta--secondary" href="/quickstart">
+        <span class="landing-hero__cta-label">Quick start</span>
+        <span class="landing-hero__cta-arrow" aria-hidden="true">→</span>
+      </a>
     </p>
     <p class="landing-hero__meta">
       {skillCount} skills across Meta plus seven ADLC phases
     </p>
   </div>
 </section>
-
-<style>
-  .landing-hero {
-    width: 100%;
-    text-align: left;
-    padding-bottom: var(--space-2);
-  }
-
-  @media (min-width: 960px) {
-    .landing-hero {
-      padding-bottom: var(--space-8);
-    }
-  }
-
-  .landing-hero__title {
-    font-size: clamp(var(--text-headline-md-size), 6.5vw, var(--text-display-lg-size));
-    font-weight: var(--text-display-lg-weight);
-    line-height: 1.15;
-    letter-spacing: var(--text-headline-md-letter-spacing);
-    color: var(--color-fg-default);
-  }
-
-  @media (min-width: 640px) {
-    .landing-hero__title {
-      font-size: clamp(var(--text-headline-lg-size), 8vw, var(--text-display-lg-size));
-      line-height: var(--text-display-lg-line-height);
-      letter-spacing: var(--text-display-lg-letter-spacing);
-    }
-  }
-
-  .landing-hero__subhead {
-    margin-top: var(--space-4);
-    max-width: var(--space-prose-max);
-    font-size: var(--text-body-md-size);
-    line-height: var(--text-body-md-line-height);
-    color: var(--color-fg-muted);
-  }
-
-  @media (min-width: 640px) {
-    .landing-hero__subhead {
-      margin-top: var(--space-6);
-      font-size: var(--text-body-lg-size);
-      line-height: var(--text-body-lg-line-height);
-    }
-  }
-
-  .landing-hero__actions {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    margin-top: var(--space-5);
-  }
-
-  @media (min-width: 640px) {
-    .landing-hero__actions {
-      gap: var(--space-3);
-      margin-top: var(--space-8);
-    }
-  }
-
-  .landing-hero__cta-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-3);
-    margin: 0;
-  }
-
-  .landing-hero__cta {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 40px;
-    padding: 0 var(--space-5);
-    border-radius: var(--radius-default);
-    background: var(--color-accent);
-    color: var(--color-on-primary);
-    font-size: var(--text-label-md-size);
-    font-weight: var(--text-label-md-weight);
-    line-height: var(--text-label-md-line-height);
-    text-decoration: none;
-    box-shadow: var(--shadow-xs);
-    transition: background-color var(--duration-fast) var(--ease-out);
-  }
-
-  .landing-hero__cta:hover {
-    background: var(--color-primary-hover);
-  }
-
-  .landing-hero__cta:focus-visible {
-    outline: none;
-    box-shadow: var(--shadow-focus);
-  }
-
-  .landing-hero__cta:active {
-    transform: scale(0.98);
-  }
-
-  .landing-hero__cta--secondary {
-    background: transparent;
-    color: var(--color-fg-default);
-    border: 1px solid var(--color-outline);
-    box-shadow: none;
-  }
-
-  .landing-hero__cta--secondary:hover {
-    background: var(--color-surface-elevated);
-    color: var(--color-fg-default);
-  }
-
-  .landing-hero__meta {
-    margin: 0;
-    font-size: var(--text-body-sm-size);
-    line-height: var(--text-body-sm-line-height);
-    color: var(--color-fg-subtle);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .landing-hero__cta {
-      transition: none;
-    }
-
-    .landing-hero__cta:active {
-      transform: none;
-    }
-  }
-</style>

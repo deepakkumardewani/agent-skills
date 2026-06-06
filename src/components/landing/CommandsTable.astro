@@ -1,8 +1,15 @@
 ---
 import { ADLC_COMMAND_ROWS } from '../../lib/adlc-cycle';
+import { getPhaseMeta } from '../../lib/skills';
+import CopyableCommand from '../docs/CopyableCommand.tsx';
 ---
 
-<section class="commands-table" aria-labelledby="commands-table-title" role="region">
+<section
+  class="commands-table"
+  data-commands-reveal
+  aria-labelledby="commands-table-title"
+  role="region"
+>
   <h2 id="commands-table-title" class="commands-table__title">Commands</h2>
   <p class="commands-table__lede">
     Seven slash commands map to the development lifecycle. Each one activates the right skills
@@ -23,20 +30,76 @@ import { ADLC_COMMAND_ROWS } from '../../lib/adlc-cycle';
       </thead>
       <tbody>
         {
-          ADLC_COMMAND_ROWS.map((row) => (
-            <tr>
-              <td>{row.task}</td>
-              <td>
-                <code>{row.command}</code>
-              </td>
-              <td>{row.principle}</td>
-            </tr>
-          ))
+          ADLC_COMMAND_ROWS.map((row, index) => {
+            const meta = getPhaseMeta(row.phase);
+            return (
+              <tr
+                class="commands-table__row"
+                style={`--row-delay: ${index * 55}ms; --phase-fg: var(${meta.fgVar}); --phase-subtle: var(${meta.subtleVar});`}
+              >
+                <td>
+                  <a class="commands-table__task" href={`/docs#phase-${row.phase}`}>
+                    <span class="commands-table__phase-dot" aria-hidden="true" />
+                    <span class="commands-table__task-label">{row.task}</span>
+                  </a>
+                </td>
+                <td>
+                  <CopyableCommand client:visible command={row.command} compact />
+                </td>
+                <td>{row.principle}</td>
+              </tr>
+            );
+          })
         }
       </tbody>
     </table>
   </div>
 </section>
+
+<script>
+  function revealCommandsTable(): void {
+    const section = document.querySelector<HTMLElement>('[data-commands-reveal]');
+    if (!section) {
+      return;
+    }
+
+    const markVisible = (): void => {
+      if (!section.classList.contains('is-visible')) {
+        section.classList.add('is-visible');
+      }
+    };
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      markVisible();
+      return;
+    }
+
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+      markVisible();
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            markVisible();
+            observer.disconnect();
+          }
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+    );
+
+    observer.observe(section);
+    window.setTimeout(() => markVisible(), 2500);
+  }
+
+  revealCommandsTable();
+  document.addEventListener('astro:page-load', revealCommandsTable);
+</script>
 
 <style>
   .commands-table {
@@ -93,7 +156,7 @@ import { ADLC_COMMAND_ROWS } from '../../lib/adlc-cycle';
   .commands-table__table td {
     padding: var(--space-4) var(--space-5);
     text-align: left;
-    vertical-align: top;
+    vertical-align: middle;
     border-bottom: 1px solid var(--color-outline);
   }
 
@@ -110,23 +173,56 @@ import { ADLC_COMMAND_ROWS } from '../../lib/adlc-cycle';
     border-bottom: none;
   }
 
-  .commands-table__table tbody tr {
-    transition: background-color var(--duration-fast) var(--ease-out);
+  .commands-table__row {
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity var(--duration-base) var(--ease-out) var(--row-delay, 0ms),
+      transform var(--duration-base) var(--ease-out) var(--row-delay, 0ms),
+      background-color var(--duration-fast) var(--ease-out);
+  }
+
+  .commands-table.is-visible .commands-table__row {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .commands-table__table tbody tr:hover td {
     background: var(--color-surface-elevated);
   }
 
-  .commands-table__table tbody td:first-child {
+  .commands-table__task {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
     color: var(--color-fg-default);
     font-weight: 500;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: color var(--duration-fast) var(--ease-out);
   }
 
-  .commands-table__table code {
-    font-family: var(--font-mono);
-    font-size: var(--text-code-sm-size);
+  .commands-table__task:hover {
     color: var(--color-link);
+  }
+
+  .commands-table__task:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .commands-table__phase-dot {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--phase-fg);
+    box-shadow: 0 0 0 3px var(--phase-subtle);
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+
+  .commands-table__row:hover .commands-table__phase-dot {
+    transform: scale(1.15);
   }
 
   .commands-table__table tbody td:last-child {
@@ -134,13 +230,28 @@ import { ADLC_COMMAND_ROWS } from '../../lib/adlc-cycle';
   }
 
   .commands-table__table tbody td:nth-child(2) {
-    width: 9rem;
+    width: 11rem;
     white-space: nowrap;
   }
 
+  .commands-table :global(.copyable-command--compact) {
+    margin-top: 0;
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .commands-table__table tbody tr {
+    .commands-table__row,
+    .commands-table.is-visible .commands-table__row {
+      opacity: 1;
+      transform: none;
+      transition: background-color var(--duration-fast) var(--ease-out);
+    }
+
+    .commands-table__phase-dot {
       transition: none;
+    }
+
+    .commands-table__row:hover .commands-table__phase-dot {
+      transform: none;
     }
   }
 </style>

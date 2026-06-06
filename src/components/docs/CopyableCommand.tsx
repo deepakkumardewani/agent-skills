@@ -4,6 +4,8 @@ const COPIED_DURATION_MS = 1200;
 
 interface Props {
   command: string;
+  /** Table cells and tight layouts — no block margin, smaller type. */
+  compact?: boolean;
 }
 
 function CopyIcon() {
@@ -33,7 +35,7 @@ function CheckIcon() {
   );
 }
 
-export default function CopyableCommand({ command }: Props) {
+export default function CopyableCommand({ command, compact = false }: Props) {
   const [copied, setCopied] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -62,7 +64,10 @@ export default function CopyableCommand({ command }: Props) {
   }, [command]);
 
   return (
-    <div class="copyable-command" data-copyable-command>
+    <div
+      class={`copyable-command${compact ? ' copyable-command--compact' : ''}`}
+      data-copyable-command
+    >
       <code class="copyable-command__text">{command}</code>
       <button
         type="button"
@@ -130,9 +135,39 @@ export default function CopyableCommand({ command }: Props) {
           display: inline-flex;
         }
 
+        .copyable-command--compact {
+          margin-top: 0;
+          width: fit-content;
+          max-width: 100%;
+        }
+
+        .copyable-command--compact .copyable-command__text {
+          padding: var(--space-1) var(--space-2);
+          font-size: var(--text-code-sm-size);
+          line-height: var(--text-code-sm-line-height);
+        }
+
+        .copyable-command--compact .copyable-command__button {
+          min-width: 32px;
+          opacity: 0;
+          transition:
+            color var(--duration-fast) var(--ease-out),
+            background-color var(--duration-fast) var(--ease-out),
+            opacity var(--duration-fast) var(--ease-out);
+        }
+
+        .copyable-command--compact:hover .copyable-command__button,
+        .copyable-command--compact:focus-within .copyable-command__button {
+          opacity: 1;
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .copyable-command__button {
             transition: none;
+          }
+
+          .copyable-command--compact .copyable-command__button {
+            opacity: 1;
           }
         }
       `}</style>

@@ -54,7 +54,7 @@ test.describe('landing page', () => {
 
     for (const row of ADLC_COMMAND_ROWS) {
       await expect(section.getByRole('cell', { name: row.task, exact: true })).toBeVisible();
-      await expect(section.getByRole('cell', { name: row.command, exact: true })).toBeVisible();
+      await expect(section.locator('code', { hasText: row.command })).toBeVisible();
       await expect(section.getByRole('cell', { name: row.principle, exact: true })).toBeVisible();
     }
   });
@@ -79,7 +79,7 @@ test.describe('landing page', () => {
 
     await page.goto('/');
 
-    await page.getByRole('link', { name: 'Browse skills →' }).click();
+    await page.getByRole('link', { name: 'Browse skills' }).click();
     await expect(page).toHaveURL('/docs');
   });
 });
