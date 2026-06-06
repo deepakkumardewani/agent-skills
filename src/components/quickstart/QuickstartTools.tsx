@@ -1,10 +1,15 @@
 import CopyableCommand from '../docs/CopyableCommand';
 
-interface Props {
-  docsBase: string;
-}
+const SETUP_GUIDE_LINKS = {
+  cursor: { href: '/docs/setup/cursor', label: 'Cursor setup guide' },
+  geminiCli: { href: '/docs/setup/gemini-cli', label: 'Gemini CLI setup guide' },
+  windsurf: { href: '/docs/setup/windsurf', label: 'Windsurf setup guide' },
+  opencode: { href: '/docs/setup/opencode', label: 'OpenCode setup guide' },
+  copilot: { href: '/docs/setup/copilot', label: 'GitHub Copilot setup guide' },
+  gettingStarted: { href: '/docs/setup/getting-started', label: 'Getting started guide' },
+} as const;
 
-export default function QuickstartTools({ docsBase }: Props) {
+export default function QuickstartTools() {
   return (
     <div class="quickstart-page__tools">
       <details class="quickstart-tool quickstart-tool--featured" open>
@@ -55,8 +60,8 @@ export default function QuickstartTools({ docsBase }: Props) {
         <div class="quickstart-tool__body">
           <p class="quickstart-tool__prose">
             Copy any <code>SKILL.md</code> into <code>.cursor/rules/</code>, or reference the full{' '}
-            <code>skills/</code> directory. See{' '}
-            <a href={`${docsBase}/cursor-setup.md`}>cursor-setup.md</a>.
+            <code>skills/</code> directory. See the{' '}
+            <a href={SETUP_GUIDE_LINKS.cursor.href}>{SETUP_GUIDE_LINKS.cursor.label}</a>.
           </p>
         </div>
       </details>
@@ -68,21 +73,9 @@ export default function QuickstartTools({ docsBase }: Props) {
         <div class="quickstart-tool__body">
           <p class="quickstart-tool__prose">
             Install as native skills for auto-discovery, or add to <code>GEMINI.md</code> for
-            persistent context. See{' '}
-            <a href={`${docsBase}/gemini-cli-setup.md`}>gemini-cli-setup.md</a>.
+            persistent context. See the{' '}
+            <a href={SETUP_GUIDE_LINKS.geminiCli.href}>{SETUP_GUIDE_LINKS.geminiCli.label}</a>.
           </p>
-          <div class="quickstart-tool__step">
-            <h3 class="quickstart-tool__step-title">Install from the repo</h3>
-            <div class="quickstart-tool__commands">
-              <CopyableCommand command="gemini skills install https://github.com/addyosmani/agent-skills.git --path skills" />
-            </div>
-          </div>
-          <div class="quickstart-tool__step">
-            <h3 class="quickstart-tool__step-title">Install from a local clone</h3>
-            <div class="quickstart-tool__commands">
-              <CopyableCommand command="gemini skills install ./agent-skills/skills/" />
-            </div>
-          </div>
         </div>
       </details>
 
@@ -92,8 +85,8 @@ export default function QuickstartTools({ docsBase }: Props) {
         </summary>
         <div class="quickstart-tool__body">
           <p class="quickstart-tool__prose">
-            Add skill contents to your Windsurf rules configuration. See{' '}
-            <a href={`${docsBase}/windsurf-setup.md`}>windsurf-setup.md</a>.
+            Add skill contents to your Windsurf rules configuration. See the{' '}
+            <a href={SETUP_GUIDE_LINKS.windsurf.href}>{SETUP_GUIDE_LINKS.windsurf.label}</a>.
           </p>
         </div>
       </details>
@@ -105,7 +98,8 @@ export default function QuickstartTools({ docsBase }: Props) {
         <div class="quickstart-tool__body">
           <p class="quickstart-tool__prose">
             Uses agent-driven skill execution via <code>AGENTS.md</code> and the <code>skill</code>{' '}
-            tool. See <a href={`${docsBase}/opencode-setup.md`}>opencode-setup.md</a>.
+            tool. See the{' '}
+            <a href={SETUP_GUIDE_LINKS.opencode.href}>{SETUP_GUIDE_LINKS.opencode.label}</a>.
           </p>
         </div>
       </details>
@@ -117,8 +111,8 @@ export default function QuickstartTools({ docsBase }: Props) {
         <div class="quickstart-tool__body">
           <p class="quickstart-tool__prose">
             Use agent definitions from <code>agents/</code> as Copilot personas and skill content in{' '}
-            <code>.github/copilot-instructions.md</code>. See{' '}
-            <a href={`${docsBase}/copilot-setup.md`}>copilot-setup.md</a>.
+            <code>.github/copilot-instructions.md</code>. See the{' '}
+            <a href={SETUP_GUIDE_LINKS.copilot.href}>{SETUP_GUIDE_LINKS.copilot.label}</a>.
           </p>
         </div>
       </details>
@@ -143,7 +137,10 @@ export default function QuickstartTools({ docsBase }: Props) {
         <div class="quickstart-tool__body">
           <p class="quickstart-tool__prose">
             Skills are plain Markdown — they work with any agent that accepts system prompts or
-            instruction files. See <a href={`${docsBase}/getting-started.md`}>getting-started.md</a>
+            instruction files. See the{' '}
+            <a href={SETUP_GUIDE_LINKS.gettingStarted.href}>
+              {SETUP_GUIDE_LINKS.gettingStarted.label}
+            </a>
             .
           </p>
         </div>

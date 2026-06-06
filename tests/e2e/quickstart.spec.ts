@@ -58,14 +58,14 @@ test.describe('quick start page', () => {
     await expect(page).toHaveURL('/quickstart');
 
     await page.goto('/');
-    await page.getByRole('link', { name: 'Quick start →' }).click();
+    await page.locator('.landing-hero').getByRole('link', { name: 'Quick start' }).click();
     await expect(page).toHaveURL('/quickstart');
   });
 
   test('docs index links to quick start', async ({ page }) => {
     await page.goto('/docs');
 
-    await page.locator('.docs-index').getByRole('link', { name: 'Quick start' }).click();
+    await page.locator('.docs-index__actions').getByRole('link', { name: 'Quick start' }).click();
     await expect(page).toHaveURL('/quickstart');
   });
 

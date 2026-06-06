@@ -2,8 +2,6 @@
 import QuickstartTools from '../components/quickstart/QuickstartTools';
 import MarketingLayout from '../layouts/MarketingLayout.astro';
 import { addy } from '../lib/site';
-
-const docsBase = `${addy.repoUrl}/blob/main/docs`;
 ---
 
 <MarketingLayout
@@ -15,12 +13,12 @@ const docsBase = `${addy.repoUrl}/blob/main/docs`;
       <h1 class="quickstart-page__title">Quick start</h1>
       <p class="quickstart-page__lede">
         Install the upstream <a href={addy.repoUrl}>agent-skills</a> pack in your editor or CLI.
-        Expand a tool below for copy-paste commands and links to upstream setup guides.
+        Expand a tool below for copy-paste commands and setup guides on this site.
       </p>
     </header>
 
     <section class="quickstart-page__install" aria-label="Install by tool">
-      <QuickstartTools client:visible docsBase={docsBase} />
+      <QuickstartTools client:visible />
     </section>
 
     <p class="quickstart-page__footer-link">
