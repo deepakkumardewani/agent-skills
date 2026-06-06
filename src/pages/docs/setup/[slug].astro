@@ -1,0 +1,90 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import DocsLayout from '../../../layouts/DocsLayout.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('setupGuides');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+  }));
+}
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  throw new Error('Setup guide slug is required');
+}
+
+const entry = await getEntry('setupGuides', slug);
+
+if (!entry) {
+  return Astro.redirect('/404');
+}
+
+const { Content } = await render(entry);
+const pageTitle = `${entry.data.tool} setup — addy-osmani-skills`;
+---
+
+<DocsLayout title={pageTitle} description={entry.data.title}>
+  <article class="setup-guide-page">
+    <nav class="setup-guide-page__breadcrumb" aria-label="Breadcrumb">
+      <a href="/quickstart">Quick start</a>
+      <span class="setup-guide-page__breadcrumb-sep" aria-hidden="true">→</span>
+      <span>{entry.data.tool}</span>
+    </nav>
+
+    <header class="setup-guide-page__header">
+      <h1 class="setup-guide-page__title">{entry.data.title}</h1>
+    </header>
+
+    <div class="setup-guide-page__body prose">
+      <Content />
+    </div>
+  </article>
+</DocsLayout>
+
+<style>
+  .setup-guide-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-block: var(--space-8);
+  }
+
+  .setup-guide-page__breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-label-sm-size);
+    font-weight: var(--text-label-sm-weight);
+    line-height: var(--text-label-sm-line-height);
+    color: var(--color-fg-muted);
+  }
+
+  .setup-guide-page__breadcrumb a {
+    color: var(--color-link);
+    text-decoration: none;
+  }
+
+  .setup-guide-page__breadcrumb a:hover {
+    text-decoration: underline;
+    color: var(--color-link-hover);
+  }
+
+  .setup-guide-page__breadcrumb-sep {
+    color: var(--color-fg-subtle);
+  }
+
+  .setup-guide-page__title {
+    font-size: var(--text-headline-lg-size);
+    font-weight: var(--text-headline-lg-weight);
+    line-height: var(--text-headline-lg-line-height);
+    letter-spacing: var(--text-headline-lg-letter-spacing);
+    color: var(--color-fg-default);
+  }
+
+  .setup-guide-page__body {
+    margin-top: var(--space-2);
+  }
+</style>

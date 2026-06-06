@@ -25,4 +25,14 @@ const skills = defineCollection({
   }),
 });
 
-export const collections = { skills };
+const setupGuides = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/setup-guides' }),
+  schema: z.object({
+    slug: z.string(),
+    title: z.string(),
+    tool: z.string(),
+    source: z.string(),
+  }),
+});
+
+export const collections = { skills, setupGuides };

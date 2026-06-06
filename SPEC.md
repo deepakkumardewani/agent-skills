@@ -131,6 +131,7 @@ Each phase header shows the slash command as part of the label. Skills inside ea
 | `/about`              | MarketingLayout | Tribute story + maintainer + Addy links |
 | `/docs`               | DocsLayout      | Getting started + ADLC overview + README sections (How Skills Work, Personas, Checklists, Structure, Why) |
 | `/docs/skills/[slug]` | DocsLayout      | Per-skill page                          |
+| `/docs/setup/[slug]`  | DocsLayout      | Per-tool setup guide (synced from upstream `docs/`) |
 | `/404`                | MarketingLayout | Not found                               |
 
 ## 4. Code style
@@ -239,7 +240,7 @@ Run on Chromium + WebKit. Mobile viewport projects for sidebar/mobile-nav specs.
 
 - Never replicate impeccable's editorial visual identity (cream parchment, hairline display serif, marbled gold) — this site is modern dev-docs, not editorial.
 - Never frame the site as official or Anthropic-affiliated. Tribute language only.
-- Never duplicate full install/setup instructions from the source repo — link out to GitHub.
+- Never hand-edit synced setup guides (`src/content/setup-guides/*.md`); sync from upstream `docs/` via `scripts/sync-skills.ts` and render on `/docs/setup/*`.
 - Never commit secrets, API keys, `.env` files, or credentials.
 - Never use `git push --force` or rewrite shared history without explicit instruction.
 - Never skip git hooks (`--no-verify`) or bypass Biome/typecheck failures.
