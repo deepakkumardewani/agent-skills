@@ -1,6 +1,7 @@
 // @ts-check
 
 import preact from '@astrojs/preact';
+import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 import { defineConfig } from 'astro/config';
 import { rehypeTaskListA11y } from './src/lib/rehype-task-list-a11y.ts';
@@ -11,7 +12,13 @@ export default defineConfig({
   adapter: vercel(),
   site: 'https://addy-osmani-skills.vercel.app',
   trailingSlash: 'never',
-  integrations: [preact({ compat: true })],
+  integrations: [
+    preact({ compat: true }),
+    sitemap({
+      filter: (page) => !page.endsWith('/404'),
+      lastmod: new Date(),
+    }),
+  ],
   markdown: {
     rehypePlugins: [rehypeTaskListA11y],
     shikiConfig: {

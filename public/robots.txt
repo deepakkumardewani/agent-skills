@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://addy-osmani-skills.vercel.app/sitemap-index.xml

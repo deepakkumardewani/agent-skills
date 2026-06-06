@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@astrojs/preact": "^5.1.4",
+    "@astrojs/sitemap": "^3.7.3",
     "@astrojs/vercel": "^10.0.8",
     "@fontsource/jetbrains-mono": "^5.2.8",
     "@fontsource/manrope": "^5.2.8",
